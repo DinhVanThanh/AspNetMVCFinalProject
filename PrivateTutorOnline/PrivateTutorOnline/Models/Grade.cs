@@ -6,7 +6,7 @@ using System.Web;
 
 namespace PrivateTutorOnline.Models
 {
-    public class Subject
+    public class Grade
     {
         [Key]
         public int Id { get; set; }

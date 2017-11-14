@@ -1,0 +1,129 @@
+﻿@model PrivateTutorOnline.Models.ViewModels.ClassRegistrationFormViewModel
+@{
+    ViewBag.Title = "ClassRegistrationForm";
+} 
+
+
+@using (Html.BeginForm("ClassRegister", "Class", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form class="form-horizontal" role="form">
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend>Đăng kí tìm gia sư</legend>
+                    <!-- Text input-->
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="Grade">Lớp</label>
+                        <select name="Grade" class="form-control" id="Grade">
+                            @foreach (var i in Model.Grades)
+                            {
+
+                                <option value="@i.Id">Lớp @i.Name</option>
+
+                            }
+                        </select>
+                    </div>
+                   
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="Gender">Giới tính</label>
+                        <div>
+                            <select class="form-control" id="Gender" name="Gender">
+                                <option value="Male">Nam</option>
+                                <option value="Female">Nữ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="LearnerNumber">Số người học</label>
+                        <div>
+                            <input id="LearnerNumber" type="number" name="LearnerNumber" placeholder="Số người học" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="Degree">Trình độ</label>
+                        <div>
+                            <select name="Degree" class="form-control" id="Degree">
+                                <option value="Student">Sinh viên</option>
+                                <option value="Teacher">Giáo viên</option>
+                                <option value="Lecturer">Giảng viên</option>
+                                <option value="Engineer">Kĩ sư</option>
+                                <option value="Bachelor">Cử nhân</option>
+                                <option value="Master">Thạc sĩ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="TeachingTime">Thời gian dạy</label>
+                        <div>
+                            <input id="TeachingTime" type="text" name="TeachingTime" placeholder="vd: Thứ 2-4-6 5h45-7h15" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="SalaryPerMonth">Mức phí / tháng</label>
+                        <div>
+                            <input id="SalaryPerMonth" type="text" name="SalaryPerMonth" placeholder="vd: Thứ 2-4-6 5h45-7h15" class="form-control">
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="SessionPerWeek">Số buổi / tuần</label>
+                        <div>
+                            <input id="SessionPerWeek" type="text" name="SessionPerWeek" placeholder="số buổi dạy trong 1 tuần" class="form-control">
+                        </div>
+                    </div> 
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="City">Thành phố / Tỉnh</label>
+                        <div>
+                            <input id="City" type="text" name="City" placeholder="vd: TPHCM" class="form-control">
+                        </div>
+                    </div> 
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="District">Quận / Huyện</label>
+                        <div>
+                            <input id="District" type="text" name="District" placeholder="Quận 6" class="form-control">
+                        </div>
+                    </div> 
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="Ward">Phường / Xã</label>
+                        <div>
+                            <input id="Ward" type="text" name="Ward" placeholder="vd: Phường 5" class="form-control">
+                        </div>
+                    </div> 
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="Street">Đường</label>
+                        <div>
+                            <input id="Street" type="text" name="Street" placeholder="vd: Kinh Dương Vương" class="form-control">
+                        </div>
+                    </div> 
+                    <div class="form-group" style="display:inline-block; width:48%">
+                        <label class="control-label" for="Requirement">Yêu cầu khác</label>
+                        <div>
+                            <input id="Requirement" type="text" name="Requirement" placeholder="yêu cầu khác..." class="form-control">
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <h3 style="font-weight:bold; margin-bottom:20px;">Môn </h3>
+                        @foreach (var sub in Model.Subjects)
+                        {
+                            <div style="display:inline-block; width:200px;">
+                                <label for="Subject_@sub">Môn @sub.Name</label>
+                                <input id="Subject_@sub" style="transform:scale(1.7); margin-left:10px;" type="checkbox" value="@sub.Id" name="Subjects">
+                            </div>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-8">
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-default">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Đăng kí</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div><!-- /.col-lg-12 -->
+    </div><!-- /.row -->
+}
+
+

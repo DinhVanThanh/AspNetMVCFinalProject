@@ -1,0 +1,130 @@
+﻿@model PrivateTutorOnline.Models.Tutor
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tutor</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HomeTown)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HomeTown)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentityNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdentityNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.University)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.University)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MajorSubject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MajorSubject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GraduationYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GraduationYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Advantage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Advantage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Degree)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Degree)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Image)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

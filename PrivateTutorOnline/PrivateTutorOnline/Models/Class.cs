@@ -6,11 +6,13 @@ using System.Web;
 
 namespace PrivateTutorOnline.Models
 {
-    public class Subject
+    public class Class
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public ICollection<Tutor> Tutors { get; set; }
+        public Tutor Tutor { get; set; }
+        public Customer Customer { get; set; }
+        public Subject Subject { get; set; }
+        public int DayPerWeek { get; set; }
     }
 }

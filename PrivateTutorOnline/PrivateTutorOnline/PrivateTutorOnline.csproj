@@ -150,28 +150,54 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\TutorsController.cs" />
+    <Compile Include="Enums\AcademicDegree.cs" />
+    <Compile Include="Enums\ClassStatus.cs" />
     <Compile Include="Enums\Gender.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Enums\Grade.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BindingModels\ClassRegistrationBindingModel.cs" />
+    <Compile Include="Models\BindingModels\SearchTutorBindingModel.cs" />
+    <Compile Include="Models\BindingModels\TutorBindingModel.cs" />
+    <Compile Include="Models\Class.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Grade.cs" />
+    <Compile Include="Models\RegistrationClass.cs" />
     <Compile Include="Models\Subject.cs" />
+    <Compile Include="Models\Tutor.cs" />
+    <Compile Include="Models\TutorDBInitializer.cs" />
     <Compile Include="Models\TutorOnlineDBContext.cs" />
+    <Compile Include="Models\ViewModels\ClassRegistrationFormViewModel.cs" />
+    <Compile Include="Models\ViewModels\ExistinTutorListViewModel.cs" />
+    <Compile Include="Models\ViewModels\SidebarViewModel.cs" />
+    <Compile Include="Models\ViewModels\TutorRegistrationFormViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\UploadFile.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\App\TutorRegistrationForm.js" />
+    <Content Include="Scripts\App\UploadFile.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Areas\Admin\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -197,9 +223,25 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_HeaderNavBar.cshtml" />
+    <Content Include="Views\Shared\_SideBar.cshtml" />
+    <Content Include="Views\Tutors\Create.cshtml" />
+    <Content Include="Views\Tutors\Delete.cshtml" />
+    <Content Include="Views\Tutors\Details.cshtml" />
+    <Content Include="Views\Tutors\Edit.cshtml" />
+    <Content Include="Views\Tutors\TutorRegistrationForm.cshtml" />
+    <Content Include="Views\Tutors\ExistingTutorList.cshtml" />
+    <Content Include="Views\Shared\Success.cshtml" />
+    <Content Include="Views\Tutors\SearchTutorView.cshtml" />
+    <Content Include="Views\Class\ClassRegistrationForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\uploads\" />
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

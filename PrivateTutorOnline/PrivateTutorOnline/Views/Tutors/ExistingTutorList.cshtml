@@ -1,0 +1,165 @@
+﻿
+@model PrivateTutorOnline.Models.ViewModels.ExistingTutorListViewModel
+@using PrivateTutorOnline.Extensions
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>Danh sách gia sư hiện có</h2>
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        @using (Html.BeginForm("Search", "Tutors", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-inline">
+                        <fieldset>
+                            <!-- Form Name -->
+                            <legend>Tìm kiếm gia sư</legend>
+                            <!-- Text input-->
+                            <div class="form-group" style="display:inline-block; width:45%;">
+                                <label class=" control-label" for="location">Từ khóa</label>
+                                <div class="">
+                                    <input id="location" name="Keyword" type="text" placeholder="placeholder" class="form-control input-md">
+                                </div>
+                            </div>
+                            <!-- Select Basic -->
+                            <div class="form-group" style="display:inline-block; width:45%;">
+                                <label class=" control-label" for="radius">Giới tính</label>
+                                <div class="">
+                                    <select id="radius" name="Gender" class="form-control">
+                                        <option value="Male">Nam</option>
+                                        <option value="Female">Nữ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Select Basic -->
+                            <div class="form-group" style="display:inline-block; width:45%;">
+                                <label class=" control-label" for="property_type">Lớp học</label>
+                                <div class="">
+                                    <select id="property_type" name="Grade" class="form-control">
+                                        @foreach (var i in Model.Grades)
+                                        {
+                                            <option value="@i.Id">@i.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Select Basic -->
+                            <div class="form-group" style="display:inline-block; width:45%;">
+                                <label class=" control-label" for="price_min">Môn học</label>
+                                <div class="">
+                                    <select id="price_min" name="Subject" class="form-control">
+                                        @foreach (var i in Model.Subjects)
+                                        {
+                                            <option value="@i.Id">@i.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Button -->
+                            <div class="form-group">
+                                <label class=" control-label" for="submit"></label>
+                                <div class="">
+                                    <button id="submit" name="submit" class="btn btn-primary">Tìm kiếm</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+ <div class="row">
+@foreach (var item in Model.Tutors)
+{
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        @{
+                            var base64 = Convert.ToBase64String(item.Image);
+                            var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+                        }
+                        <img src='@imgSrc' style="width:100%; height:150px">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <label class="col-md-5">Mã số</label>
+                            <div class="col-md-7">@item.Id</div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-5">@Html.DisplayNameFor(a => item.FullName)</label>
+                            <div class="col-md-7">@item.FullName</div>
+                        </div> 
+                        <div class="row">
+                            <label class="col-md-5">@Html.DisplayNameFor(a => item.Gender)</label>
+                            <div class="col-md-7">
+                                @if(item.Gender == PrivateTutorOnline.Enums.Gender.Male)
+                                {
+                                    <span>Nam</span>
+                                }
+                                else
+                                {
+                                    <span>Nữ</span>
+                                }
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <label class="col-md-5">@Html.DisplayNameFor(a => item.DateOfBirth)</label>
+                            <div class="col-md-7">@item.DateOfBirth.ToString("dd/MM/yyyy")</div>
+                        </div> 
+                        <div class="row">
+                            <label class="col-md-5">@Html.DisplayNameFor(a => item.Degree)</label>
+                            <div class="col-md-7"> @item.Degree.GetDisplayName()</div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-5">@Html.DisplayNameFor(a => item.University)</label>
+                            <div class="col-md-7"> @item.University</div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-5">@Html.DisplayNameFor(a => item.MajorSubject)</label>
+                            <div class="col-md-7"> @item.MajorSubject</div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-5">@Html.DisplayNameFor(a => item.GraduationYear)</label>
+                            <div class="col-md-7"> @item.GraduationYear</div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-5">@Html.DisplayNameFor(a => item.Grades)</label>
+                            <div class="col-md-7">
+                                @foreach (var i in item.Grades)
+                                {
+                                    <div style="display:inline-block; width:200px;"> + Lớp @i.Name </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-5">@Html.DisplayNameFor(a => item.Subjects)</label>
+                            <div class="col-md-7">
+                                @foreach(var i in item.Subjects)
+                                {
+                                    <div style="display:inline-block; width:100px;"> + @i.Name</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-5">@Html.DisplayNameFor(a => item.Advantage)</label>
+                            <div class="col-md-7">@item.Advantage</div>
+                        </div>   
+                        <button class="btn btn-success btn-xs" style="font-size:16px;">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            Chọn gia sư
+                        </button>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+}
+</div>
