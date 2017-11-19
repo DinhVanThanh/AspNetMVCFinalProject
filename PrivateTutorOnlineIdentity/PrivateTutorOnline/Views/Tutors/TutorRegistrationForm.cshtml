@@ -1,0 +1,165 @@
+﻿@model PrivateTutorOnline.Models.ViewModels.TutorRegistrationFormViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+ 
+@section Scripts{
+    <script src="~/Scripts/App/UploadFile.js"> 
+    </script>    
+
+}
+ 
+@section Styles { 
+<link href="~/Content/UploadFile.css" rel="stylesheet" />
+} 
+@using (Html.BeginForm("SaveTutorInfo", "Tutors", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <form class="form-horizontal" role="form">
+            <fieldset>
+                <!-- Form Name -->
+                <legend>Đăng kí làm gia sư</legend>
+                <!-- Text input-->
+                <div class="form-group" style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Họ tên</label>
+                    <div >
+                        <input type="text" name="FullName" placeholder="Nguyễn Văn A" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Giới tính</label>
+                    <div >
+                        <select class="form-control" id="Gender" name="Gender">
+                            <option value="Male">Nam</option>
+                            <option value="Female">Nữ</option> 
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Số CMND</label>
+                    <div >
+                        <input type="text" name="IdentityNumber" placeholder="Số CMND" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Nguyên quán (Tỉnh / Thành phố )</label>
+                    <div >
+                        <input type="text" name="HomeTown" placeholder="TP Hồ Chí Minh" class="form-control">
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Địa chỉ hiện tại</label>
+                    <div >
+                        <input type="text" name="Address" placeholder="Địa chỉ" class="form-control">
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Ngày sinh</label>
+                    <div >
+                        <input type="date" name="DateOfBirth" placeholder="dd/mm/yyyy" class="form-control">
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Email</label>
+                    <div >
+                        <input type="text" name="Email" placeholder="xxxxxx@gmail.com" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Số điện thoại</label>
+                    <div >
+                        <input type="text" name="PhoneNumber" placeholder="01562xxxxxxxx" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Trình độ</label>
+                    <div >
+                        <select name="Degree" class="form-control" id="Gender">
+                            <option value="Student">Sinh viên</option>
+                            <option value="Teacher">Giáo viên</option>
+                            <option value="Lecturer">Giảng viên</option>
+                            <option value="Engineer">Kĩ sư</option>
+                            <option value="Bachelor">Cử nhân</option>
+                            <option value="Master">Thạc sĩ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Học trường</label>
+                    <div >
+                        <input type="text" name="UniversityName" placeholder="Trường" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Chuyên ngành</label>
+                    <div >
+                        <input type="text" name="MajorSubject" placeholder="Chuyên ngành" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group"  style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Năm tốt nghiệp</label>
+                    <div >
+                        <input type="text" name="GraduationYear" placeholder="2014" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group"  style="display:inline-block; width:100%">
+                    <label class="control-label" for="textinput">Ưu điểm</label>
+                    <div >
+                        <textarea  rows="7"  style="width:100%;" name="Advantage" placeholder="....." class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group"  style="display:inline-block; width:55%">
+                    <label class="control-label" for="textinput">Hình</label>
+                    <div > 
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-default btn-file">
+                                    Browse… <input type="file" id="imgInp" name="Avatar">
+                                </span>
+                            </span>
+                            <input type="text"  class="form-control" readonly>
+                        </div>
+                        <img id='img-upload' style="width:170px; height:190px;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h3 style="font-weight:bold; margin-bottom:20px;">Nhận dạy lớp</h3>
+                    @foreach (var i in Model.Grades)
+                    {
+                        <div style="display:inline-block; width:200px;">
+                            <label for="Grade_@i.Id">Lớp @i.Name</label>
+                            <input id="Grade_@i.Id" style="transform:scale(1.7); margin-left:10px;" type="checkbox" value="@i.Id" name="Grades">
+                        </div> 
+                    } 
+                </div>
+                <div class="form-group">
+                    <h3 style="font-weight:bold; margin-bottom:20px;">Nhận dạy môn</h3>
+                    @foreach (var sub in Model.Subjects)
+                    {
+                        <div style="display:inline-block; width:200px;">
+                            <label for="Subject_@sub">Môn @sub.Name</label>
+                            <input id="Subject_@sub" style="transform:scale(1.7); margin-left:10px;" type="checkbox" value="@sub.Id" name="Subjects">
+                        </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-8">
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-default">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Đăng kí</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div><!-- /.col-lg-12 -->
+</div><!-- /.row -->
+}

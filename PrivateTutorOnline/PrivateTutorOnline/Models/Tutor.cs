@@ -43,6 +43,8 @@ namespace PrivateTutorOnline.Models
         public ICollection<Subject> Subjects { get; set; } 
         [Display(Name = "Lớp dạy")]
         public ICollection<Grade> Grades { get; set; }
+        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUserRole Role { get; set; }
         public IList<RegistrationClass> RegistrationClasss { get; set; }
 
     }

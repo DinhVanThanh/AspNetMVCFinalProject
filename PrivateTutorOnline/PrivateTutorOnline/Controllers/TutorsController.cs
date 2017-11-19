@@ -12,6 +12,7 @@ using PrivateTutorOnline.Models.BindingModels;
 
 namespace PrivateTutorOnline.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class TutorsController : Controller
     {
         private TutorOnlineDBContext db = new TutorOnlineDBContext();

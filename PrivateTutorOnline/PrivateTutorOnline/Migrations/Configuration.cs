@@ -1,5 +1,7 @@
 ﻿namespace PrivateTutorOnline.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using PrivateTutorOnline.Models;
     using System;
     using System.Collections.Generic;
@@ -16,25 +18,71 @@
             AutomaticMigrationsEnabled = true;
         }
 
+        public bool CreateRole(ApplicationRoleManager _roleManager, string name, string description = "")
+        {
+            var idResult = _roleManager.Create<ApplicationRole, string>(new ApplicationRole(name, description));
+            return idResult.Succeeded;
+        }
+        public bool AddUserToRole(UserManager<ApplicationUser> _userManager, string userId, string roleName)
+        {
+            var idResult = _userManager.AddToRole<ApplicationUser, string>(userId, roleName);
+            return idResult.Succeeded;
+        }
+
         protected override void Seed(PrivateTutorOnline.Models.TutorOnlineDBContext context)
         {
+            bool success = false;
+
+            ApplicationRoleManager _roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(context));
+
+            success = this.CreateRole(_roleManager, "Admin", "Global Access");
+            
+
+            success = this.CreateRole(_roleManager, "Owner", "Managing existing records");
+            
+
+            success = this.CreateRole(_roleManager, "Customer", "Restricted to business domain activity");
+            
+
+            // Create my debug (testing) objects here
+
+            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            ApplicationUser user = new ApplicationUser();
+            PasswordHasher passwordHasher = new PasswordHasher();
+             
+            user.UserName = "dinhvanthanh";
+            user.Email = "thanh.kyanon@gmail.com"; 
+            user.LockoutEnabled = true;
+
+            IdentityResult result = userManager.Create(user, "123456");
+            if(result.Succeeded)
+            success = this.AddUserToRole(userManager, user.Id, "Admin");
+
+
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
-            context.Subjects.AddOrUpdate(
-                new Models.Subject() { Name = "Toán" },
-                new Models.Subject() { Name = "Tiếng Anh" },
-                new Models.Subject() { Name = "Lý" },
-                new Models.Subject() { Name = "Hóa" },
-                new Models.Subject() { Name = "Sinh" },
-                new Models.Subject() { Name = "Sử" },
-                new Models.Subject() { Name = "Địa Lý" },
-                new Models.Subject() { Name = "Vẽ" },
-                new Models.Subject() { Name = "Vi Tính" },
-                new Models.Subject() { Name = "Đàn-Nhạc" }
-                );
-            context.Grades.AddOrUpdate(
+            if ((context.Subjects.Count() == 0))
+            {
+                context.Subjects.AddOrUpdate(
+               new Models.Subject() { Name = "Toán" },
+               new Models.Subject() { Name = "Tiếng Anh" },
+               new Models.Subject() { Name = "Lý" },
+               new Models.Subject() { Name = "Hóa" },
+               new Models.Subject() { Name = "Sinh" },
+               new Models.Subject() { Name = "Sử" },
+               new Models.Subject() { Name = "Địa Lý" },
+               new Models.Subject() { Name = "Vẽ" },
+               new Models.Subject() { Name = "Vi Tính" },
+               new Models.Subject() { Name = "Đàn-Nhạc" }
+               );
+            }
+            if(context.Grades.Count() == 0)
+            {
+                context.Grades.AddOrUpdate(
                 new Models.Grade() { Name = "1" },
                 new Models.Grade() { Name = "2" },
                 new Models.Grade() { Name = "3" },
@@ -49,21 +97,29 @@
                 new Models.Grade() { Name = "12" },
                 new Models.Grade() { Name = "Luyện thi đại học" }
                 );
+            }
 
-            context.Customers.AddOrUpdate(
-                new Models.Customer() {
-                    FullName = "Nguyễn Hồng Hạnh",
-                    PhoneNumber = "01213546546",
-                    Email = "Hong.Hanh@gmail.com",
-                    City = "TPHCM",
-                    District = "Quận 5",
-                    Ward = "Phường 13",
-                    Street = "An Dương Vương"
-                }
-               );
-
-            context.Tutors.AddOrUpdate(
-                new Models.Tutor() {
+            if (context.Customers.Count() == 0)
+            {
+                context.Customers.AddOrUpdate(
+                   new Models.Customer()
+                   {
+                       FullName = "Nguyễn Hồng Hạnh",
+                       PhoneNumber = "01213546546",
+                       Email = "Hong.Hanh@gmail.com",
+                       City = "TPHCM",
+                       District = "Quận 5",
+                       Ward = "Phường 13",
+                       Street = "An Dương Vương"
+                   }
+                  );
+            }
+            
+            if (context.Tutors.Count() == 0)
+            {
+                context.Tutors.AddOrUpdate(
+                new Models.Tutor()
+                {
                     FullName = "Hoàng Tuấn Anh",
                     Gender = Enums.Gender.Male,
                     DateOfBirth = new DateTime(1994, 11, 2),
@@ -77,7 +133,7 @@
                     GraduationYear = "2016",
                     Advantage = "Đã từng đi dạy",
                     Degree = Enums.AcademicDegree.Teacher,
-                    Image = new byte[] { } 
+                    Image = new byte[] { }
                 },
                 new Models.Tutor()
                 {
@@ -94,7 +150,7 @@
                     GraduationYear = "2015",
                     Advantage = "Đã từng đi dạy",
                     Degree = Enums.AcademicDegree.Master,
-                    Image = new byte[] { } 
+                    Image = new byte[] { }
                 },
                 new Models.Tutor()
                 {
@@ -111,7 +167,7 @@
                     GraduationYear = "2017",
                     Advantage = "Đã từng đi dạy",
                     Degree = Enums.AcademicDegree.Student,
-                    Image = new byte[] { } 
+                    Image = new byte[] { }
                 },
                  new Models.Tutor()
                  {
@@ -128,9 +184,11 @@
                      GraduationYear = "2017",
                      Advantage = "Đã từng đi dạy",
                      Degree = Enums.AcademicDegree.Bachelor,
-                     Image = new byte[] { }  
+                     Image = new byte[] { }
                  }
                 );
+            }
+            
 
 
         }

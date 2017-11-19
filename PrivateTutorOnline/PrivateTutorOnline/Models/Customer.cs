@@ -6,7 +6,7 @@ using System.Web;
 
 namespace PrivateTutorOnline.Models
 {
-    public class Customer
+    public class Customer 
     {
         [Key]
         public int Id { get; set; }
@@ -16,7 +16,9 @@ namespace PrivateTutorOnline.Models
         public string City { get; set; }
         public string District { get; set; }
         public string Ward { get; set; }
-        public string Street { get; set; }
+        public string Street { get; set; } 
+        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUserRole Role { get; set; }
         public IList<RegistrationClass> RegistrationClasss { get; set; }
     }
 }

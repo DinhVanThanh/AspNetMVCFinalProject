@@ -1,0 +1,12 @@
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\bin\Debug\netcoreapp2.0\PrivateTutorOnline.deps.json
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\bin\Debug\netcoreapp2.0\PrivateTutorOnline.runtimeconfig.json
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\bin\Debug\netcoreapp2.0\PrivateTutorOnline.runtimeconfig.dev.json
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\bin\Debug\netcoreapp2.0\PrivateTutorOnline.dll
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\bin\Debug\netcoreapp2.0\PrivateTutorOnline.pdb
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\obj\Debug\netcoreapp2.0\PrivateTutorOnline.csprojResolveAssemblyReference.cache
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\obj\Debug\netcoreapp2.0\PrivateTutorOnline.csproj.CoreCompileInputs.cache
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\obj\Debug\netcoreapp2.0\PrivateTutorOnline.AssemblyInfoInputs.cache
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\obj\Debug\netcoreapp2.0\PrivateTutorOnline.AssemblyInfo.cs
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\obj\Debug\netcoreapp2.0\PrivateTutorOnline.dll
+C:\FinalProject\PrivateTutorOnlineCoreIdentity\PrivateTutorOnline\obj\Debug\netcoreapp2.0\PrivateTutorOnline.pdb

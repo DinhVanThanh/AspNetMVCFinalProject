@@ -1,0 +1,19 @@
+﻿<div class="modal fade" id="register-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="loginmodal-container">
+            <h1>Đăng kí tài khoản mới</h1><br>
+            <form action="@Url.Action("Register", "Login")" enctype="multipart/form-data" method="post">
+                <input type="text" name="Username" placeholder="Username">
+                <input type="text" name="Password" placeholder="Password">
+                <input type="text" name="FullName" placeholder="Họ tên">
+                <input type="text" name="PhoneNumber" placeholder="Số điện thoại">
+                <input type="text" name="Email" placeholder="Email">
+                <input type="text" name="City" placeholder="Tỉnh / Thành phố">
+                <input type="text" name="District" placeholder="Quận / Huyện">
+                <input type="text" name="Ward" placeholder="Phường / Xã">
+                <input type="text" name="Street" placeholder="Tên đường">
+                <input type="submit" name="register" class="login loginmodal-submit" value="Đăng Kí">
+            </form>
+        </div>
+    </div>
+</div>

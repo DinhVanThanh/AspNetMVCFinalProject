@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Styles", false)
+ 
 </head>
 <body>
     @Html.Partial("_HeaderNavBar")
@@ -26,9 +27,10 @@
             <p>&copy; @DateTime.Now.Year Finding Tutor Online</p>
         </footer>
     </div>
-
+ 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>
