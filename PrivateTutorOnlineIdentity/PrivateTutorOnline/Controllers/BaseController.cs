@@ -16,6 +16,6 @@ namespace PrivateTutorOnline.Controllers
         {
             return PartialView("_SideBar", new SidebarViewModel() { Subjects = Context.Subjects.ToList(), Grades = Context.Grades.ToList() });
         }
-         
+       
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿ 
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -11,9 +11,22 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Đăng kí tìm gia sư", "ClassRegistrationForm", "Class")</li>
-                <li>@Html.ActionLink("Đăng Kí Làm Gia Sư", "TutorRegistrationForm", "Tutors")</li>
+               
+                @if (!Roles.IsUserInRole("Customer") && User.Identity.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Đăng Kí Làm Gia Sư", "TutorRegistrationForm", "Tutors")</li>
+                }
+               
+
                 <li>@Html.ActionLink("Gia Sư Hiện Có", "ExistingTutorsList", "Tutors")</li>
+                
+                @if (Roles.IsUserInRole("Customer") && User.Identity.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Danh sách lớp đã đăng", "ExistingTutorsList", "Tutors")</li>
+                    <li>@Html.ActionLink("Danh sách gia sư đã chọn", "ExistingTutorsList", "Tutors")</li>
+                    <li>@Html.ActionLink("Đăng kí tìm gia sư", "ClassRegistrationForm", "Class")</li>
+                }
+                
                 <li><a href="#" data-toggle="modal" data-target="#register-modal">Đăng kí tài khoản</a></li>
                 <li><a href="#" data-toggle="modal" data-target="#login-modal">Đăng nhập</a></li>
             </ul>

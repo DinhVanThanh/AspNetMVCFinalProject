@@ -1,0 +1,112 @@
+﻿@model IEnumerable<PrivateTutorOnline.Models.ViewModels.PostedClassViewModel>
+
+@{
+    ViewBag.Title = "AllPostedClass";
+}
+
+<h2>Danh sách lớp đang cần gia sư</h2>
+ 
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SalaryPerMonth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPerWeek)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TutoringTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Requirement)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceivedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.District)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ward)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalaryPerMonth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DayPerWeek)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TutoringTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Requirement)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceivedDate)
+        </td>
+        <td id="row-status-@item.Id">
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
+            {
+                <span style="color:red">Chờ duyệt</span>
+            }
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForTutor)
+            {
+                <span style="color:red">Chờ gia sư</span>
+            }
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.AdminApproved)
+            {
+                <span style="color:red">Đã duyệt</span>
+            }
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.TutorRegistered)
+            {
+                <span style="color:red">Đã nhận</span>
+            }
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.Reject)
+            {
+                <span style="color:red">Không duyệt</span>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.District)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ward)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Street)
+        </td>
+        <td>
+            @if (item.Status != PrivateTutorOnline.Enums.ClassStatus.TutorRegistered)
+            {
+                <button data-classId="@item.Id" id="receiveClass-@item.Id" class="btn btn-success receiveClass"> Nhận lớp</button>
+            }
+            
+        </td>
+    </tr>
+}
+
+</table>
+ 
+@section Scripts {
+
+    <script src="~/Scripts/ReceiveClass.js"> 
+    </script>
+}
+ 

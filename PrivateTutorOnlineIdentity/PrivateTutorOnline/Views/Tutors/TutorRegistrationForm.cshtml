@@ -5,7 +5,7 @@
 }
  
 @section Scripts{
-    <script src="~/Scripts/App/UploadFile.js"> 
+    <script src="~/Scripts/UploadFile.js"> 
     </script>    
 
 }
@@ -13,19 +13,66 @@
 @section Styles { 
 <link href="~/Content/UploadFile.css" rel="stylesheet" />
 } 
-@using (Html.BeginForm("SaveTutorInfo", "Tutors", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("RegisterTutor", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-<div class="row">
+ <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <form class="form-horizontal" role="form">
             <fieldset>
                 <!-- Form Name -->
-                <legend>Đăng kí làm gia sư</legend>
-                <!-- Text input-->
+                <legend>Đăng kí làm gia sư</legend> 
                 <div class="form-group" style="display:inline-block; width:48%">
-                    <label class="control-label" for="textinput">Họ tên</label>
-                    <div >
-                        <input type="text" name="FullName" placeholder="Nguyễn Văn A" class="form-control">
+                    <label class="control-label" for="textinput">Username</label>
+                    <div>
+                        <input type="text" name="Username" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Password</label>
+                    <div>
+                        <input type="Password" name="Password" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Họ Tên</label>
+                    <div>
+                        <input type="text" name="FullName" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Email</label>
+                    <div>
+                        <input type="email" name="Email" placeholder="xxxxx@gmail.com" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Số điện thoại</label>
+                    <div>
+                        <input type="text" name="PhoneNumber" placeholder="0213156xxxxxx" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Thành phố</label>
+                    <div>
+                        <input type="text" name="City" placeholder="vd : TPHCM" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Quận </label>
+                    <div>
+                        <input type="text" name="District" placeholder="vd : Bình Tân" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Phường</label>
+                    <div>
+                        <input type="text" name="Ward" placeholder="vd : 13" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group" style="display:inline-block; width:48%">
+                    <label class="control-label" for="textinput">Tên đường</label>
+                    <div>
+                        <input type="text" name="Street" placeholder="vd : 12 Tôn Đản" class="form-control">
                     </div>
                 </div>
                 <div class="form-group"  style="display:inline-block; width:48%">
@@ -44,44 +91,22 @@
                     </div>
                 </div>
                 <div class="form-group"  style="display:inline-block; width:48%">
-                    <label class="control-label" for="textinput">Nguyên quán (Tỉnh / Thành phố )</label>
+                    <label class="control-label" for="textinput">Nguyên quán</label>
                     <div >
                         <input type="text" name="HomeTown" placeholder="TP Hồ Chí Minh" class="form-control">
                     </div>
-                </div>
-                <!-- Text input-->
-                <div class="form-group"  style="display:inline-block; width:48%">
-                    <label class="control-label" for="textinput">Địa chỉ hiện tại</label>
-                    <div >
-                        <input type="text" name="Address" placeholder="Địa chỉ" class="form-control">
-                    </div>
-                </div>
+                </div> 
                 <!-- Text input-->
                 <div class="form-group"  style="display:inline-block; width:48%">
                     <label class="control-label" for="textinput">Ngày sinh</label>
                     <div >
                         <input type="date" name="DateOfBirth" placeholder="dd/mm/yyyy" class="form-control">
                     </div>
-                </div>
-                <!-- Text input-->
-                <div class="form-group"  style="display:inline-block; width:48%">
-                    <label class="control-label" for="textinput">Email</label>
-                    <div >
-                        <input type="text" name="Email" placeholder="xxxxxx@gmail.com" class="form-control">
-                    </div>
-                </div>
-
-                <!-- Text input-->
-                <div class="form-group"  style="display:inline-block; width:48%">
-                    <label class="control-label" for="textinput">Số điện thoại</label>
-                    <div >
-                        <input type="text" name="PhoneNumber" placeholder="01562xxxxxxxx" class="form-control">
-                    </div>
-                </div>
+                </div>  
                 <div class="form-group"  style="display:inline-block; width:48%">
                     <label class="control-label" for="textinput">Trình độ</label>
                     <div >
-                        <select name="Degree" class="form-control" id="Gender">
+                        <select name="Degree" class="form-control" id="Degree">
                             <option value="Student">Sinh viên</option>
                             <option value="Teacher">Giáo viên</option>
                             <option value="Lecturer">Giảng viên</option>

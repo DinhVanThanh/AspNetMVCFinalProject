@@ -31,11 +31,8 @@ namespace PrivateTutorOnline.Models
         public string Ward { get; set; }
         [StringLength(100)]
         public string Street { get; set; }
-        [ForeignKey("Customer")]
-        public int CustomerId { get; set; }
+
         public Customer Customer { get; set; }
-        [ForeignKey("Tutor")]
-        public int TutorId { get; set; }
         public Tutor Tutor { get; set; }
         public bool IsActive { get; set; }
     }

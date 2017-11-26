@@ -73,93 +73,107 @@
         }
     </div>
 </div>
- <div class="row">
-@foreach (var item in Model.Tutors)
+@if (Model.Tutors.Count <= 0)
 {
-    <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        @{
-                            var base64 = Convert.ToBase64String(item.Image);
-                            var imgSrc = String.Format("data:image/png;base64,{0}", base64);
-                        }
-                        <img src='@imgSrc' style="width:100%; height:150px">
-                    </div>
-                    <div class="col-md-9">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                Không tìm thấy gia sư phù hợp
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model.Tutors)
+        {
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
                         <div class="row">
-                            <label class="col-md-5">Mã số</label>
-                            <div class="col-md-7">@item.Id</div>
-                        </div>
-                        <div class="row">
-                            <label class="col-md-5">@Html.DisplayNameFor(a => item.FullName)</label>
-                            <div class="col-md-7">@item.FullName</div>
-                        </div> 
-                        <div class="row">
-                            <label class="col-md-5">@Html.DisplayNameFor(a => item.Gender)</label>
-                            <div class="col-md-7">
-                                @if(item.Gender == PrivateTutorOnline.Enums.Gender.Male)
-                                {
-                                    <span>Nam</span>
+                            <div class="col-md-3">
+                                @{
+                                    var base64 = Convert.ToBase64String(item.Image);
+                                    var imgSrc = String.Format("data:image/png;base64,{0}", base64);
                                 }
-                                else
-                                {
-                                    <span>Nữ</span>
-                                }
+                                <img src='@imgSrc' style="width:100%; height:150px">
                             </div>
-                        </div> 
-                        <div class="row">
-                            <label class="col-md-5">@Html.DisplayNameFor(a => item.DateOfBirth)</label>
-                            <div class="col-md-7">@item.DateOfBirth.ToString("dd/MM/yyyy")</div>
-                        </div> 
-                        <div class="row">
-                            <label class="col-md-5">@Html.DisplayNameFor(a => item.Degree)</label>
-                            <div class="col-md-7"> @item.Degree.GetDisplayName()</div>
-                        </div>
-                        <div class="row">
-                            <label class="col-md-5">@Html.DisplayNameFor(a => item.University)</label>
-                            <div class="col-md-7"> @item.University</div>
-                        </div>
-                        <div class="row">
-                            <label class="col-md-5">@Html.DisplayNameFor(a => item.MajorSubject)</label>
-                            <div class="col-md-7"> @item.MajorSubject</div>
-                        </div>
-                        <div class="row">
-                            <label class="col-md-5">@Html.DisplayNameFor(a => item.GraduationYear)</label>
-                            <div class="col-md-7"> @item.GraduationYear</div>
-                        </div>
-                        <div class="row">
-                            <label class="col-md-5">@Html.DisplayNameFor(a => item.Grades)</label>
-                            <div class="col-md-7">
-                                @foreach (var i in item.Grades)
-                                {
-                                    <div style="display:inline-block; width:200px;"> + Lớp @i.Name </div>
-                                }
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <label class="col-md-5">Mã số</label>
+                                    <div class="col-md-7">@item.Id</div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-5">@Html.DisplayNameFor(a => item.FullName)</label>
+                                    <div class="col-md-7">@item.FullName</div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-5">@Html.DisplayNameFor(a => item.Gender)</label>
+                                    <div class="col-md-7">
+                                        @if (item.Gender == PrivateTutorOnline.Enums.Gender.Male)
+                                        {
+                                            <span>Nam</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Nữ</span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-5">@Html.DisplayNameFor(a => item.DateOfBirth)</label>
+                                    <div class="col-md-7">@item.DateOfBirth.ToString("dd/MM/yyyy")</div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-5">@Html.DisplayNameFor(a => item.Degree)</label>
+                                    <div class="col-md-7"> @item.Degree.GetDisplayName()</div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-5">@Html.DisplayNameFor(a => item.University)</label>
+                                    <div class="col-md-7"> @item.University</div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-5">@Html.DisplayNameFor(a => item.MajorSubject)</label>
+                                    <div class="col-md-7"> @item.MajorSubject</div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-5">@Html.DisplayNameFor(a => item.GraduationYear)</label>
+                                    <div class="col-md-7"> @item.GraduationYear</div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-5">@Html.DisplayNameFor(a => item.Grades)</label>
+                                    <div class="col-md-7">
+                                        @foreach (var i in item.Grades)
+                                        {
+                                            <div style="display:inline-block; margin-bottom:5px; padding:5px 5px; background-color:#0080FF; color:white;"> Lớp @i.Name </div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-5">@Html.DisplayNameFor(a => item.Subjects)</label>
+                                    <div class="col-md-7">
+                                        @foreach (var i in item.Subjects)
+                                        {
+                                            <div style="display:inline-block; margin-bottom:5px; padding:5px 5px; background-color:#0080FF; color:white"> Môn @i.Name</div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-5">@Html.DisplayNameFor(a => item.Advantage)</label>
+                                    <div class="col-md-7">@item.Advantage</div>
+                                </div>
+                                <button class="btn btn-success btn-xs" style="font-size:16px;">
+                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                    Chọn gia sư
+                                </button>
+
                             </div>
                         </div>
-                        <div class="row">
-                            <label class="col-md-5">@Html.DisplayNameFor(a => item.Subjects)</label>
-                            <div class="col-md-7">
-                                @foreach(var i in item.Subjects)
-                                {
-                                    <div style="display:inline-block; width:100px;"> + @i.Name</div>
-                                }
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-md-5">@Html.DisplayNameFor(a => item.Advantage)</label>
-                            <div class="col-md-7">@item.Advantage</div>
-                        </div>   
-                        <button class="btn btn-success btn-xs" style="font-size:16px;">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                            Chọn gia sư
-                        </button>
-                       
                     </div>
                 </div>
             </div>
-        </div>
-    </div> 
-}
-</div>
+                                    }
+    </div>
+                                    }
+

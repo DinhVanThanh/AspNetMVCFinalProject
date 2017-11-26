@@ -7,22 +7,36 @@ using System.Web;
 
 namespace PrivateTutorOnline.Models
 {
-    public class Tutor
+    public class Tutor 
     {
         [Key]
         public int Id { get; set; }
-        [Display(Name ="Họ Tên")]
+        public string UserId { get; set; }
+        [Display(Name = "Họ Tên")]
+        [StringLength(100)]
         public string FullName { get; set; }
-        [Display(Name = "Nguyên Quán")]
-        public string HomeTown { get; set; }
-        [Display(Name = "Địa chỉ")]
-        public string Address { get; set; }
-        [Display(Name = "Ngày sinh")]
-        public DateTime DateOfBirth { get; set; }
-        [Display(Name = "Email")]
-        public string Email { get; set; }
         [Display(Name = "Số điện thoại")]
+        [StringLength(15)] 
         public string PhoneNumber { get; set; }
+        [Display(Name = "Email")]
+        [EmailAddress]
+        public string Email { get; set; } 
+        [Display(Name = "Thành phố")]
+        [StringLength(50)]
+        public string City { get; set; }
+        [Display(Name = "Quận")]
+        [StringLength(50)]
+        public string District { get; set; }
+        [Display(Name = "Phường")]
+        [StringLength(100)]
+        public string Ward { get; set; }
+        [Display(Name = "Tên đường")]
+        [StringLength(100)]
+        public string Street { get; set; }
+        [Display(Name = "Nguyên Quán")]
+        public string HomeTown { get; set; } 
+        [Display(Name = "Ngày sinh")]
+        public DateTime DateOfBirth { get; set; }  
         [Display(Name = "Giới tính")]
         public Gender Gender { get; set; }
         [Display(Name = "Số CMND")]
@@ -42,8 +56,10 @@ namespace PrivateTutorOnline.Models
         [Display(Name ="Môn dạy")]
         public ICollection<Subject> Subjects { get; set; } 
         [Display(Name = "Lớp dạy")]
-        public ICollection<Grade> Grades { get; set; } 
-        public IList<RegistrationClass> RegistrationClasss { get; set; }
-
+        public ICollection<Grade> Grades { get; set; }
+        [Display(Name = "Kích hoạt")]
+        public bool IsActivate { get; set; }
+        [Display(Name = "Mở khóa")]
+        public bool IsEnable { get; set; }
     }
 }

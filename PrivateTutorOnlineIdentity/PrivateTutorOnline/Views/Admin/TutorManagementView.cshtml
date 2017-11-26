@@ -1,0 +1,149 @@
+﻿@model IEnumerable<PrivateTutorOnline.Models.Tutor>
+
+@{
+    ViewBag.Title = "TutorManagementView";
+}
+
+<h2>Danh sách gia sư</h2>
+ 
+<table class="table">
+    <tr> 
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.District)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ward)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HomeTown)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdentityNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.University)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MajorSubject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GraduationYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Advantage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Degree)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Grades)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subjects)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @{
+                var base64 = Convert.ToBase64String(item.Image);
+                var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+            }
+            <img src='@imgSrc' style="width:150px; height:150px">
+            
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.District)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ward)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Street)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HomeTown)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfBirth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdentityNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.University)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MajorSubject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GraduationYear)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Advantage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Degree)
+        </td> 
+        <td>
+            @foreach (var i in item.Grades)
+            {
+                <div style="display:block; margin-bottom:5px; padding:5px 5px; background-color:#0080FF; color:white;"> Lớp @i.Name </div>
+            }
+        </td>
+        <td>
+            @foreach (var i in item.Subjects)
+            {
+                <div style="display:block; margin-bottom:5px; padding:5px 5px; background-color:#0080FF; color:white"> Môn @i.Name</div>
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Activate", "ActivateTutor", "Admin", new { TutorId = item.Id })
+            @Html.ActionLink("Disable", "DisableTutor", "Admin", new { TutorId = item.Id })
+        </td>
+    </tr>
+}
+
+</table>

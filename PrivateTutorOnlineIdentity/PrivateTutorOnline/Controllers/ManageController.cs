@@ -15,9 +15,10 @@ namespace PrivateTutorOnline.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private TutorOnlineDBContext context;
         public ManageController()
         {
+            context = new TutorOnlineDBContext();
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -52,25 +53,28 @@ namespace PrivateTutorOnline.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public async Task<ActionResult> Index(string message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
+            ViewBag.StatusMessage = message; 
 
             var userId = User.Identity.GetUserId();
+            int Id = -1; 
+            if (User.IsInRole("Customer"))
+            {
+                Id = context.Customers.SingleOrDefault(s => s.UserId == userId).Id;
+            }
+            if (User.IsInRole("Tutor"))
+            {
+                Id = context.Tutors.SingleOrDefault(s => s.UserId == userId).Id;
+            }
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                UserId = Id
             };
             return View(model);
         }
@@ -375,6 +379,7 @@ namespace PrivateTutorOnline.Controllers
 
         public enum ManageMessageId
         {
+            ChangeProfileSuccess,
             AddPhoneSuccess,
             ChangePasswordSuccess,
             SetTwoFactorSuccess,

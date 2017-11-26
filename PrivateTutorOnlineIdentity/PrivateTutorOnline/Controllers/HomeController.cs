@@ -11,6 +11,7 @@ namespace PrivateTutorOnline.Controllers
          
         public ActionResult Index()
         {
+             
             return View("Index");
         }
 

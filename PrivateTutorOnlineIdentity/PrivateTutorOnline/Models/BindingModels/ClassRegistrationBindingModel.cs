@@ -8,7 +8,7 @@ namespace PrivateTutorOnline.Models.BindingModels
     public class ClassRegistrationBindingModel
     {
          
-        public Grade Grade { get; set; }
+        public int Grade { get; set; }
         public IList<int> Subjects { get; set; } 
         public short LearnerNumber { get; set; }
         public string TeachingTime { get; set; }

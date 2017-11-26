@@ -1,0 +1,279 @@
+﻿@model PrivateTutorOnline.Models.ViewModels.TutorEditViewModel
+
+@{
+    ViewBag.Title = "Sửa thông tin cá nhân";
+}
+@section Scripts{
+    <script src="~/Scripts/UploadFile.js">
+
+    </script>
+
+}
+
+@section Styles {
+    <link href="~/Content/UploadFile.css" rel="stylesheet" />
+}
+<h2>Sửa thông tin cá nhân</h2>
+
+
+@using (Html.BeginForm("EditTutorInfo", "Tutors", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" style="margin-left:50px;"> 
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id) 
+        <div class="form-group">
+            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.District, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.District, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.District, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Ward, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Ward, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Ward, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HomeTown, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.HomeTown, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HomeTown, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               
+                @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @value = Model.DateOfBirth.ToString("MM/dd/yyyy"), @type = "date", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.Gender, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdentityNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IdentityNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IdentityNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UniversityName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UniversityName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UniversityName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MajorSubject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MajorSubject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MajorSubject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GraduationYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.GraduationYear, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.GraduationYear, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Advantage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Advantage, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Advantage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Degree, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="Degree" class="form-control" id="Degree">
+                    @if (Model.Degree == PrivateTutorOnline.Enums.AcademicDegree.Student)
+                    {
+                        <option selected value="Student">Sinh viên</option>
+                    }
+                    else
+                    {
+                        <option value="Student">Sinh viên</option>
+                    }
+                    @if (Model.Degree == PrivateTutorOnline.Enums.AcademicDegree.Teacher)
+                    {
+                        <option selected value="Teacher">Giáo viên</option>
+                    }
+                    else
+                    {
+                        <option value="Student">Giáo viên</option>
+                    }
+                    @if (Model.Degree == PrivateTutorOnline.Enums.AcademicDegree.Lecturer)
+                    {
+                        <option selected value="Lecturer">Giảng viên</option>
+                    }
+                    else
+                    {
+                        <option value="Lecturer">Giảng viên</option>
+                    }
+                    @if (Model.Degree == PrivateTutorOnline.Enums.AcademicDegree.Engineer)
+                    {
+                        <option selected value="Engineer">Kĩ sư</option>
+                    }
+                    else
+                    {
+                        <option value="Engineer">Kĩ sư</option>
+                    }
+                    @if (Model.Degree == PrivateTutorOnline.Enums.AcademicDegree.Bachelor)
+                    {
+                        <option selected value="Bachelor">Cử nhân</option>
+                    }
+                    else
+                    {
+                        <option value="Bachelor">Cử nhân</option>
+                    }
+                    @if (Model.Degree == PrivateTutorOnline.Enums.AcademicDegree.Master)
+                    {
+                        <option selected value="Master">Thạc sĩ</option>
+                    }
+                    else
+                    {
+                        <option value="Master">Thạc sĩ</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <h3 style="font-weight:bold; margin-bottom:20px;">Nhận dạy lớp</h3>
+            @foreach (var i in Model.GradesData)
+            {
+                if (Model.Grades.Any(s => s.Id == i.Id))
+                {
+                    <div style="display:inline-block; width:200px;">
+                        <label for="Grade_@i.Id">Lớp @i.Name</label>
+                        <input checked id="Grade_@i.Id" style="transform:scale(1.7);  margin-left:10px;" type="checkbox" value="@i.Id" name="Grades">
+                    </div>
+                }
+                else
+                {
+                    <div style="display:inline-block; width:200px;">
+                        <label for="Grade_@i.Id">Lớp @i.Name</label>
+                        <input id="Grade_@i.Id" style="transform:scale(1.7);  margin-left:10px;" type="checkbox" value="@i.Id" name="Grades">
+                    </div>
+                }
+            }
+        </div>
+        <div class="form-group">
+            <h3 style="font-weight:bold; margin-bottom:20px;">Nhận dạy môn</h3>
+            @foreach (var sub in Model.SubjectsData)
+            {
+                if (Model.Subjects.Any(s => s.Id == sub.Id))
+                {
+                    <div style="display:inline-block; width:200px;">
+                        <label for="Subject_@sub">Môn @sub.Name</label>
+                        <input checked id="Subject_@sub" style="transform:scale(1.7); margin-left:10px;" type="checkbox" value="@sub.Id" name="Subjects">
+                    </div>
+                }
+                else
+                {
+                    <div style="display:inline-block; width:200px;">
+                        <label for="Subject_@sub">Môn @sub.Name</label>
+                        <input id="Subject_@sub" style="transform:scale(1.7); margin-left:10px;" type="checkbox" value="@sub.Id" name="Subjects">
+                    </div>
+                }
+
+            }
+        </div>
+        <div class="form-group" style="display:inline-block; width:55%">
+            <label class="control-label" for="textinput">Hình</label>
+            <div>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-default btn-file">
+                            Chọn hình… <input type="file" id="imgInp" name="Avatar">
+                        </span>
+                    </span>
+                    <input type="text" class="form-control" readonly>
+                </div>
+                @if (Model.Avatar.Length > 0)
+                {
+                   
+                    var base64 = Convert.ToBase64String(Model.Avatar);
+                    var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+                    
+                    <img id='img-upload' src='@imgSrc' style="width:170px; height:190px">
+                }
+                else
+                {
+                    <img id='img-upload' style="width:170px; height:190px" />
+                }
+                
+            </div>
+        </div> 
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+  

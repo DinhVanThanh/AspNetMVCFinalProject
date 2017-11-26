@@ -35,16 +35,12 @@ namespace PrivateTutorOnline.Models
         public virtual DbSet<Grade> Grades { set; get; } 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Customer>().ToTable("Customers");
+            modelBuilder.Entity<Tutor>().ToTable("Tutors");
             base.OnModelCreating(modelBuilder);
-            if (modelBuilder == null)
-            {
-                throw new ArgumentNullException("ModelBuilder is NULL");
-            }
-
-            base.OnModelCreating(modelBuilder);
-            
+             
         }
 
-
+        public System.Data.Entity.DbSet<PrivateTutorOnline.Models.ViewModels.PostedClassViewModel> PostedClassViewModels { get; set; }
     } 
 }

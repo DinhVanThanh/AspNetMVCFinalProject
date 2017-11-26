@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Styles", false)
@@ -21,9 +21,34 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Đăng kí tìm gia sư", "ClassRegistrationForm", "Class")</li>
-                    <li>@Html.ActionLink("Đăng Kí Làm Gia Sư", "TutorRegistrationForm", "Tutors")</li>
-                    <li>@Html.ActionLink("Gia Sư Hiện Có", "ExistingTutorsList", "Tutors")</li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    { 
+                        <li>@Html.ActionLink("Quản lý Phụ huynh", "CustomerManagementView", "Admin")</li>
+                        <li>@Html.ActionLink("Quản lý Gia sư", "TutorManagementView", "Admin")</li>
+                        <li>@Html.ActionLink("Quản lý Lớp", "ClassManagementView", "Admin")</li> 
+                    } 
+                    @if (!User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Gia sư hiện có", "ExistingTutorsList", "Tutors")</li>
+                    }
+                    
+                    @if (!Request.IsAuthenticated && !User.IsInRole("Customer") && !User.IsInRole("Tutor"))
+                    {
+                        <li>@Html.ActionLink("Đăng Kí Làm Gia Sư", "TutorRegistrationForm", "Tutors")</li>
+                    }
+                    
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+                    {
+                        <li>@Html.ActionLink("Đăng kí tìm gia sư", "ClassRegistrationForm", "Class")</li>
+                        
+                        <li>@Html.ActionLink("Danh sách lớp đã đăng", "PostedClass", "ManageRegistrationClasses")</li>
+                    } 
+                      
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Tutor"))
+                    {
+                        <li>@Html.ActionLink("Danh sách lớp đã nhận", "EnrolledClass", "ManageRegistrationClasses")</li>
+                        <li>@Html.ActionLink("Danh sách lớp hiện có", "AllPostedClass", "ManageRegistrationClasses")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -31,12 +56,21 @@
     </div>
     <div class="flex-container body-content">
         <div class="row">
-            <div class="col-md-2" style="margin-left:50px; margin-top:50px;">
-                @Html.Action("SideBar", "Base")
-            </div>
-            <div class="col-md-9" style="margin-top:50px;">
-                @RenderBody()
-            </div>
+            @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <div class="col-md-12" style="margin-top:50px;">
+                    @RenderBody()
+                </div>  
+            }
+            else
+            {
+                <div class="col-md-2" style="margin-left:50px; margin-top:50px;">
+                    @Html.Action("SideBar", "Base")
+                </div>
+                <div class="col-md-9" style="margin-top:50px;">
+                    @RenderBody()
+                </div>
+            }
         </div> 
     </div>
 

@@ -1,12 +1,40 @@
 ﻿namespace PrivateTutorOnline.Migrations
 {
     using System;
-    using System.Data.Entity;
+    using System.Globalization; 
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using System.Web; 
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using PrivateTutorOnline.Models;
     using System.Data.Entity.Migrations;
-    using System.Linq;
+    using System.Linq; 
+    using System.Web.Mvc; 
 
     internal sealed class Configuration : DbMigrationsConfiguration<PrivateTutorOnline.Models.TutorOnlineDBContext>
     {
+        private ApplicationRoleManager _AppRoleManager;
+        private ApplicationUserManager _userManager;
+        protected ApplicationRoleManager AppRoleManager
+        {
+            get
+            { 
+                return _AppRoleManager ?? HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+        }
+        protected ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         public Configuration()
         {
             AutomaticMigrationDataLossAllowed = true;
@@ -15,6 +43,50 @@
 
         protected override void Seed(PrivateTutorOnline.Models.TutorOnlineDBContext context)
         {
+            const string name = "Admin";
+            const string password = "123456";
+            const string roleName = "Admin";
+            if(AppRoleManager.FindByNameAsync("Admin") != null)
+                AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Admin"));
+            if (AppRoleManager.FindByNameAsync("Customer") != null)
+                AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Customer"));
+            if (AppRoleManager.FindByNameAsync("Tutor") != null)
+                AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Tutor"));
+            if (AppRoleManager.FindByNameAsync("Owner") != null)
+                AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Owner"));
+
+            var admin = UserManager.FindByName(name);
+            if (admin == null)
+            {
+                admin = new ApplicationUser { UserName = name, Email = "thanh.kyanon@gmail.com" };
+                IdentityResult AdminCreationResult = UserManager.Create(admin, password);
+                AdminCreationResult = UserManager.SetLockoutEnabled(admin.Id, false);
+            }
+
+            // Add user admin to Role Admin if not already added
+            var rolesForUser = UserManager.GetRoles(admin.Id);
+            if (!rolesForUser.Contains(roleName))
+            {
+                Task<IdentityResult> AdminRoleAddition = UserManager.AddToRoleAsync(admin.Id, roleName);
+            }
+            //Initializer Tutor account
+            ApplicationUser customerUser = new ApplicationUser() { UserName = "dinhvanthanh1995@gmail.com", Email = "dinhvanthanh1995@gmail.com" };
+            var CustomerCreationResult = UserManager.CreateAsync(customerUser, password);
+            if (CustomerCreationResult.IsCompleted)
+                CustomerCreationResult = UserManager.SetLockoutEnabledAsync(customerUser.Id, false);
+            if (CustomerCreationResult.IsCompleted)
+                UserManager.AddToRoleAsync(customerUser.Id, "Customer");
+            var tutor = new ApplicationUser { UserName = "tieuluantotnghiep2017@gmail.com", Email = "tieuluantotnghiep2017@gmail.com" };
+            var result = UserManager.CreateAsync(tutor, password);
+            if (result.IsCompleted)
+                result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
+            if (result.IsCompleted)
+                UserManager.AddToRoleAsync(tutor.Id, "Tutor");
+           //Initializer Customer account
+            
+            
+
+            
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -53,35 +125,41 @@
                 );
             }
 
-            if (context.Customers.Count() == 0)
+            if (context.Customers.SingleOrDefault(c => c.Email == "dinhvanthanh1995@gmail.com") == null)
             {
+               
                 context.Customers.AddOrUpdate(
                    new Models.Customer()
                    {
-                       FullName = "Nguyễn Hồng Hạnh",
+                       FullName = "Đinh Văn Thành",
                        PhoneNumber = "01213546546",
-                       Email = "Hong.Hanh@gmail.com",
+                       Email = "dinhvanthanh1995@gmail.com",
                        City = "TPHCM",
                        District = "Quận 5",
                        Ward = "Phường 13",
                        Street = "An Dương Vương"
                    }
-                  );
+                );
+                
             }
 
-            if (context.Tutors.Count() == 0)
+            if(context.Tutors.SingleOrDefault(s => s.Email == "tieuluantotnghiep2017@gmail.com") == null &&
+                context.Tutors.SingleOrDefault(s => s.Email == "Tuan.Kiet@gmail.com") == null &&
+                context.Tutors.SingleOrDefault(s => s.Email == "Ngoc.Anh@gmail.com") == null &&
+                context.Tutors.SingleOrDefault(s => s.Email == "Phuong.Nhung@gmail.com") == null 
+                )
             {
+                
                 context.Tutors.AddOrUpdate(
                 new Models.Tutor()
                 {
                     FullName = "Hoàng Tuấn Anh",
                     Gender = Enums.Gender.Male,
                     DateOfBirth = new DateTime(1994, 11, 2),
-                    Email = "Tuan.Anh@gmail.com",
+                    Email = "tieuluantotnghiep2017@gmail.com",
                     PhoneNumber = "01526487656",
                     IdentityNumber = "0225644478",
                     HomeTown = "Tỉnh Hà Nam",
-                    Address = "12 Tôn Đức Thắng, Quận 10, TPHCM",
                     University = "ĐH Sư Phạm TPHCM",
                     MajorSubject = "Sư Phạm Toán Học",
                     GraduationYear = "2016",
@@ -98,7 +176,6 @@
                     PhoneNumber = "01526487656",
                     IdentityNumber = "0225644478",
                     HomeTown = "TP Đà Nẵng",
-                    Address = "12 Hai Bà Trưng, Quận 3, TPHCM",
                     University = "ĐH Ngoại Thương TPHCM",
                     MajorSubject = "Quản trị kinh doanh",
                     GraduationYear = "2015",
@@ -115,7 +192,6 @@
                     PhoneNumber = "01526487656",
                     IdentityNumber = "0225644478",
                     HomeTown = "Tỉnh Đồng Tháp",
-                    Address = "12/2C Bùi Thị Xuân , Quận 1 , TPHCM",
                     University = "Cao Đẳng Kinh Tế Đối Ngoại",
                     MajorSubject = "Kế toán",
                     GraduationYear = "2017",
@@ -132,7 +208,6 @@
                      PhoneNumber = "01526487656",
                      IdentityNumber = "0225644478",
                      HomeTown = "Thủ đô Hà Nội",
-                     Address = "12/2C Nguyễn Kim , Quận 5 , TPHCM",
                      University = "Đại Học Sài Gòn",
                      MajorSubject = "Sư Phạm Tiếng Anh",
                      GraduationYear = "2017",
@@ -142,6 +217,8 @@
                  }
                 );
             }
+               
+            
         }
     }
 }

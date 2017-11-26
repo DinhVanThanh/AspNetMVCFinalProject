@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PrivateTutorOnline.Models;
+using System.IO;
+using System.Collections.Generic;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -17,9 +19,11 @@ namespace PrivateTutorOnline.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private ApplicationRoleManager _AppRoleManager;
+        private TutorOnlineDBContext context;
         public AccountController()
         {
+            context = new TutorOnlineDBContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -27,7 +31,13 @@ namespace PrivateTutorOnline.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
+        public ApplicationRoleManager AppRoleManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+        }
         public ApplicationSignInManager SignInManager
         {
             get
@@ -75,7 +85,7 @@ namespace PrivateTutorOnline.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -135,7 +145,7 @@ namespace PrivateTutorOnline.Controllers
         }
 
         //
-        // GET: /Account/Register
+        // GET: /Customer/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
@@ -147,14 +157,25 @@ namespace PrivateTutorOnline.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> RegisterCustomer(RegisterViewModel model)
         {
             if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+            { 
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email, PhoneNumber = model.PhoneNumber };
+                var result =  UserManager.Create(user, model.Password);
                 if (result.Succeeded)
                 {
+                    context.Customers.Add(new Customer() {
+                        UserId = user.Id,
+                        FullName = model.FullName,
+                        PhoneNumber = model.PhoneNumber,
+                        Email = model.Email,
+                        City = model.City,
+                        District = model.District,
+                        Street = model.Street,
+                        Ward = model.Ward});
+                    await context.SaveChangesAsync();
+                    UserManager.AddToRole(user.Id, "Customer");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -171,7 +192,66 @@ namespace PrivateTutorOnline.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        [HttpPost]
+        [AllowAnonymous] 
+        public async Task<ActionResult> RegisterTutor(HttpPostedFileBase Avatar, PrivateTutorOnline.Models.BindingModels.TutorBindingModel tutorInfo)
+        {
+            if (Avatar != null && Avatar.ContentLength > 0)
+            {
+                // extract only the fielname
+                var fileName = Path.GetFileName(Avatar.FileName);
+                // store the file inside ~/App_Data/uploads folder
+                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                Avatar.SaveAs(path);
 
+                var user = new ApplicationUser { UserName = tutorInfo.Username, Email = tutorInfo.Email, PhoneNumber = tutorInfo.PhoneNumber };
+                var result = UserManager.Create(user, tutorInfo.Password);
+                if (result.Succeeded)
+                {
+                    UserManager.AddToRole(user.Id, "Tutor");
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    Tutor tutor = new Tutor();
+                    tutor.UserId = user.Id;
+                    tutor.FullName = tutorInfo.FullName;
+                    tutor.City = tutorInfo.City;
+                    tutor.District = tutorInfo.District;
+                    tutor.Ward = tutorInfo.Ward;
+                    tutor.Street = tutorInfo.Street;
+                    tutor.Advantage = tutorInfo.Advantage;
+                    tutor.DateOfBirth = tutorInfo.DateOfBirth;
+                    tutor.Gender = tutorInfo.Gender;
+                    tutor.Degree = tutorInfo.Degree;
+                    tutor.Email = tutorInfo.Email;
+                    tutor.GraduationYear = tutorInfo.GraduationYear;
+                    tutor.HomeTown = tutorInfo.HomeTown;
+                    tutor.IdentityNumber = tutorInfo.IdentityNumber;
+                    tutor.MajorSubject = tutorInfo.MajorSubject;
+                    tutor.PhoneNumber = tutorInfo.PhoneNumber;
+                    tutor.University = tutorInfo.UniversityName;
+                    tutor.Image = new byte[Avatar.ContentLength];
+                    Avatar.InputStream.Read(tutor.Image, 0, Avatar.ContentLength);
+                    tutor.Subjects = new List<Subject>();
+                    tutor.Grades = new List<Grade>();
+                    foreach (int i in tutorInfo.Subjects)
+                    {
+                        tutor.Subjects.Add(context.Subjects.SingleOrDefault(s => s.Id == i));
+                    }
+                    foreach (int i in tutorInfo.Grades)
+                    {
+                        tutor.Grades.Add(context.Grades.SingleOrDefault(gr => gr.Id == i));
+                    }
+
+                    context.Tutors.Add(tutor);
+                    context.SaveChanges();
+
+                    return View("Success");
+                }
+                else
+                    return View("Error");
+            }
+            else
+                return View("Error");
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
