@@ -142,11 +142,31 @@ namespace PrivateTutorOnline.Controllers
         {
             try
             {
-                RegistrationClass Class = db.RegistrationClasses.SingleOrDefault(s => s.Id == ClassId);
+                RegistrationClass Class = db.RegistrationClasses.Include(s => s.Customer).SingleOrDefault(s => s.Id == ClassId);
+                Customer customer = Class.Customer;
                 if (IsApproved)
+                {
                     Class.Status = Enums.ClassStatus.AdminApproved;
+                    if(Class.Customer != null)
+                    {
+                        EmailSenderService.SendHtmlFormattedEmail(Class.Customer.Email, "Lớp đã được duyệt",
+                            EmailSenderService.PopulateBodyApprovedOrRejectedClass(Class.Customer.FullName, ClassId.ToString() , "~/EmailTemplates/ClassRegistrationApprovedNotification.html"));
+                    }
+                    
+                }
+                    
                 else
+                {
                     Class.Status = Enums.ClassStatus.Reject;
+                    if (Class.Customer != null)
+                    {
+                        EmailSenderService.SendHtmlFormattedEmail(Class.Customer.Email, "Lớp bị từ chối",
+                        EmailSenderService.PopulateBodyApprovedOrRejectedClass(Class.Customer.FullName, ClassId.ToString() , "~/EmailTemplates/ClassRegistrationRejectedNotification.html"));
+
+
+                    }
+                }
+                    
                 db.Entry(Class).State = EntityState.Modified;
                 db.SaveChanges();
             }

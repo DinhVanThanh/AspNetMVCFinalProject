@@ -64,5 +64,39 @@ namespace PrivateTutorOnline.Services
             body = body.Replace("[Username]", Username); 
             return body;
         }
+        public static string PopulateBodyRegistrationClassNotificationToCustomer(string FullName, string ClassCode, string templateUrl)
+        {
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(templateUrl)))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("[FullName]", FullName);
+            body = body.Replace("[ClassCode]", ClassCode);
+            return body;
+        }
+        public static string PopulateBodyRegistrationClassNotificationToAdmin(string FullName, string ClassCode, string Username, string templateUrl)
+        {
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(templateUrl)))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("[FullName]", FullName);
+            body = body.Replace("[ClassCode]", ClassCode);
+            body = body.Replace("[Username]", Username);
+            return body;
+        }
+        public static string PopulateBodyApprovedOrRejectedClass(string FullName, string ClassCode, string templateUrl)
+        {
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(templateUrl)))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("[FullName]", FullName);
+            body = body.Replace("[ClassCode]", ClassCode); 
+            return body;
+        }
     }
 }

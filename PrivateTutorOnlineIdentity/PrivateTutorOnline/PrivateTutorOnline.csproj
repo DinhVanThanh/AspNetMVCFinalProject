@@ -248,6 +248,15 @@
     <Content Include="EmailTemplates\AccountRegisterAdminNotification.html" />
     <Content Include="EmailTemplates\AccountRegisterSuccess.html" />
     <Content Include="EmailTemplates\ActivateAccountSuccess.html" />
+    <Content Include="EmailTemplates\ClassRegistrationApprovedNotification.html" />
+    <Content Include="EmailTemplates\ClassRegistrationNotification.html" />
+    <Content Include="EmailTemplates\ClassRegistrationNotificationToAdmin.html" />
+    <Content Include="EmailTemplates\ClassRegistrationRejectedNotification.html" />
+    <Content Include="EmailTemplates\ClassTutorEnrollmentNotificationToAdmin.html" />
+    <Content Include="EmailTemplates\ClassTutorEnrollmentNotificationToCustomer.html" />
+    <Content Include="EmailTemplates\ClassTutorEnrollmentNotificationToTutor.html" />
+    <Content Include="EmailTemplates\DisableAccountNotification.html" />
+    <Content Include="EmailTemplates\EnableAccountNotification.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

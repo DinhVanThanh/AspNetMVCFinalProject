@@ -11,6 +11,7 @@ using PrivateTutorOnline.Models;
 using PrivateTutorOnline.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using PrivateTutorOnline.Services;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -20,6 +21,7 @@ namespace PrivateTutorOnline.Controllers
         private TutorOnlineDBContext db = new TutorOnlineDBContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private string AdminEmail = "tieuluantotnghiep2017@gmail.com";
         public ApplicationRoleManager AppRoleManager
         {
             get
@@ -130,11 +132,22 @@ namespace PrivateTutorOnline.Controllers
             try
             {
                 string UserId = User.Identity.GetUserId();
-                RegistrationClass RegistrationClass = db.RegistrationClasses.SingleOrDefault(s => s.Id == ClassId);
-                RegistrationClass.Tutor = db.Tutors.SingleOrDefault(s => s.UserId == UserId);
+                RegistrationClass RegistrationClass = db.RegistrationClasses.Include(s => s.Customer).SingleOrDefault(s => s.Id == ClassId);
+                Customer customer = RegistrationClass.Customer;
+                Tutor tutor = db.Tutors.SingleOrDefault(s => s.UserId == UserId);
+                RegistrationClass.Tutor = tutor;
                 RegistrationClass.Status = Enums.ClassStatus.TutorRegistered;
                 db.Entry(RegistrationClass).State = EntityState.Modified;
                 db.SaveChanges();
+                //send to tutor
+                EmailSenderService.SendHtmlFormattedEmail(tutor.Email, "Nhận lớp mã số : " + RegistrationClass.Id,
+                            EmailSenderService.PopulateBody(customer.FullName, tutor.FullName, RegistrationClass.Id.ToString() , "~/EmailTemplates/ClassTutorEnrollmentNotificationToTutor.html"));
+                //send to customer
+                EmailSenderService.SendHtmlFormattedEmail(customer.Email, "Gia sư nhận lớp",
+                            EmailSenderService.PopulateBody(customer.FullName, tutor.FullName, RegistrationClass.Id.ToString(), "~/EmailTemplates/ClassTutorEnrollmentNotificationToCustomer.html"));
+                //send to admin
+                EmailSenderService.SendHtmlFormattedEmail(AdminEmail, "Có gia sư nhận lớp",
+                            EmailSenderService.PopulateBody(customer.FullName, tutor.FullName, RegistrationClass.Id.ToString(), "~/EmailTemplates/ClassTutorEnrollmentNotificationToAdmin.html"));
             }
             catch(Exception ex)
             {

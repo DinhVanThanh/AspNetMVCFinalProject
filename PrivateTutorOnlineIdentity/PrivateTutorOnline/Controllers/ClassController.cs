@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using PrivateTutorOnline.Models;
+using PrivateTutorOnline.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace PrivateTutorOnline.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private string AdminEmail = "tieuluantotnghiep2017@gmail.com";
+
         private PrivateTutorOnline.Models.TutorOnlineDBContext db = new Models.TutorOnlineDBContext();
         // GET: Class
         public ActionResult ClassRegistrationForm()
@@ -59,6 +62,7 @@ namespace PrivateTutorOnline.Controllers
             if(classRegistrationInfo != null)
             {
                 string UserId = User.Identity.GetUserId();
+                string CustomerUsername = User.Identity.GetUserName();
                 Models.RegistrationClass classInfo = new Models.RegistrationClass();
                 classInfo.City = classRegistrationInfo.City;
                 classInfo.DayPerWeek = classRegistrationInfo.SessionPerWeek;
@@ -69,7 +73,9 @@ namespace PrivateTutorOnline.Controllers
                 classInfo.Street = classRegistrationInfo.Street;
                 classInfo.Status = Enums.ClassStatus.WaitingForAdminApproval;
                 classInfo.Subjects = new List<Subject>();
-                classInfo.Customer = db.Customers.SingleOrDefault(s => s.UserId == UserId);
+                 
+                Customer customer = db.Customers.SingleOrDefault(s => s.UserId == UserId);
+                classInfo.Customer = customer;
                 foreach (int id in classRegistrationInfo.Subjects)
                     classInfo.Subjects.Add(db.Subjects.SingleOrDefault(s => s.Id == id));
                 classInfo.TutoringTime= classRegistrationInfo.TeachingTime;
@@ -77,9 +83,27 @@ namespace PrivateTutorOnline.Controllers
                 classInfo.ReceivedDate = DateTime.Now;
                 db.RegistrationClasses.Add(classInfo);
                 db.SaveChanges();
+
+                
+                try
+                {
+
+                    //send to customer
+                    EmailSenderService.SendHtmlFormattedEmail(customer.Email, "Đăng kí tìm gia sư",
+                                EmailSenderService.PopulateBodyRegistrationClassNotificationToCustomer(customer.FullName, classInfo.Id.ToString(), "~/EmailTemplates/ClassRegistrationNotification.html"));
+                    //send to admin
+                    EmailSenderService.SendHtmlFormattedEmail(AdminEmail, "Có phụ huynh đăng kí tìm gia sư",
+                                EmailSenderService.PopulateBodyRegistrationClassNotificationToAdmin(customer.FullName, classInfo.Id.ToString(), CustomerUsername, "~/EmailTemplates/ClassRegistrationNotificationToAdmin.html"));
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("PostedClass", "ManageRegistrationClasses");
+                }
+                
+               
                 return RedirectToAction("PostedClass", "ManageRegistrationClasses");
             }
-            return View("Error");
+            return RedirectToAction("ClassRegistrationForm", "Class");
         }
     }
 }
