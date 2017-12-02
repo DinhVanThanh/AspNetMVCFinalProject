@@ -77,25 +77,25 @@
             @Html.DisplayFor(modelItem => item.Street)
         </td>
         <td>
-           @if(item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
-           {
-               <span>Chờ duyệt</span>
-           }
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
+            {
+                <span style="color:red">Chờ duyệt</span>
+            }
             @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForTutor)
             {
-                <span>Chờ gia sư</span>
+                <span style="color:red">Chờ gia sư</span>
             }
             @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.AdminApproved)
             {
-                <span>Đã duyệt</span>
+                <span style="color:red">Đã duyệt</span>
             }
             @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.TutorRegistered)
             {
-                <span>Đã nhận</span>
+                <span style="color:red">Đã nhận</span>
             }
             @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.Reject)
             {
-                <span>Không duyệt</span>
+                <span style="color:red">Không duyệt</span>
             }
         </td>
         <td>

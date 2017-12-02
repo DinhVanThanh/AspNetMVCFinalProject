@@ -1,5 +1,5 @@
-﻿@model IEnumerable<PrivateTutorOnline.Models.RegistrationClass>
-
+﻿@model PagedList.IPagedList<PrivateTutorOnline.Models.RegistrationClass>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "ClassManagementView";
 }
@@ -9,47 +9,47 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.SalaryPerMonth)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().SalaryPerMonth)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DayPerWeek)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().DayPerWeek)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TutoringTime)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().TutoringTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Requirement)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Requirement)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReceivedDate)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ReceivedDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().City)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.District)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().District)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ward)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Ward)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Street)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Street)
         </th> 
         <th>
-            @Html.DisplayNameFor(model => model.Customer)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Customer)
         </th> 
         <th>
-            @Html.DisplayNameFor(model => model.Tutor)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Tutor)
         </th> 
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td class="currency">
             @Html.DisplayFor(modelItem => item.SalaryPerMonth)
         </td>
         <td>
@@ -104,25 +104,39 @@
         <td>
             @if(item.Tutor != null)
             {
-                item.Tutor.FullName
+                <span>item.Tutor.FullName</span>
             }
         </td> 
         <td>
             @if(item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
             {
-                <button data-class-id="@item.Id" class="btn-block btn-info btn-approve">Duyệt</button>
-                <button data-class-id="@item.Id" class="btn-block btn-info btn-not-approve">Không duyệt</button>
+                <button data-class-id="@item.Id" class="btn btn-info btn-approve">Duyệt</button>
+                <button data-class-id="@item.Id" class="btn btn-danger btn-not-approve">Không duyệt</button>
             }
 
+        </td>
+        <td>
+            @Html.ActionLink("Xóa", "DeleteClassRegistration", new { id = item.Id })
         </td>
     </tr>
 }
 
 </table>
-
+@Html.PagedListPager(Model, page => Url.Action("ClassManagementView", "Admin", new { page }))
 @section Scripts {
 
     <script src="~/Scripts/AdminClassManagement.js">
 
+    </script>
+    <script src="~/Scripts/numeral.js">
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.currency').text(numeral($(this)));
+            console.log($('.currency').text(numeral($(this))););
+        });
+        
     </script>
 }

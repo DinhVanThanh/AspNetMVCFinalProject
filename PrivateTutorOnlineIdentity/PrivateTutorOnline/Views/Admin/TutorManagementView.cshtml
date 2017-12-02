@@ -1,5 +1,5 @@
-﻿@model IEnumerable<PrivateTutorOnline.Models.Tutor>
-
+﻿@model PagedList.IPagedList<PrivateTutorOnline.Models.Tutor>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "TutorManagementView";
 }
@@ -9,64 +9,75 @@
 <table class="table">
     <tr> 
         <th>
-            @Html.DisplayNameFor(model => model.Image)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Image)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FullName)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FullName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().City)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.District)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().District)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ward)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Ward)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Street)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Street)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HomeTown)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().HomeTown)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().DateOfBirth)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Gender)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Gender)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IdentityNumber)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().IdentityNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.University)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().University)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MajorSubject)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().MajorSubject)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.GraduationYear)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().GraduationYear)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Advantage)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Advantage)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Degree)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Degree)
         </th>
         
         <th>
-            @Html.DisplayNameFor(model => model.Grades)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Grades)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Subjects)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Subjects)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().IsActivate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().IsEnable)
+        </th>
+        <th>
+            Activate
+        </th>
+        <th>
+            Enable
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -139,11 +150,50 @@
                 <div style="display:block; margin-bottom:5px; padding:5px 5px; background-color:#0080FF; color:white"> Môn @i.Name</div>
             }
         </td>
+        <td class="row-tutor-is-activated-@item.Id">
+            @if (item.IsActivate)
+            {
+                <span style="color:blue;">Đã kích hoạt</span>
+            }
+            else
+            {
+                <span style="color:blue;">Chưa kích hoạt</span>
+            }
+        </td>
+        <td class="row-tutor-is-enable-@item.Id">
+            @if (item.IsEnable)
+            {
+                <span style="color:blue;">Mở</span>
+            }
+            else
+            {
+                <span style="color:blue;">Khóa</span>
+            }
+        </td>
         <td>
-            @Html.ActionLink("Activate", "ActivateTutor", "Admin", new { TutorId = item.Id })
-            @Html.ActionLink("Disable", "DisableTutor", "Admin", new { TutorId = item.Id })
+            @if (!item.IsActivate)
+            {
+                <button class="btn btn-success activate-tutor" data-tutor-id="@item.Id">Kích hoạt</button>
+            }
+        </td>
+        <td>
+            @if (!item.IsEnable)
+            {
+                <input type="checkbox" style="transform: scale(1.5)" class="btn btn-info enable-tutor" data-tutor-id="@item.Id">
+            }
+            else
+            {
+                <input checked type="checkbox" style="transform: scale(1.5)" class="btn btn-info enable-tutor" data-tutor-id="@item.Id">
+            }
         </td>
     </tr>
 }
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("TutorManagementView", "Admin", new { page }))
+@section Scripts {
+
+    <script src="~/Scripts/AdminTutorManagement.js">
+
+    </script>
+}

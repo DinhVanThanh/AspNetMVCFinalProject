@@ -41,6 +41,6 @@ namespace PrivateTutorOnline.Models
              
         }
 
-        public System.Data.Entity.DbSet<PrivateTutorOnline.Models.ViewModels.PostedClassViewModel> PostedClassViewModels { get; set; }
+        
     } 
 }

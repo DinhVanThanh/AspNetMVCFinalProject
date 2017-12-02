@@ -25,7 +25,9 @@
                     { 
                         <li>@Html.ActionLink("Quản lý Phụ huynh", "CustomerManagementView", "Admin")</li>
                         <li>@Html.ActionLink("Quản lý Gia sư", "TutorManagementView", "Admin")</li>
-                        <li>@Html.ActionLink("Quản lý Lớp", "ClassManagementView", "Admin")</li> 
+                        <li>@Html.ActionLink("Quản lý Lớp cần gia sư", "ClassManagementView", "Admin")</li>
+                        <li>@Html.ActionLink("Quản lý môn học", "SubjectManagement", "Admin")</li>
+                        <li>@Html.ActionLink("Quản lý Lớp", "GradeManagement", "Admin")</li>
                     } 
                     @if (!User.IsInRole("Admin"))
                     {
@@ -76,6 +78,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/toaster")
     @RenderSection("scripts", required: false)
 </body>
 </html>

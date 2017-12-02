@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PrivateTutorOnline.Models;
+using PagedList;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -16,9 +17,9 @@ namespace PrivateTutorOnline.Controllers
         private TutorOnlineDBContext db = new TutorOnlineDBContext();
 
         // GET: Customers
-        public async Task<ActionResult> Index()
+        public ActionResult Index(int? page)
         {
-            return View(await db.Customers.ToListAsync());
+            return View("CustomerManagementView", db.Customers.ToPagedList<Customer>(page.Value, 2));
         }
 
         // GET: Customers/Details/5

@@ -35,6 +35,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Street)
         </th> 
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th> 
     </tr>
 
 @foreach (var item in Model) {
@@ -66,6 +69,28 @@
         <td>
             @Html.DisplayFor(modelItem => item.Street)
         </td> 
+        <td>
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
+            {
+                <span style="color:red">Chờ duyệt</span>
+            }
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForTutor)
+            {
+                <span style="color:red">Chờ gia sư</span>
+            }
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.AdminApproved)
+            {
+                <span style="color:red">Đã duyệt</span>
+            }
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.TutorRegistered)
+            {
+                <span style="color:red">Đã nhận</span>
+            }
+            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.Reject)
+            {
+                <span style="color:red">Không duyệt</span>
+            }
+        </td>
     </tr>
 }
 

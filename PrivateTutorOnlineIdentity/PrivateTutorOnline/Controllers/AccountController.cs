@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using PrivateTutorOnline.Models;
 using System.IO;
 using System.Collections.Generic;
+using PrivateTutorOnline.Services;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -21,6 +22,7 @@ namespace PrivateTutorOnline.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _AppRoleManager;
         private TutorOnlineDBContext context;
+        private string AdminEmail = "tieuluantotnghiep2017@gmail.com";
         public AccountController()
         {
             context = new TutorOnlineDBContext();
@@ -31,6 +33,7 @@ namespace PrivateTutorOnline.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
+         
         public ApplicationRoleManager AppRoleManager
         {
             get
@@ -82,76 +85,118 @@ namespace PrivateTutorOnline.Controllers
             {
                 return View(model);
             }
-
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            var user = UserManager.Find(model.UserName, model.Password);
+            if(user != null)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                Customer customer = context.Customers.SingleOrDefault(c => c.UserId == user.Id);
+                if (customer != null)
+                {
+                    if (customer.IsActivate)
+                    {
+                        if (customer.IsEnable)
+                        {
+                            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+                            switch (result)
+                            {
+                                case SignInStatus.Success:
+                                    return RedirectToLocal(returnUrl);
+                                case SignInStatus.LockedOut:
+                                    return View("Lockout");
+                                case SignInStatus.RequiresVerification:
+                                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                                case SignInStatus.Failure:
+                                default:
+                                    ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không chính xác.");
+                                    return View(model);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Tài khoản của bạn đã bị khóa.");
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Tài khoản của bạn chưa được kích hoạt");
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    Tutor tutor = context.Tutors.SingleOrDefault(c => c.UserId == user.Id);
+                    if (tutor != null)
+                    {
+                        if (tutor.IsActivate)
+                        {
+                            if (tutor.IsEnable)
+                            {
+                                var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+                                switch (result)
+                                {
+                                    case SignInStatus.Success:
+                                        return RedirectToLocal(returnUrl);
+                                    case SignInStatus.LockedOut:
+                                        return View("Lockout");
+                                    case SignInStatus.RequiresVerification:
+                                        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                                    case SignInStatus.Failure:
+                                    default:
+                                        ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không chính xác.");
+                                        return View(model);
+                                }
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("", "Tài khoản của bạn đã bị khóa.");
+                                return View(model);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Tài khoản của bạn chưa được kích hoạt");
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        if (user.UserName == "Admin")
+                        {
+                            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+                            switch (result)
+                            {
+                                case SignInStatus.Success:
+                                    return RedirectToLocal(returnUrl);
+                                case SignInStatus.LockedOut:
+                                    return View("Lockout");
+                                case SignInStatus.RequiresVerification:
+                                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                                case SignInStatus.Failure:
+                                default:
+                                    ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không chính xác.");
+                                    return View(model);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Không tồn tại tài khoản này");
+                            return View(model);
+                        }
+                    }
+                }
+                
             }
-        }
-
-        //
-        // GET: /Account/VerifyCode
-        [AllowAnonymous]
-        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
-        {
-            // Require that the user has already logged in via username/password or external login
-            if (!await SignInManager.HasBeenVerifiedAsync())
+            else
             {
-                return View("Error");
-            }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
-
-        //
-        // POST: /Account/VerifyCode
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
+                ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không chính xác.");
                 return View(model);
             }
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, change to shouldLockout: true
 
-            // The following code protects for brute force attacks against the two factor codes. 
-            // If a user enters incorrect codes for a specified amount of time then the user account 
-            // will be locked out for a specified amount of time. 
-            // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(model.ReturnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid code.");
-                    return View(model);
-            }
         }
 
-        //
-        // GET: /Customer/Register
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
-
+        
         //
         // POST: /Account/Register
         [HttpPost]
@@ -173,11 +218,17 @@ namespace PrivateTutorOnline.Controllers
                         City = model.City,
                         District = model.District,
                         Street = model.Street,
-                        Ward = model.Ward});
+                        Ward = model.Ward,
+                        IsActivate = false,
+                        IsEnable = true
+                    });
                     await context.SaveChangesAsync();
                     UserManager.AddToRole(user.Id, "Customer");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    //send to customer
+                    EmailSenderService.SendHtmlFormattedEmail(model.Email, "Đăng kí tài khoản", EmailSenderService.PopulateBody(model.FullName, model.Username, "~/EmailTemplates/AccountRegisterSuccess.html"));
+                    //send to admin
+                    EmailSenderService.SendHtmlFormattedEmail(AdminEmail, "Phụ huynh đăng kí tài khoản", EmailSenderService.PopulateBody(model.FullName, model.Username, "~/EmailTemplates/AccountRegisterAdminNotification.html"));
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -186,12 +237,17 @@ namespace PrivateTutorOnline.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-                AddErrors(result);
+                else
+                {
+                    return RedirectToAction("Register", "Account");
+                }
+                 
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("Register", "Account");
         }
+       
         [HttpPost]
         [AllowAnonymous] 
         public async Task<ActionResult> RegisterTutor(HttpPostedFileBase Avatar, PrivateTutorOnline.Models.BindingModels.TutorBindingModel tutorInfo)
@@ -240,10 +296,14 @@ namespace PrivateTutorOnline.Controllers
                     {
                         tutor.Grades.Add(context.Grades.SingleOrDefault(gr => gr.Id == i));
                     }
-
+                    tutor.IsActivate = false;
+                    tutor.IsEnable = true;
                     context.Tutors.Add(tutor);
                     context.SaveChanges();
-
+                    //send to tutor
+                    EmailSenderService.SendHtmlFormattedEmail(tutorInfo.Email, "Đăng kí tài khoản", EmailSenderService.PopulateBody(tutorInfo.FullName, tutorInfo.Username,  "~/EmailTemplates/AccountRegisterSuccess.html"));
+                    //send to admin
+                    EmailSenderService.SendHtmlFormattedEmail(AdminEmail, "Gia sư đăng kí tài khoản", EmailSenderService.PopulateBody(tutorInfo.FullName, tutorInfo.Username,  "~/EmailTemplates/AccountRegisterAdminNotification.html"));
                     return View("Success");
                 }
                 else
@@ -252,7 +312,59 @@ namespace PrivateTutorOnline.Controllers
             else
                 return View("Error");
         }
+
+
         //
+        // GET: /Account/VerifyCode
+        [AllowAnonymous]
+        public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
+        {
+            // Require that the user has already logged in via username/password or external login
+            if (!await SignInManager.HasBeenVerifiedAsync())
+            {
+                return View("Error");
+            }
+            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
+        }
+
+        //
+        // POST: /Account/VerifyCode
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // The following code protects for brute force attacks against the two factor codes. 
+            // If a user enters incorrect codes for a specified amount of time then the user account 
+            // will be locked out for a specified amount of time. 
+            // You can configure the account lockout settings in IdentityConfig
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(model.ReturnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Invalid code.");
+                    return View(model);
+            }
+        }
+
+        //
+        // GET: /Customer/Register
+        [AllowAnonymous]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)

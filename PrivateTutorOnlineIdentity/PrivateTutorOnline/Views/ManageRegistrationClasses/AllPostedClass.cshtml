@@ -41,65 +41,70 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SalaryPerMonth)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DayPerWeek)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TutoringTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Requirement)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReceivedDate)
-        </td>
-        <td id="row-status-@item.Id">
-            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
-            {
-                <span style="color:red">Chờ duyệt</span>
-            }
-            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForTutor)
-            {
-                <span style="color:red">Chờ gia sư</span>
-            }
-            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.AdminApproved)
-            {
-                <span style="color:red">Đã duyệt</span>
-            }
-            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.TutorRegistered)
-            {
-                <span style="color:red">Đã nhận</span>
-            }
-            @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.Reject)
-            {
-                <span style="color:red">Không duyệt</span>
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.District)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ward)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Street)
-        </td>
-        <td>
-            @if (item.Status != PrivateTutorOnline.Enums.ClassStatus.TutorRegistered)
-            {
-                <button data-classId="@item.Id" id="receiveClass-@item.Id" class="btn btn-success receiveClass"> Nhận lớp</button>
-            }
-            
-        </td>
-    </tr>
+@foreach (var item in Model)
+{
+    if (!(item.Status == PrivateTutorOnline.Enums.ClassStatus.Reject))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SalaryPerMonth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DayPerWeek)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TutoringTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Requirement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivedDate)
+            </td>
+            <td id="row-status-@item.Id">
+                @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
+                {
+                    <span style="color:red">Chờ duyệt</span>
+                }
+                @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForTutor)
+                {
+                    <span style="color:red">Chờ gia sư</span>
+                }
+                @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.AdminApproved)
+                {
+                    <span style="color:red">Đã duyệt</span>
+                }
+                @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.TutorRegistered)
+                {
+                    <span style="color:red">Đã nhận</span>
+                }
+                @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.Reject)
+                {
+                    <span style="color:red">Không duyệt</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.District)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ward)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Street)
+            </td>
+            <td>
+                @if (item.Status != PrivateTutorOnline.Enums.ClassStatus.TutorRegistered)
+                {
+                    <button data-classId="@item.Id" id="receiveClass-@item.Id" class="btn btn-success receiveClass"> Nhận lớp</button>
+                }
+
+            </td>
+        </tr>
+    }
+
 }
 
 </table>

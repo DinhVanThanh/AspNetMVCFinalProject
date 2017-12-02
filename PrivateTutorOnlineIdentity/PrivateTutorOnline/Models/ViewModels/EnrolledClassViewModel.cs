@@ -34,7 +34,6 @@ namespace PrivateTutorOnline.Models.ViewModels
         public string Ward { get; set; }
         [Display(Name = "Đường")]
         public string Street { get; set; } 
-
         public Customer Customer { get; set; }  
     }
 }

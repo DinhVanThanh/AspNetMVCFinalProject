@@ -1,6 +1,8 @@
 ﻿
 @model PrivateTutorOnline.Models.ViewModels.ExistingTutorListViewModel
 @using PrivateTutorOnline.Extensions
+@using PagedList.Mvc;
+
 @{
     ViewBag.Title = "View";
 }
@@ -9,7 +11,7 @@
 <div class="panel panel-default">
     <div class="panel-body">
 
-        @using (Html.BeginForm("Search", "Tutors", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("Search", "Tutors",FormMethod.Get, new { enctype = "multipart/form-data" }))
         {
 
             <div class="row">
@@ -57,6 +59,30 @@
                                             <option value="@i.Id">@i.Name</option>
                                         }
                                     </select>
+                                </div>
+                            </div>
+                            <!-- Select Basic -->
+                            <div class="form-group" style="display:inline-block; width:45%;">
+                                <label class=" control-label" for="price_min">Trình độ</label>
+                                <div class="">
+                                    <select id="Degree" name="Degree" class="form-control"> 
+                                        <option value="0">Sinh viên</option>
+                                        <option value="1">Giáo viên</option>
+                                        <option value="2">Giảng viên</option>
+                                        <option value="3">Kĩ sư</option>
+                                        <option value="4">Cử nhân</option>
+                                        <option value="5">Thạc sĩ</option>
+                                        <option value="6">Tiến sĩ</option>
+                                        <option value="7">Khác</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Select Basic -->
+                            <div class="form-group" style="display:inline-block; width:45%;">
+                                <label class=" control-label" for="price_min">Tìm kiếm chính xác</label>
+                                <div class="">
+                                    
+                                    <input id="searchExactly" style="transform : scale(1.5)" type="checkbox" name="IsAccurate" value="false"/>
                                 </div>
                             </div>
                             <!-- Button -->
@@ -177,3 +203,32 @@ else
     </div>
                                     }
 
+@if(Model.searchResult != null)
+{
+    @Html.PagedListPager(Model.Tutors, page => Url.Action("Search", "Tutors",  new {
+    Keyword = Model.searchResult.Keyword,
+    Gender = Model.searchResult.Gender,
+    Grade = Model.searchResult.Grade,
+    Subject = Model.searchResult.Subject,
+    Degree = Model.searchResult.Degree,
+    IsAccurate = Model.searchResult.IsAccurate, page }))
+}
+else
+{
+    @Html.PagedListPager(Model.Tutors, page => Url.Action("ExistingTutorsList", "Tutors", new { page }))
+}
+
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        $('#searchExactly').click(function () {
+            
+            if ($(this).prop('checked')) {
+                $(this).attr("value", "true");
+            } else {
+                $(this).attr("value", "false");
+            }
+        });
+    }); 
+</script>
+    }

@@ -1,5 +1,5 @@
-﻿@model IEnumerable<PrivateTutorOnline.Models.Customer>
-
+﻿@model PagedList.IPagedList<PrivateTutorOnline.Models.Customer>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "CustomerManagementView";
 }
@@ -9,27 +9,38 @@
 <table class="table">
     <tr> 
         <th>
-            @Html.DisplayNameFor(model => model.FullName)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().FullName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().City)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.District)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().District)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ward)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Ward)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Street)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Street)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().IsActivate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().IsEnable)
+        </th>
+        <th>
+            Activated
+        </th>
+        <th>
+            Enable
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -55,11 +66,50 @@
         <td>
             @Html.DisplayFor(modelItem => item.Street)
         </td>
+        <td class="row-customer-is-activated-@item.Id">
+            @if(item.IsActivate)
+            {
+                <span style="color:blue;">Đã kích hoạt</span>
+            }
+            else
+            {
+                <span style="color:blue;">Chưa kích hoạt</span>
+            } 
+        </td>
+        <td class="row-customer-is-enable-@item.Id">
+            @if (item.IsEnable)
+            {
+                <span style="color:blue;">Mở</span>
+            }
+            else
+            {
+                <span style="color:blue;">Khóa</span>
+            } 
+        </td>
         <td> 
-            @Html.ActionLink("Activate", "ActivateCustomer", "Admin", new { CustomerId = item.Id })
-            @Html.ActionLink("Disable", "DisableCustomer", "Admin", new { CustomerId = item.Id })
+            @if(!item.IsActivate)
+            {
+                <button class="btn btn-success activate-customer" data-customer-id="@item.Id">Kích hoạt</button>
+            }
+        </td>
+        <td>
+            @if (!item.IsEnable)
+            {
+                <input type="checkbox" style="transform: scale(1.5)" class="btn btn-info enable-customer" data-customer-id="@item.Id">
+            }
+            else
+            {
+                <input checked type="checkbox" style="transform: scale(1.5)" class="btn btn-info enable-customer" data-customer-id="@item.Id">
+            }
         </td>
     </tr>
 }
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("CustomerManagementView", "Admin", new { page }))
+@section Scripts {
+
+    <script src="~/Scripts/AdminCustomerManagement.js">
+
+    </script>  
+}

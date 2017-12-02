@@ -12,6 +12,8 @@ using PrivateTutorOnline.Models.BindingModels;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using PrivateTutorOnline.Models.ViewModels;
+using PagedList;
+using PrivateTutorOnline.Enums;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -69,11 +71,12 @@ namespace PrivateTutorOnline.Controllers
                 Subjects = db.Subjects.ToList(),
                 Grades = db.Grades.ToList() });
         }
-        public ActionResult ExistingTutorsList()
+        [AllowAnonymous]
+        public ActionResult ExistingTutorsList(int? page)
         {
             IList<Tutor> TutorList = db.Tutors.Include("Grades").Include("Subjects").ToList();
             return View("ExistingTutorList", new PrivateTutorOnline.Models.ViewModels.ExistingTutorListViewModel() {
-                Tutors = TutorList,
+                Tutors = TutorList.ToPagedList(page.HasValue ? page.Value : 1, 2),
                 Subjects = db.Subjects.ToList(),
                 Grades = db.Grades.ToList()
             });
@@ -85,43 +88,134 @@ namespace PrivateTutorOnline.Controllers
             return View("SearchTutorView");
         }
         [AllowAnonymous]
-        [HttpPost]
-        public ActionResult Search(SearchTutorBindingModel SearchData)
+        [HttpGet]
+        public ActionResult Search(  string Keyword ,
+         Gender Gender ,
+         int Grade ,
+         int Subject ,
+         AcademicDegree Degree ,
+         bool? IsAccurate , int? page)
         {
-            IList<Tutor> TutorList = db.Tutors.Include("Grades").Include("Subjects")
-                .Where(t => t.Grades.Any(g => g.Id == SearchData.Grade) && t.Subjects.Any(s => s.Id == SearchData.Subject) && t.Gender == SearchData.Gender)
-                .ToList();
+            SearchTutorBindingModel SearchData = new SearchTutorBindingModel();
+            SearchData.IsAccurate = IsAccurate ?? false;
+            SearchData.Subject = Subject;
+            SearchData.Grade = Grade;
+            SearchData.Degree = Degree;
+            SearchData.Gender = Gender;
+            IList<Tutor> TutorList = null;
+            if (SearchData.IsAccurate)
+            {
+                if(String.IsNullOrEmpty(SearchData.Keyword))
+                {
+                    TutorList = db.Tutors.Include("Grades").Include("Subjects")
+                   .Where(t =>
+                       t.Grades.Any(g => g.Id == SearchData.Grade)
+                       && t.Subjects.Any(s => s.Id == SearchData.Subject)
+                       && t.Gender == SearchData.Gender
+                       && t.Degree == SearchData.Degree
+                       && t.Id == Int32.Parse(SearchData.Keyword)
+                   )
+                   .ToList();
+                }
+                else
+                {
+                    TutorList = db.Tutors.Include("Grades").Include("Subjects")
+                   .Where(t =>
+                   (t.Grades.Any(g => g.Id == SearchData.Grade)
+                       && t.Subjects.Any(s => s.Id == SearchData.Subject)
+                       && t.Gender == SearchData.Gender
+                       && t.Degree == SearchData.Degree
+                       && t.Id == Int32.Parse(SearchData.Keyword))
+                       || t.Subjects.Any(h => h.Name.Contains(SearchData.Keyword))
+                       || t.FullName.Contains(SearchData.Keyword)
+                       || t.District.Contains(SearchData.Keyword)
+                       || t.City.Contains(SearchData.Keyword)
+                       || t.Street.Contains(SearchData.Keyword)
+                       || t.Ward.Contains(SearchData.Keyword)
+                       || t.MajorSubject.Contains(SearchData.Keyword)
+                       || t.GraduationYear.Equals(SearchData.Keyword)
+                       || t.PhoneNumber.Contains(SearchData.Keyword)
+                       || t.HomeTown.Contains(SearchData.Keyword)
+                       || t.University.Contains(SearchData.Keyword)
+                       || t.Grades.Any(h => h.Name.Contains(SearchData.Keyword))
+                   )
+                   .ToList();
+                }
+                
+            }
+            else
+            {
+                if (String.IsNullOrEmpty(SearchData.Keyword))
+                {
+                    TutorList = db.Tutors.Include("Grades").Include("Subjects")
+                   .Where(t =>
+                        t.Grades.Any(g => g.Id == SearchData.Grade)
+                   || t.Subjects.Any(s => s.Id == SearchData.Subject)
+                   || t.Gender == SearchData.Gender 
+                   || t.Degree == SearchData.Degree
+                   || t.Id == Int32.Parse(SearchData.Keyword)
+                   )
+                   .ToList();
+                }
+                else
+                {
+                    TutorList = db.Tutors.Include("Grades").Include("Subjects")
+                   .Where(t =>
+                        t.Grades.Any(g => g.Id == SearchData.Grade)
+                   || t.Subjects.Any(s => s.Id == SearchData.Subject)
+                   || t.Gender == SearchData.Gender
+                   || t.Grades.Any(h => h.Name.Contains(SearchData.Keyword))
+                   || t.Subjects.Any(h => h.Name.Contains(SearchData.Keyword))
+                   || t.FullName.Contains(SearchData.Keyword)
+                   || t.District.Contains(SearchData.Keyword)
+                   || t.City.Contains(SearchData.Keyword)
+                   || t.Street.Contains(SearchData.Keyword)
+                   || t.Ward.Contains(SearchData.Keyword)
+                   || t.MajorSubject.Contains(SearchData.Keyword)
+                   || t.GraduationYear.Equals(SearchData.Keyword)
+                   || t.PhoneNumber.Contains(SearchData.Keyword)
+                   || t.HomeTown.Contains(SearchData.Keyword)
+                   || t.University.Contains(SearchData.Keyword)
+                   || t.Degree == SearchData.Degree
+                   || t.Id == Int32.Parse(SearchData.Keyword)
+
+                   )
+                   .ToList();
+                } 
+            }
+           
             return View("ExistingTutorList", new PrivateTutorOnline.Models.ViewModels.ExistingTutorListViewModel()
             {
-                Tutors = TutorList,
+                Tutors = TutorList.ToPagedList(page.HasValue ? page.Value : 1, 2),
                 Subjects = db.Subjects.ToList(),
-                Grades = db.Grades.ToList()
+                Grades = db.Grades.ToList(), 
+                searchResult = SearchData
             });
         }
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult SearchBySubject(int SubjectId)
+        public ActionResult SearchBySubject(int SubjectId, int? page)
         {
             IList<Tutor> TutorList = db.Tutors.Include("Grades").Include("Subjects")
                 .Where(t =>t.Subjects.Any(s => s.Id == SubjectId))
                 .ToList();
             return View("ExistingTutorList", new PrivateTutorOnline.Models.ViewModels.ExistingTutorListViewModel()
             {
-                Tutors = TutorList,
+                Tutors = TutorList.ToPagedList(page.HasValue ? page.Value : 1, 2),
                 Subjects = db.Subjects.ToList(),
                 Grades = db.Grades.ToList()
             });
         }
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult SearchByGrade(int GradeId)
+        public ActionResult SearchByGrade(int GradeId, int? page)
         {
             IList<Tutor> TutorList = db.Tutors.Include("Grades").Include("Subjects")
                 .Where(t => t.Grades.Any(s => s.Id == GradeId))
                 .ToList();
             return View("ExistingTutorList", new PrivateTutorOnline.Models.ViewModels.ExistingTutorListViewModel()
             {
-                Tutors = TutorList,
+                Tutors = TutorList.ToPagedList(page.HasValue ? page.Value : 1, 2),
                 Subjects = db.Subjects.ToList(),
                 Grades = db.Grades.ToList()
             });

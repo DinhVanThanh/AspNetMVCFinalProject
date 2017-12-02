@@ -12,5 +12,7 @@ namespace PrivateTutorOnline.Models.BindingModels
         public Gender Gender { get; set; }
         public int Grade { get; set; }
         public int Subject { get; set; }
+        public AcademicDegree Degree { get; set; }
+        public bool IsAccurate { get; set; }
     }
 }

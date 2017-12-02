@@ -43,10 +43,11 @@
 
         protected override void Seed(PrivateTutorOnline.Models.TutorOnlineDBContext context)
         {
-            const string name = "Admin";
-            const string password = "123456";
+            const string AdminUsername = "Admin";
+            const string AdminPassword = "123456";
             const string roleName = "Admin";
-            if(AppRoleManager.FindByNameAsync("Admin") != null)
+            const string AdminEmail = "tieuluantotnghiep2017@gmail.com";
+            if (AppRoleManager.FindByNameAsync("Admin") != null)
                 AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Admin"));
             if (AppRoleManager.FindByNameAsync("Customer") != null)
                 AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Customer"));
@@ -55,11 +56,12 @@
             if (AppRoleManager.FindByNameAsync("Owner") != null)
                 AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Owner"));
 
-            var admin = UserManager.FindByName(name);
+            //Initializer Admin account
+            var admin = UserManager.FindByName(AdminUsername);
             if (admin == null)
             {
-                admin = new ApplicationUser { UserName = name, Email = "thanh.kyanon@gmail.com" };
-                IdentityResult AdminCreationResult = UserManager.Create(admin, password);
+                admin = new ApplicationUser { UserName = AdminUsername, Email = AdminEmail };
+                IdentityResult AdminCreationResult = UserManager.Create(admin, AdminPassword);
                 AdminCreationResult = UserManager.SetLockoutEnabled(admin.Id, false);
             }
 
@@ -69,15 +71,19 @@
             {
                 Task<IdentityResult> AdminRoleAddition = UserManager.AddToRoleAsync(admin.Id, roleName);
             }
-            //Initializer Tutor account
-            ApplicationUser customerUser = new ApplicationUser() { UserName = "dinhvanthanh1995@gmail.com", Email = "dinhvanthanh1995@gmail.com" };
-            var CustomerCreationResult = UserManager.CreateAsync(customerUser, password);
+
+
+            //Initializer Customer account
+            ApplicationUser customerUser = new ApplicationUser() { UserName = "PhuHuynh_0", Email = "customer0@gmail.com" };
+            var CustomerCreationResult = UserManager.CreateAsync(customerUser, AdminPassword);
             if (CustomerCreationResult.IsCompleted)
                 CustomerCreationResult = UserManager.SetLockoutEnabledAsync(customerUser.Id, false);
             if (CustomerCreationResult.IsCompleted)
                 UserManager.AddToRoleAsync(customerUser.Id, "Customer");
-            var tutor = new ApplicationUser { UserName = "tieuluantotnghiep2017@gmail.com", Email = "tieuluantotnghiep2017@gmail.com" };
-            var result = UserManager.CreateAsync(tutor, password);
+
+            //Initializer Tutor account
+            var tutor = new ApplicationUser { UserName = "GiaSu_0", Email = "tutor0@gmail.com" };
+            var result = UserManager.CreateAsync(tutor, AdminPassword);
             if (result.IsCompleted)
                 result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
             if (result.IsCompleted)
@@ -125,7 +131,7 @@
                 );
             }
 
-            if (context.Customers.SingleOrDefault(c => c.Email == "dinhvanthanh1995@gmail.com") == null)
+            if (context.Customers.SingleOrDefault(c => c.Email == "customer0@gmail.com") == null)
             {
                
                 context.Customers.AddOrUpdate(
@@ -143,7 +149,7 @@
                 
             }
 
-            if(context.Tutors.SingleOrDefault(s => s.Email == "tieuluantotnghiep2017@gmail.com") == null &&
+            if(context.Tutors.SingleOrDefault(s => s.Email == "GiaSu_0@gmail.com") == null &&
                 context.Tutors.SingleOrDefault(s => s.Email == "Tuan.Kiet@gmail.com") == null &&
                 context.Tutors.SingleOrDefault(s => s.Email == "Ngoc.Anh@gmail.com") == null &&
                 context.Tutors.SingleOrDefault(s => s.Email == "Phuong.Nhung@gmail.com") == null 

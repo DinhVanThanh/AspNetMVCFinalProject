@@ -73,7 +73,7 @@ namespace PrivateTutorOnline.Controllers
                     City = item.City,
                     District = item.District,
                     Ward = item.Ward,
-                    Street = item.Street
+                    Street = item.Street 
                 });
             }
             return View(enrolledClass); 

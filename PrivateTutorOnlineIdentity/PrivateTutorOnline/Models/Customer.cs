@@ -35,7 +35,7 @@ namespace PrivateTutorOnline.Models
         public string Street { get; set; }
         [Display(Name = "Kích hoạt")] 
         public bool IsActivate { get; set; }
-        [Display(Name = "Mở khóa")] 
+        [Display(Name = "Trạng thái")] 
         public bool IsEnable { get; set; }
 
         public IList<RegistrationClass> RegistrationClasss { get; set; }

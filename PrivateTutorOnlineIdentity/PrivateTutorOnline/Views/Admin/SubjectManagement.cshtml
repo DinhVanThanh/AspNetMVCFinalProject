@@ -1,0 +1,33 @@
+﻿@model PagedList.IPagedList<PrivateTutorOnline.Models.Subject>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "SubjectManagement";
+}
+
+<h2>Danh sách môn học</h2>
+
+<button class="btn btn-info" style="margin-bottom:50px;">
+    @Html.ActionLink("Tạo môn học mới", "SubjectManagementCreateView", "Admin")
+</button>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "SubjectManagementEditView", new { id=item.Id })
+            @Html.ActionLink("Delete", "SubjectManagementDelete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+@Html.PagedListPager(Model, page => Url.Action("SubjectManagement", "Admin", new { page }))

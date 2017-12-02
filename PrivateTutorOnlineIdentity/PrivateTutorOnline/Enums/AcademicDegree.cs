@@ -9,17 +9,20 @@ namespace PrivateTutorOnline.Enums
     public enum AcademicDegree
     {
         [Display(Name = "Sinh viên")]
-        Student,
-        [Display(Name = "Sinh viên")]
+        Student = 0,
+        [Display(Name = "Giáo viên")]
         Teacher,
-        [Display(Name = "Sinh viên")]
+        [Display(Name = "Giảng viên")]
         Lecturer,
-        [Display(Name = "Sinh viên")]
+        [Display(Name = "Kĩ sư")]
         Engineer,
-        [Display(Name = "Sinh viên")]
+        [Display(Name = "Cử nhân")]
         Bachelor,
-        [Display(Name = "Sinh viên")]
+        [Display(Name = "Thạc sĩ")]
         Master,
+        [Display(Name = "Tiến sĩ")]
+        Doctor,
+        [Display(Name = "Khác")]
         Other
     }
 }

@@ -7,6 +7,6 @@ namespace PrivateTutorOnline.Enums
 {
     public enum ClassStatus
     {
-        TutorReceived, WaitingForApproval, AdminApproved, Reject, WaitingForTutor, WaitingForAdminApproval, TutorRegistered
+        TutorReceived, WaitingForAdminApproval, AdminApproved, Reject, WaitingForTutor, TutorRegistered
     }
 }

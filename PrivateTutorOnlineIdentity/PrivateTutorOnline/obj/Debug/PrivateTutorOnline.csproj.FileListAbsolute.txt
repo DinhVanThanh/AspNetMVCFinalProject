@@ -1,4 +1,3 @@
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\obj\Debug\PrivateTutorOnline.csproj.CoreCompileInputs.cache
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\ApplicationInsights.config
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\csc.exe
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\csc.exe.config
@@ -77,6 +76,8 @@ C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Microsoft.Owin
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Microsoft.Web.Infrastructure.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Newtonsoft.Json.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Owin.dll
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\PagedList.dll
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\PagedList.Mvc.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\System.Web.Helpers.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\System.Web.Mvc.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\System.Web.Optimization.dll
@@ -88,6 +89,8 @@ C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\WebGrease.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\EntityFramework.xml
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\EntityFramework.SqlServer.xml
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\PagedList.xml
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\PagedList.Mvc.xml
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\System.Web.Helpers.xml
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\System.Web.Mvc.xml
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\System.Web.Optimization.xml
@@ -114,6 +117,6 @@ C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Microsoft.AI.D
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Microsoft.AI.WindowsServer.xml
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Microsoft.AI.Web.xml
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\obj\Debug\PrivateTutorOnline.csproj.CoreCompileInputs.cache
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\obj\Debug\PrivateTutorOnline.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\obj\Debug\PrivateTutorOnline.pdb
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\obj\Debug\PrivateTutorOnline.csprojResolveAssemblyReference.cache
