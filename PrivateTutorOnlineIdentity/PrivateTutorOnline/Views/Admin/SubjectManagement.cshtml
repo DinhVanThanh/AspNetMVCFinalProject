@@ -6,7 +6,7 @@
 
 <h2>Danh sách môn học</h2>
 
-<button class="btn btn-info" style="margin-bottom:50px;">
+<button class="btn btn-default" style="margin-bottom:50px;">
     @Html.ActionLink("Tạo môn học mới", "SubjectManagementCreateView", "Admin")
 </button>
 <table class="table">
@@ -14,7 +14,9 @@
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
         </th>
-        <th></th>
+        <th>
+            Hành động
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -23,7 +25,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "SubjectManagementEditView", new { id=item.Id })
+            @Html.ActionLink("Edit", "SubjectManagementEditView", new { id=item.Id }) | 
             @Html.ActionLink("Delete", "SubjectManagementDelete", new { id=item.Id })
         </td>
     </tr>

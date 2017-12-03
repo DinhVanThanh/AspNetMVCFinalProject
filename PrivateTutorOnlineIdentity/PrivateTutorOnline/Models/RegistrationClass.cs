@@ -20,17 +20,17 @@ namespace PrivateTutorOnline.Models
         [StringLength(10)]
         public string SalaryPerMonth { get; set; }
         [Display(Name = "Số buổi / tuần")]
-        public short DayPerWeek { get; set; }
-        [Display(Name = "Lịch dạy")]
+        public short? DayPerWeek { get; set; }
+        [Display(Name = "Lịch dạy / tuần")]
         [StringLength(200)]
         public string TutoringTime { get; set; }
         [Display(Name = "Yêu cầu")]
         [StringLength(200)]
         public string Requirement { get; set; }
         [Display(Name = "Ngày nhận")]
-        public DateTime ReceivedDate { get; set; }
+        public DateTime? ReceivedDate { get; set; }
         [Display(Name = "Trạng thái")]
-        public ClassStatus Status { get; set; }
+        public ClassStatus? Status { get; set; }
         [Display(Name = "Thành phố")]
         [StringLength(50)]
         public string City { get; set; }
@@ -49,6 +49,6 @@ namespace PrivateTutorOnline.Models
         [Display(Name = "Gia sư")]
         public Tutor Tutor { get; set; }
         [Display(Name = "Is Active")]
-        public bool IsActive { get; set; }
+        public bool IsClosed { get; set; }
     }
 }

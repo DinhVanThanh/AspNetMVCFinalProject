@@ -44,7 +44,9 @@
         <th>
             @Html.DisplayNameFor(model => model.FirstOrDefault().Tutor)
         </th> 
-        <th></th>
+        <th>
+            Hành động
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -104,7 +106,7 @@
         <td>
             @if(item.Tutor != null)
             {
-                <span>item.Tutor.FullName</span>
+                <span>@item.Tutor.FullName</span>
             }
         </td> 
         <td>
@@ -128,15 +130,5 @@
     <script src="~/Scripts/AdminClassManagement.js">
 
     </script>
-    <script src="~/Scripts/numeral.js">
-
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('.currency').text(numeral($(this)));
-            console.log($('.currency').text(numeral($(this))););
-        });
-        
-    </script>
+     
 }

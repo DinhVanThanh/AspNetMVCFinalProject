@@ -4,9 +4,9 @@
     ViewBag.Title = "Đăng nhập";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2 style="text-align:center;">@ViewBag.Title.</h2>
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-5 col-md-offset-4">
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
@@ -15,26 +15,35 @@
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-3 control-label" })
+                    <div class="col-md-9">
                         @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" }) 
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label" })
+                    <div class="col-md-9">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div> 
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn-default btn" style="">
+                            @Html.ActionLink("Đăng kí tài khoản mới", "Register")
+                        </button>
+                    </div>
+                    <div class="col-md-3">
                         <input type="submit" value="Log in" class="btn btn-default" />
                     </div>
+
                 </div>
-                <p>
-                    @Html.ActionLink("Đăng kí tài khoản mới", "Register")
-                </p>
+                <div class="form-group">
+                    
+                </div>
+                
                 @* Enable this once you have account confirmation enabled for password reset functionality
                     <p>
                         @Html.ActionLink("Forgot your password?", "ForgotPassword")

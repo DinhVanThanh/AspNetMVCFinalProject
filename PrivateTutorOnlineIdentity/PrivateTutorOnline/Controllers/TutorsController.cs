@@ -74,7 +74,7 @@ namespace PrivateTutorOnline.Controllers
         [AllowAnonymous]
         public ActionResult ExistingTutorsList(int? page)
         {
-            IList<Tutor> TutorList = db.Tutors.Include("Grades").Include("Subjects").ToList();
+            IList<Tutor> TutorList = db.Tutors.Include("Grades").Include("Subjects").Where(s => s.IsActivate && s.IsEnable).OrderByDescending(s => s.Id).ToList();
             return View("ExistingTutorList", new PrivateTutorOnline.Models.ViewModels.ExistingTutorListViewModel() {
                 Tutors = TutorList.ToPagedList(page.HasValue ? page.Value : 1, 2),
                 Subjects = db.Subjects.ToList(),
@@ -102,6 +102,7 @@ namespace PrivateTutorOnline.Controllers
             SearchData.Grade = Grade;
             SearchData.Degree = Degree;
             SearchData.Gender = Gender;
+            SearchData.Keyword = Keyword;
             IList<Tutor> TutorList = null;
             if (SearchData.IsAccurate)
             {

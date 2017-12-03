@@ -1,7 +1,8 @@
-﻿@model IEnumerable<PrivateTutorOnline.Models.ViewModels.PostedClassViewModel>
+﻿@model PagedList.IPagedList<PrivateTutorOnline.Models.ViewModels.PostedClassViewModel>
 @using PrivateTutorOnline.Extensions
+@using PagedList.Mvc;
 @{
-    ViewBag.Title = "Lớp đã đăng";
+    ViewBag.Title = "Danh sách lớp đã đăng";
 }
 
 <h2>Danh sách lớp đã đăng</h2>
@@ -12,37 +13,43 @@
 <table class="table" style="margin-top:20px;">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.SalaryPerMonth)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().SalaryPerMonth)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DayPerWeek)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().DayPerWeek)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TutoringTime)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().TutoringTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Requirement)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Grade)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReceivedDate)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Subjects)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Requirement)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.District)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ReceivedDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ward)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().City)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Street)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().District)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Ward)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Tutor)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Tutor)
         </th>
         <th></th>
     </tr>
@@ -59,10 +66,23 @@
             @Html.DisplayFor(modelItem => item.TutoringTime)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Grade.Name)
+        </td>
+        <td>
+            @foreach (var i in item.Subjects)
+                {
+                <div style="display:inline-block; margin-bottom:5px; padding:5px 5px; background-color:#0080FF; color:white">+ @i.Name</div>
+            }
+        </td>
+
+        <td>
             @Html.DisplayFor(modelItem => item.Requirement)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ReceivedDate)
+            @if (item.ReceivedDate != null)
+                {
+                @Html.DisplayFor(modelItem => item.ReceivedDate)
+            } 
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.City)
@@ -117,3 +137,4 @@
 }
 
 </table>
+@Html.PagedListPager(Model, page => Url.Action("PostedClass", "ManageRegistrationClasses", new { page }))

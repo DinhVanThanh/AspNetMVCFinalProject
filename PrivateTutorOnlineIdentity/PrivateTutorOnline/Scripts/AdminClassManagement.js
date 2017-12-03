@@ -17,16 +17,14 @@
                 })
                 
                 $.toaster({ 
-                    message : 'Duyệt thành công', 
-                    title : 'Duyệt', 
+                    message : 'Duyệt thành công',  
                     priority: 'success' 
                 });
 
             },
             error: function (response) {
                 $.toaster({
-                    message: 'Duyệt thất bại',
-                    title: 'Duyệt',
+                    message: 'Duyệt thất bại', 
                     priority: 'warning'
                 });
                 console.log(response.responseText);
@@ -54,15 +52,14 @@
                 button.css('display', 'none');
 
                 $.toaster({
-                    message: 'Không duyệt thành công',
+                    message: 'Từ chối thành công',
                     title: 'Duyệt',
                     priority: 'success'
                 });
             },
             error: function (response) {
                 $.toaster({
-                    message: 'Không duyệt thất bại',
-                    title: 'Không Duyệt',
+                    message: 'Có lỗi xảy ra ! Từ chối thất bại', 
                     priority: 'warning'
                 });
                 console.log(response.responseText);

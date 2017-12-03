@@ -80,7 +80,7 @@ namespace PrivateTutorOnline.Controllers
                     classInfo.Subjects.Add(db.Subjects.SingleOrDefault(s => s.Id == id));
                 classInfo.TutoringTime= classRegistrationInfo.TeachingTime;
                 classInfo.Ward = classRegistrationInfo.Ward;
-                classInfo.ReceivedDate = DateTime.Now;
+                classInfo.ReceivedDate = null;
                 db.RegistrationClasses.Add(classInfo);
                 db.SaveChanges();
 

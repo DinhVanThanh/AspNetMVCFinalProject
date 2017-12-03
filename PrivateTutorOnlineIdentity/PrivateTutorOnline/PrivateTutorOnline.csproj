@@ -220,7 +220,6 @@
     <Compile Include="Models\BindingModels\RegisterBindingModel.cs" />
     <Compile Include="Models\BindingModels\SearchTutorBindingModel.cs" />
     <Compile Include="Models\BindingModels\TutorBindingModel.cs" />
-    <Compile Include="Models\Class.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Grade.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -283,7 +282,6 @@
     <Content Include="Scripts\ReceiveClass.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\TutorRegistrationForm.js" />
     <Content Include="Scripts\UploadFile.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

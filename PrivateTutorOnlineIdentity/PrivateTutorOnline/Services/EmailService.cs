@@ -1,10 +1,12 @@
-﻿using System;
+﻿using PrivateTutorOnline.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using System.Web;  
+using System.Web;
+using PrivateTutorOnline.Extensions;
 
 namespace PrivateTutorOnline.Services
 {
@@ -30,7 +32,42 @@ namespace PrivateTutorOnline.Services
                 smtp.Port = int.Parse(ConfigurationManager.AppSettings["Port"]);
                 smtp.Send(mailMessage);
             }
-        } 
+        }
+        public static string PopulateBodyTutorEnrollClassNotificationToAdmin(Customer customer, string customerUsername, Tutor tutor, string tutorUsername, string ClassCode, string templateUrl)
+        {
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(templateUrl)))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("[TutorCode]", tutor.Id.ToString());
+            body = body.Replace("[TutorFullName]", tutor.FullName);
+            body = body.Replace("[TutorUserName]", tutorUsername);
+            body = body.Replace("[CustomerCode]", customer.Id.ToString());
+            body = body.Replace("[CustomerFullName]", customer.FullName);
+            body = body.Replace("[CustomerUserName]", customerUsername);
+            body = body.Replace("[ClassCode]", ClassCode);
+            return body;
+        }
+        public static string PopulateBodyTutorEnrollClassNotificationToCustomer(string FullName, Tutor tutor, string ClassCode, string templateUrl)
+        {
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(templateUrl)))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("[TutorCode]", tutor.Id.ToString());
+            body = body.Replace("[TutorFullName]", tutor.FullName);
+            body = body.Replace("[FullName]", FullName);
+            body = body.Replace("[ClassCode]", ClassCode);
+            body = body.Replace("[Degree]", tutor.Degree.GetDegreeName());
+            body = body.Replace("[Gender]", tutor.Gender.GetGenderName());
+            body = body.Replace("[University]", tutor.University);
+            body = body.Replace("[MajorSubject]", tutor.MajorSubject);
+            body = body.Replace("[GraduationYear]", tutor.GraduationYear);
+            body = body.Replace("[Image]", tutor.Image.ToString()); 
+            return body;
+        }
         public static string PopulateBody(string FullName, string templateUrl)
         {
             string body = string.Empty;

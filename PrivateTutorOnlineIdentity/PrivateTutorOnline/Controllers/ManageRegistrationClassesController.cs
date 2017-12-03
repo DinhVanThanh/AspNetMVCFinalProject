@@ -12,6 +12,7 @@ using PrivateTutorOnline.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using PrivateTutorOnline.Services;
+using PagedList;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -57,11 +58,11 @@ namespace PrivateTutorOnline.Controllers
         {
             return View(await db.RegistrationClasses.ToListAsync());
         }
-        public async Task<ActionResult> EnrolledClass()
+        public async Task<ActionResult> EnrolledClass(string searchString, int? page)
         {
             string UserId = User.Identity.GetUserId();
             IList<EnrolledClassViewModel> enrolledClass = new List<EnrolledClassViewModel>();
-            foreach (var item in db.RegistrationClasses.Where(s => s.Tutor.UserId == UserId).ToList())
+            foreach (var item in db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Where(s => s.Tutor.UserId == UserId).ToList())
             {
                 enrolledClass.Add(new EnrolledClassViewModel()
                 {
@@ -75,16 +76,17 @@ namespace PrivateTutorOnline.Controllers
                     City = item.City,
                     District = item.District,
                     Ward = item.Ward,
-                    Street = item.Street 
+                    Street = item.Street,
+                    ReceivedDate = item.ReceivedDate
                 });
             }
-            return View(enrolledClass); 
+            return View(enrolledClass.ToPagedList(page ?? 1, 2).OrderByDescending(s => s.Id)); 
         }
-        public async Task<ActionResult> PostedClass()
+        public async Task<ActionResult> PostedClass(string searchString, int? page)
         {
             string UserId = User.Identity.GetUserId();
             IList<PostedClassViewModel> postedClass = new List<PostedClassViewModel>();
-            foreach(var item in db.RegistrationClasses.Where(s => s.Customer.UserId == UserId).Include(s => s.Tutor).ToList())
+            foreach(var item in db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Where(s => s.Customer.UserId == UserId).Include(s => s.Tutor).ToList())
             {
                 postedClass.Add(new PostedClassViewModel() {
                     Grade = item.Grade,
@@ -98,15 +100,16 @@ namespace PrivateTutorOnline.Controllers
                     District = item.District,
                     Ward = item.Ward,
                     Street = item.Street,
-                    Tutor = item.Tutor
+                    Tutor = item.Tutor,
+                    ReceivedDate = item.ReceivedDate
                 });
             }
-            return View(postedClass);
+            return View(postedClass.ToPagedList(page ?? 1, 2).OrderByDescending(s => s.Id));
         }
-        public async Task<ActionResult> AllPostedClass()
+        public async Task<ActionResult> AllPostedClass(string searchString, int? page)
         { 
             IList<PostedClassViewModel> allPostedClass = new List<PostedClassViewModel>();
-            foreach (var item in db.RegistrationClasses.ToList())
+            foreach (var item in db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).ToList())
             {
                 allPostedClass.Add(new PostedClassViewModel()
                 {
@@ -121,22 +124,28 @@ namespace PrivateTutorOnline.Controllers
                     City = item.City,
                     District = item.District,
                     Ward = item.Ward,
-                    Street = item.Street
+                    Street = item.Street,
+                    ReceivedDate = item.ReceivedDate
                 });
             }
-            return View(allPostedClass);
+            return View(allPostedClass.ToPagedList(page ?? 1, 2).OrderByDescending(s => s.Id));
         }
         [HttpPost]
         public HttpStatusCodeResult ReceiveClass(int ClassId)
         {
             try
             {
+                string tutorUsername = User.Identity.GetUserName();
+               
                 string UserId = User.Identity.GetUserId();
+                
                 RegistrationClass RegistrationClass = db.RegistrationClasses.Include(s => s.Customer).SingleOrDefault(s => s.Id == ClassId);
                 Customer customer = RegistrationClass.Customer;
+                string customerUsername = UserManager.FindById(customer.UserId).UserName;
                 Tutor tutor = db.Tutors.SingleOrDefault(s => s.UserId == UserId);
                 RegistrationClass.Tutor = tutor;
                 RegistrationClass.Status = Enums.ClassStatus.TutorRegistered;
+                RegistrationClass.ReceivedDate = DateTime.Now;
                 db.Entry(RegistrationClass).State = EntityState.Modified;
                 db.SaveChanges();
                 //send to tutor
@@ -144,10 +153,10 @@ namespace PrivateTutorOnline.Controllers
                             EmailSenderService.PopulateBody(customer.FullName, tutor.FullName, RegistrationClass.Id.ToString() , "~/EmailTemplates/ClassTutorEnrollmentNotificationToTutor.html"));
                 //send to customer
                 EmailSenderService.SendHtmlFormattedEmail(customer.Email, "Gia sư nhận lớp",
-                            EmailSenderService.PopulateBody(customer.FullName, tutor.FullName, RegistrationClass.Id.ToString(), "~/EmailTemplates/ClassTutorEnrollmentNotificationToCustomer.html"));
+                            EmailSenderService.PopulateBodyTutorEnrollClassNotificationToCustomer(customer.FullName, tutor, RegistrationClass.Id.ToString(), "~/EmailTemplates/ClassTutorEnrollmentNotificationToCustomer.html"));
                 //send to admin
                 EmailSenderService.SendHtmlFormattedEmail(AdminEmail, "Có gia sư nhận lớp",
-                            EmailSenderService.PopulateBody(customer.FullName, tutor.FullName, RegistrationClass.Id.ToString(), "~/EmailTemplates/ClassTutorEnrollmentNotificationToAdmin.html"));
+                            EmailSenderService.PopulateBodyTutorEnrollClassNotificationToAdmin(customer, customerUsername, tutor, tutorUsername, RegistrationClass.Id.ToString(), "~/EmailTemplates/ClassTutorEnrollmentNotificationToAdmin.html"));
             }
             catch(Exception ex)
             {

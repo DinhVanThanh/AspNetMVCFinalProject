@@ -224,7 +224,7 @@ namespace PrivateTutorOnline.Controllers
                     });
                     await context.SaveChangesAsync();
                     UserManager.AddToRole(user.Id, "Customer");
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     //send to customer
                     EmailSenderService.SendHtmlFormattedEmail(model.Email, "Đăng kí tài khoản", EmailSenderService.PopulateBody(model.FullName, model.Username, "~/EmailTemplates/AccountRegisterSuccess.html"));
                     //send to admin
@@ -234,8 +234,8 @@ namespace PrivateTutorOnline.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    ModelState.AddModelError("", "Tài khoản của bạn đã được tạo thành công ! Vui lòng kiểm tra Email ");
+                    return RedirectToAction("Login", "Account");
                 }
                 else
                 {
@@ -265,7 +265,7 @@ namespace PrivateTutorOnline.Controllers
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(user.Id, "Tutor");
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     Tutor tutor = new Tutor();
                     tutor.UserId = user.Id;
                     tutor.FullName = tutorInfo.FullName;
@@ -304,13 +304,14 @@ namespace PrivateTutorOnline.Controllers
                     EmailSenderService.SendHtmlFormattedEmail(tutorInfo.Email, "Đăng kí tài khoản", EmailSenderService.PopulateBody(tutorInfo.FullName, tutorInfo.Username,  "~/EmailTemplates/AccountRegisterSuccess.html"));
                     //send to admin
                     EmailSenderService.SendHtmlFormattedEmail(AdminEmail, "Gia sư đăng kí tài khoản", EmailSenderService.PopulateBody(tutorInfo.FullName, tutorInfo.Username,  "~/EmailTemplates/AccountRegisterAdminNotification.html"));
-                    return View("Success");
+                    ModelState.AddModelError("", "Tài khoản của bạn đã được tạo thành công ! Vui lòng kiểm tra Email ");
+                    return RedirectToAction("Login", "Account");
                 }
                 else
-                    return View("Error");
+                    return RedirectToAction("TutorRegistrationForm", "Tutors");
             }
             else
-                return View("Error");
+                return RedirectToAction("TutorRegistrationForm", "Tutors");
         }
 
 

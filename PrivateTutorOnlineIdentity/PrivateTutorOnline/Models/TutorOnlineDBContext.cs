@@ -28,8 +28,7 @@ namespace PrivateTutorOnline.Models
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
         public virtual DbSet<Subject> Subjects { get; set; }
-        public virtual DbSet<Tutor> Tutors { set; get; }
-        public virtual DbSet<Class> Classes { set; get; }
+        public virtual DbSet<Tutor> Tutors { set; get; } 
         public virtual DbSet<RegistrationClass> RegistrationClasses { set; get; }
         public virtual DbSet<Customer> Customers { set; get; }
         public virtual DbSet<Grade> Grades { set; get; } 

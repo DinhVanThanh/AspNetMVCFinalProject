@@ -11,7 +11,7 @@
     using PrivateTutorOnline.Models;
     using System.Data.Entity.Migrations;
     using System.Linq; 
-    using System.Web.Mvc; 
+    using System.Web.Mvc;
 
     internal sealed class Configuration : DbMigrationsConfiguration<PrivateTutorOnline.Models.TutorOnlineDBContext>
     {
@@ -20,7 +20,7 @@
         protected ApplicationRoleManager AppRoleManager
         {
             get
-            { 
+            {
                 return _AppRoleManager ?? HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
             }
         }
@@ -88,11 +88,11 @@
                 result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
             if (result.IsCompleted)
                 UserManager.AddToRoleAsync(tutor.Id, "Tutor");
-           //Initializer Customer account
-            
-            
+            //Initializer Customer account
 
-            
+
+
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -133,29 +133,30 @@
 
             if (context.Customers.SingleOrDefault(c => c.Email == "customer0@gmail.com") == null)
             {
-               
+
                 context.Customers.AddOrUpdate(
                    new Models.Customer()
                    {
                        FullName = "Đinh Văn Thành",
                        PhoneNumber = "01213546546",
-                       Email = "dinhvanthanh1995@gmail.com",
+                       Email = "customer0@gmail.com",
                        City = "TPHCM",
                        District = "Quận 5",
                        Ward = "Phường 13",
-                       Street = "An Dương Vương"
+                       Street = "An Dương Vương",
+                       UserId = customerUser.Id
                    }
                 );
-                
+
             }
 
-            if(context.Tutors.SingleOrDefault(s => s.Email == "GiaSu_0@gmail.com") == null &&
+            if (context.Tutors.SingleOrDefault(s => s.Email == "GiaSu_0@gmail.com") == null &&
                 context.Tutors.SingleOrDefault(s => s.Email == "Tuan.Kiet@gmail.com") == null &&
                 context.Tutors.SingleOrDefault(s => s.Email == "Ngoc.Anh@gmail.com") == null &&
-                context.Tutors.SingleOrDefault(s => s.Email == "Phuong.Nhung@gmail.com") == null 
+                context.Tutors.SingleOrDefault(s => s.Email == "Phuong.Nhung@gmail.com") == null
                 )
             {
-                
+
                 context.Tutors.AddOrUpdate(
                 new Models.Tutor()
                 {
@@ -165,14 +166,20 @@
                     Email = "tieuluantotnghiep2017@gmail.com",
                     PhoneNumber = "01526487656",
                     IdentityNumber = "0225644478",
+                    City = "TPHCM",
+                    District = "Bình Tân",
+                    Ward = "Phú Thạnh",
+                    Street = "Nguyễn Sơn",
                     HomeTown = "Tỉnh Hà Nam",
                     University = "ĐH Sư Phạm TPHCM",
                     MajorSubject = "Sư Phạm Toán Học",
                     GraduationYear = "2016",
                     Advantage = "Đã từng đi dạy",
                     Degree = Enums.AcademicDegree.Teacher,
-                    Image = new byte[] { }
-                },
+                    Image = new byte[] { },
+                    IsEnable = true,
+                    IsActivate = false
+            },
                 new Models.Tutor()
                 {
                     FullName = "Nguyễn Ngọc Ánh",
@@ -181,13 +188,19 @@
                     Email = "Ngoc.Anh@gmail.com",
                     PhoneNumber = "01526487656",
                     IdentityNumber = "0225644478",
-                    HomeTown = "TP Đà Nẵng",
+                    City = "TPHCM",
+                    District = "Quận 5",
+                    Ward = "13",
+                    Street = "An Dương Vương",
+                    HomeTown = "TP Hải Phòng",
                     University = "ĐH Ngoại Thương TPHCM",
                     MajorSubject = "Quản trị kinh doanh",
                     GraduationYear = "2015",
                     Advantage = "Đã từng đi dạy",
                     Degree = Enums.AcademicDegree.Master,
-                    Image = new byte[] { }
+                    Image = new byte[] { },
+                    IsEnable = true,
+                    IsActivate = false
                 },
                 new Models.Tutor()
                 {
@@ -197,13 +210,19 @@
                     Email = "Tuan.Kiet@gmail.com",
                     PhoneNumber = "01526487656",
                     IdentityNumber = "0225644478",
+                    City = "TPHCM",
+                    District = "Quận 1",
+                    Ward = "Hai Bà Trưng",
+                    Street = "Nguyễn Kiệm",
                     HomeTown = "Tỉnh Đồng Tháp",
                     University = "Cao Đẳng Kinh Tế Đối Ngoại",
                     MajorSubject = "Kế toán",
                     GraduationYear = "2017",
                     Advantage = "Đã từng đi dạy",
                     Degree = Enums.AcademicDegree.Student,
-                    Image = new byte[] { }
+                    Image = new byte[] { },
+                    IsEnable = true,
+                    IsActivate = false
                 },
                  new Models.Tutor()
                  {
@@ -213,15 +232,43 @@
                      Email = "Phuong.Nhung@gmail.com",
                      PhoneNumber = "01526487656",
                      IdentityNumber = "0225644478",
+                     City = "Đà Nẵng",
+                     District = "Cát Bà",
+                     Ward = "Phú Xuân",
+                     Street = "Nguyễn Sơn",
                      HomeTown = "Thủ đô Hà Nội",
                      University = "Đại Học Sài Gòn",
                      MajorSubject = "Sư Phạm Tiếng Anh",
                      GraduationYear = "2017",
                      Advantage = "Đã từng đi dạy",
                      Degree = Enums.AcademicDegree.Bachelor,
-                     Image = new byte[] { }
-                 }
-                );
+                     Image = new byte[] { },
+                     IsEnable = true,
+                     IsActivate = false
+                 },
+                 new Models.Tutor()
+                 {
+                     FullName = "Huỳnh Tấn Dũng",
+                     Gender = Enums.Gender.Male,
+                     DateOfBirth = new DateTime(1994, 5, 11),
+                     Email = "tutor0@gmail.com",
+                     PhoneNumber = "01526487656",
+                     IdentityNumber = "0225644478",
+                     City = "Đà Nẵng",
+                     District = "Cát Bà",
+                     Ward = "Phú Xuân",
+                     Street = "Nguyễn Sơn",
+                     HomeTown = "Thủ đô Hà Nội",
+                     University = "Đại Học Sài Gòn",
+                     MajorSubject = "Sư Phạm Tiếng Anh",
+                     GraduationYear = "2017",
+                     Advantage = "Đã từng đi dạy",
+                     Degree = Enums.AcademicDegree.Bachelor,
+                     Image = new byte[] { },
+                     IsEnable = true,
+                     IsActivate = false,
+                     UserId = tutor.Id
+                 }  );
             }
                
             
