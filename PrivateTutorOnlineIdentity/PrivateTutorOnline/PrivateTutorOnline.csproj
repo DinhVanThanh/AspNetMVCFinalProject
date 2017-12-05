@@ -194,9 +194,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ClassController.cs" />
-    <Compile Include="Controllers\ManageCustomersController.cs" />
     <Compile Include="Controllers\ManageRegistrationClassesController.cs" />
-    <Compile Include="Controllers\ManageTutorsController.cs" />
     <Compile Include="Controllers\TutorsController.cs" />
     <Compile Include="Enums\AcademicDegree.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -228,12 +226,18 @@
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Models\Tutor.cs" />
     <Compile Include="Models\TutorOnlineDBContext.cs" />
+    <Compile Include="Models\ViewModels\ClassManagementViewModel.cs" />
     <Compile Include="Models\ViewModels\ClassRegistrationFormViewModel.cs" />
+    <Compile Include="Models\ViewModels\CustomerManagementViewModel.cs" />
     <Compile Include="Models\ViewModels\EnrolledClassViewModel.cs" />
     <Compile Include="Models\ViewModels\ExistinTutorListViewModel.cs" />
+    <Compile Include="Models\ViewModels\GradeManagementViewModel.cs" />
+    <Compile Include="Models\ViewModels\PagedListPostedClassViewModel.cs" />
     <Compile Include="Models\ViewModels\PostedClassViewModel.cs" />
     <Compile Include="Models\ViewModels\SidebarViewModel.cs" />
+    <Compile Include="Models\ViewModels\SubjectManagementViewModel.cs" />
     <Compile Include="Models\ViewModels\TutorEditViewModel.cs" />
+    <Compile Include="Models\ViewModels\TutorManagementViewModel.cs" />
     <Compile Include="Models\ViewModels\TutorRegistrationFormViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmailService.cs" />
@@ -254,6 +258,9 @@
     <Content Include="EmailTemplates\ClassTutorEnrollmentNotificationToAdmin.html" />
     <Content Include="EmailTemplates\ClassTutorEnrollmentNotificationToCustomer.html" />
     <Content Include="EmailTemplates\ClassTutorEnrollmentNotificationToTutor.html" />
+    <Content Include="EmailTemplates\CustomerApprovedTutorEnrollmenToTutor.html" />
+    <Content Include="EmailTemplates\CustomerApprovedTutorEnrollmentToAdmin.html" />
+    <Content Include="EmailTemplates\CustomerRejectedTutorEnrollmentToTutor.html" />
     <Content Include="EmailTemplates\DisableAccountNotification.html" />
     <Content Include="EmailTemplates\EnableAccountNotification.html" />
     <Content Include="favicon.ico" />
@@ -269,6 +276,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\EnrollmentApproveOrReject.js" />
+    <Content Include="Scripts\IsSearchByIdCheckBox.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -334,11 +343,6 @@
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
-    <Content Include="Views\ManageTutors\Create.cshtml" />
-    <Content Include="Views\ManageTutors\Delete.cshtml" />
-    <Content Include="Views\ManageTutors\Details.cshtml" />
-    <Content Include="Views\ManageTutors\Edit.cshtml" />
-    <Content Include="Views\ManageTutors\Index.cshtml" />
     <Content Include="Views\ManageRegistrationClasses\Create.cshtml" />
     <Content Include="Views\ManageRegistrationClasses\Delete.cshtml" />
     <Content Include="Views\ManageRegistrationClasses\Details.cshtml" />
@@ -363,7 +367,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
-    <Folder Include="Views\ManageCustomer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

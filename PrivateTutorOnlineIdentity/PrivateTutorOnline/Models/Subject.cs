@@ -10,8 +10,11 @@ namespace PrivateTutorOnline.Models
     public class Subject
     {
         [Key]
+        [Display(Name = "Mã số")]
         public int Id { get; set; }
+        [Display(Name = "Tên môn học")]
         public string Name { get; set; }
+        [Display(Name = "Gia sư")]
         [InverseProperty("Subjects")]
         public ICollection<Tutor> Tutors { get; set; }
         [InverseProperty("Subjects")]

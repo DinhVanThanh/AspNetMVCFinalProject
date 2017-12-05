@@ -1,151 +1,152 @@
-﻿@model PagedList.IPagedList<PrivateTutorOnline.Models.ViewModels.PostedClassViewModel>
+﻿@model PrivateTutorOnline.Models.ViewModels.PagedListPostedClassViewModel
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "Danh sách lớp đang cần gia sư";
+ViewBag.Title = "Danh sách lớp đang cần gia sư";
 }
 
 <h2>Danh sách lớp đang cần gia sư</h2>
- @using (Html.BeginForm("AllPostedClass", "ManageRegistrationClasses", FormMethod.Get))
- {
-    <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-            <div id="imaginary_container">
-                <div class="input-group stylish-input-group">
-                    <input type="text" class="form-control" placeholder="Search" name="SearchString">
-                    <span class="input-group-addon">
-                        <button type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </span>
-                </div>
+
+    @using (Html.BeginForm("AllPostedClass", "ManageRegistrationClasses", FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-md-4" style="padding:20px;">
+                
+                    <div class="input-group add-on">
+                        <input type="text" class="form-control" placeholder="Search" name="searchString" id="searchString">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                
             </div>
         </div>
-    </div>
- }
+        <div style="display:inline-block; padding:10px;">
+
+            <label>
+                <input style="transform:scale(1.5)" type="checkbox" name="IsSeachById" id="SearchByIdCheckBox" value="false" />
+                Tìm theo Mã số
+            </label>
+        </div>
+    } 
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().SalaryPerMonth)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().Id)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().DayPerWeek)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().SalaryPerMonth)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().TutoringTime)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().DayPerWeek)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Grade)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().TutoringTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Subjects)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().Grade)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Requirement)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().Subjects)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().ReceivedDate)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().Requirement)
+        </th> 
+        <th>
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().Status)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().City)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().City)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().District)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().District)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().Ward)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Ward)
+            @Html.DisplayNameFor(model => model.PostedClasses.FirstOrDefault().Street)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Street)
+            Nhận lớp
         </th>
-        <th></th>
     </tr>
 
-@foreach (var item in Model)
-{
-    if (item.Status != PrivateTutorOnline.Enums.ClassStatus.Reject && item.Status != PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
+    @foreach (var item in Model.PostedClasses)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SalaryPerMonth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DayPerWeek)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TutoringTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Grade.Name)
-            </td>
-            <td>
-                @foreach (var i in item.Subjects)
-                {
-                    <div style="display:inline-block; margin-bottom:5px; padding:5px 5px; background-color:#0080FF; color:white">+ @i.Name</div>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Requirement)
-            </td>
-            <td class="recieved-date-@item.Id">
-                @if (item.ReceivedDate != null)
-                {
-                    @Html.DisplayFor(modelItem => item.ReceivedDate)
-                } 
-            </td>
-            <td id="row-status-@item.Id">
-                @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
-                {
-                    <span style="color:red">Chờ duyệt</span>
-                }
-                @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForTutor)
-                {
-                    <span style="color:red">Chờ gia sư</span>
-                }
-                @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.AdminApproved)
-                {
-                    <span style="color:red">Đã duyệt</span>
-                }
-                @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.TutorRegistered)
-                {
-                    <span style="color:red">Đã nhận</span>
-                }
-                @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.Reject)
-                {
-                    <span style="color:red">Không duyệt</span>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.District)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ward)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Street)
-            </td>
-            <td>
-                @if (item.Status != PrivateTutorOnline.Enums.ClassStatus.TutorRegistered)
-                {
-                    <button data-classId="@item.Id" id="receiveClass-@item.Id" class="btn btn-success receiveClass"> Nhận lớp</button>
-                }
+        if ( item.Status != PrivateTutorOnline.Enums.ClassStatus.CustomerApproved && item.Status != PrivateTutorOnline.Enums.ClassStatus.AdminReject && item.Status != PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalaryPerMonth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DayPerWeek)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TutoringTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grade.Name)
+                </td>
+                <td>
+                    @foreach (var i in item.Subjects)
+                    {
+                        <div style="display:inline-block; margin-bottom:5px; padding:5px 5px; background-color:#0080FF; color:white">+ @i.Name</div>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Requirement)
+                </td> 
+                <td id="row-status-@item.Id">
+                            
+                    @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.AdminApproved)
+                    {
+                        <span style="color:red">Chờ nhận lớp</span>
+                    }
+                            
+                    @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForCustomerApproval)
+                    {
+                        <span style="color:red">Chờ duyệt nhận lớp từ phụ huynh</span>
+                    }
+                            
+                    @if (item.Status == PrivateTutorOnline.Enums.ClassStatus.CustomerRejected)
+                    {
+                        <span style="color:red">Chờ nhận lớp</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.District)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ward)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Street)
+                </td>
+                <td>
+                    @if (item.Status != PrivateTutorOnline.Enums.ClassStatus.WaitingForCustomerApproval && item.Status != PrivateTutorOnline.Enums.ClassStatus.CustomerRejected && item.Status != PrivateTutorOnline.Enums.ClassStatus.ClassClose)
+                    {
+                        <button data-classId="@item.Id" id="receiveClass-@item.Id" class="btn btn-success receiveClass"> Đăng kí</button>
+                    }
 
-            </td>
-        </tr>
+                </td>
+            </tr>
+        }
+
     }
 
-}
-
 </table>
- @Html.PagedListPager(Model, page => Url.Action("AllPostedClass", "ManageRegistrationClasses", new { searchString = Model.searchString,  page }))
+@Html.PagedListPager(Model.PostedClasses, page => Url.Action("AllPostedClass", "ManageRegistrationClasses", new { searchString = Model.searchString, page }))
 @section Scripts {
 
-    <script src="~/Scripts/ReceiveClass.js"> 
-    </script>
+    <script src="~/Scripts/ReceiveClass.js"></script>
+    <script src="~/Scripts/IsSearchByIdCheckBox.js"> </script>  
 }
- 
+

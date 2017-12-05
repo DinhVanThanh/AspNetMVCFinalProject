@@ -42,7 +42,7 @@
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
                     {
                         <li>@Html.ActionLink("Đăng kí tìm gia sư", "ClassRegistrationForm", "Class")</li>
-                        
+                        <li>@Html.ActionLink("Danh sách lớp đã có gia sư", "EnrolledClass", "ManageRegistrationClasses")</li>
                         <li>@Html.ActionLink("Danh sách lớp đã đăng", "PostedClass", "ManageRegistrationClasses")</li>
                     } 
                       

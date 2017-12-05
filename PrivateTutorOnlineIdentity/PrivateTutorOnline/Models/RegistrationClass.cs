@@ -11,6 +11,7 @@ namespace PrivateTutorOnline.Models
     public class RegistrationClass
     {
         [Key]
+        [Display(Name = "Mã số")]
         public int Id { get; set; }
         [Display(Name = "Lớp")]
         public Grade Grade { get; set; }

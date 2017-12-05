@@ -10,6 +10,7 @@ namespace PrivateTutorOnline.Models
     public class Tutor 
     {
         [Key]
+        [Display(Name = "Mã số")]
         public int Id { get; set; }
         public string UserId { get; set; }
         [Display(Name = "Họ Tên")]

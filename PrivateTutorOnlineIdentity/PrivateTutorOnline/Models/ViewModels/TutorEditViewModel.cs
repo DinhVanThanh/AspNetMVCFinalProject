@@ -9,6 +9,7 @@ namespace PrivateTutorOnline.Models.ViewModels
 {
     public class TutorEditViewModel
     {
+        [Display(Name = "Mã số")]
         public int Id { get; set; }
         [Display(Name = "Họ Tên")]
         public string FullName { get; set; }

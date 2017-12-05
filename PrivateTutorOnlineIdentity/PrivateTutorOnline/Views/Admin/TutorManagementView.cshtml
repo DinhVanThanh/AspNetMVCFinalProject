@@ -1,76 +1,103 @@
-﻿@model PagedList.IPagedList<PrivateTutorOnline.Models.Tutor>
+﻿@model PrivateTutorOnline.Models.ViewModels.TutorManagementViewModel
 @using PagedList.Mvc;
 @{
-    ViewBag.Title = "TutorManagementView";
+    ViewBag.Title = "Quản lí gia sư";
 }
 
 <h2>Danh sách gia sư</h2>
- 
+
+    @using (Html.BeginForm("TutorManagementView", "Admin", FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-md-3" style="padding:20px;">
+                <form class="navbar-form" role="search">
+                    <div class="input-group add-on">
+                        <input type="text" class="form-control" placeholder="Search" name="searchString" id="searchString">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div style="display:inline-block; padding:10px;">
+
+                <label>
+                    <input style="transform:scale(1.5)" type="checkbox" name="IsSeachById" id="SearchByIdCheckBox" value="false" />
+                    Tìm theo Mã số
+                </label>
+            </div>
+        </div>
+    }
+
 <table class="table">
     <tr> 
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Image)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().Id)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().FullName)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().Image)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().FullName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Email)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().PhoneNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().City)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().District)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().City)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Ward)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().District)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Street)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().Ward)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().HomeTown)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().Street)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().DateOfBirth)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().HomeTown)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Gender)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().DateOfBirth)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().IdentityNumber)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().Gender)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().University)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().IdentityNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().MajorSubject)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().University)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().GraduationYear)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().MajorSubject)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Advantage)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().GraduationYear)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Degree)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().Advantage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().Degree)
         </th>
         
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Grades)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().Grades)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().Subjects)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().Subjects)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().IsActivate)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().IsActivate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().IsEnable)
+            @Html.DisplayNameFor(model => model.Tutors.FirstOrDefault().IsEnable)
         </th>
         <th>
             Activate
@@ -80,8 +107,11 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Tutors) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
         <td>
             @{
                 var base64 = Convert.ToBase64String(item.Image);
@@ -190,10 +220,9 @@
 }
 
 </table>
-@Html.PagedListPager(Model, page => Url.Action("TutorManagementView", "Admin", new { page }))
+@Html.PagedListPager(Model.Tutors, page => Url.Action("TutorManagementView", "Admin", new { searchString = Model.searchString, page }))
 @section Scripts {
 
-    <script src="~/Scripts/AdminTutorManagement.js">
-
-    </script>
+    <script src="~/Scripts/AdminTutorManagement.js"> </script>
+    <script src="~/Scripts/IsSearchByIdCheckBox.js"> </script>  
 }

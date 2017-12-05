@@ -49,6 +49,49 @@ namespace PrivateTutorOnline.Services
             body = body.Replace("[ClassCode]", ClassCode);
             return body;
         }
+        public static string PopulateBodyTutorCustomerApprovedEnrollmentRequestToAdmin(Customer customer, string customerUsername, Tutor tutor, string tutorUsername, string ClassCode, string templateUrl)
+        {
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(templateUrl)))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("[TutorCode]", tutor.Id.ToString());
+            body = body.Replace("[TutorFullName]", tutor.FullName);
+            body = body.Replace("[TutorUserName]", tutorUsername);
+            body = body.Replace("[CustomerCode]", customer.Id.ToString());
+            body = body.Replace("[CustomerFullName]", customer.FullName);
+            body = body.Replace("[CustomerUserName]", customerUsername);
+            body = body.Replace("[ClassCode]", ClassCode);
+            return body;
+        }
+        public static string PopulateBodyTutorCustomerApprovedEnrollmentRequestToTutor(Customer customer,  Tutor tutor, RegistrationClass registrationClass, string templateUrl)
+        {
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(templateUrl)))
+            {
+                body = reader.ReadToEnd();
+            } 
+            body = body.Replace("[TutorFullName]", tutor.FullName); 
+            body = body.Replace("[CustomerFullName]", customer.FullName); 
+            body = body.Replace("[ClassCode]", registrationClass.Id.ToString());
+            body = body.Replace("[GradeName]", tutor.Id.ToString());
+            string SubjectNames = "";
+            foreach(var item in registrationClass.Subjects)
+            {
+                
+                SubjectNames += " - " + item.Name ;
+            }
+            body = body.Replace("[SubjectNames]", SubjectNames);
+            body = body.Replace("[SalaryPerMonth]", registrationClass.SalaryPerMonth); 
+            body = body.Replace("[TutoringTime]", registrationClass.TutoringTime);
+            body = body.Replace("[DayPerWeek]", registrationClass.DayPerWeek.ToString());
+            body = body.Replace("[Street]", registrationClass.Street);
+            body = body.Replace("[Ward]", registrationClass.Ward);
+            body = body.Replace("[District]", registrationClass.District);
+            body = body.Replace("[City]", registrationClass.City);
+            return body;
+        }
         public static string PopulateBodyTutorEnrollClassNotificationToCustomer(string FullName, Tutor tutor, string ClassCode, string templateUrl)
         {
             string body = string.Empty;

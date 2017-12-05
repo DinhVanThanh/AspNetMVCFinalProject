@@ -9,12 +9,13 @@ namespace PrivateTutorOnline.Models.ViewModels
 {
     public class EnrolledClassViewModel
     {
+        [Display(Name = "Mã số")]
         public int Id { get; set; } 
         [Display(Name = "Lớp")]
         public Grade Grade { get; set; }
         [Display(Name = "Môn học")]
         public IList<Subject> Subjects { get; set; }
-        [Display(Name = "Học phí")]
+        [Display(Name = "Học phí / tháng")]
         public string SalaryPerMonth { get; set; }
         [Display(Name = "Số ngày / tuần")]
         public short? DayPerWeek { get; set; }

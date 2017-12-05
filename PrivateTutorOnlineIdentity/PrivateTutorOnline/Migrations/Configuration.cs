@@ -47,6 +47,8 @@
             const string AdminPassword = "123456";
             const string roleName = "Admin";
             const string AdminEmail = "tieuluantotnghiep2017@gmail.com";
+
+
             if (AppRoleManager.FindByNameAsync("Admin") != null)
                 AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Admin"));
             if (AppRoleManager.FindByNameAsync("Customer") != null)

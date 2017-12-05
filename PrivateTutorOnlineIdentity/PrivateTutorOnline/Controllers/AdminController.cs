@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using PrivateTutorOnline.Services;
+using PrivateTutorOnline.Models.ViewModels;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -16,10 +17,42 @@ namespace PrivateTutorOnline.Controllers
         TutorOnlineDBContext db = new TutorOnlineDBContext();
         private string AdminEmail = "tieuluantotnghiep2017@gmail.com";
         // GET: Admin
-        public ActionResult CustomerManagementView(int? page)
+        public ActionResult CustomerManagementView(string searchString, bool? IsSeachById, int? page)
         {
-            IList<Customer> Customers = db.Customers.ToList();
-            return View(Customers.ToPagedList<Customer>(page.HasValue ? page.Value : 1, 2));
+            IList<Customer> Customers = null;
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                if(IsSeachById.Value)
+                {
+                    int searchStringId = -1;
+                    if (int.TryParse(searchString, out searchStringId))
+                        searchStringId = Int32.Parse(searchString);
+                    Customers = db.Customers.Where(
+                    s => s.Id == searchStringId 
+                    ).ToList();
+                }
+                else
+                {
+                    int searchStringId = -1;
+                    if (int.TryParse(searchString, out searchStringId))
+                        searchStringId = Int32.Parse(searchString);
+                    Customers = db.Customers.Where(
+                    s =>  s.FullName.Contains(searchString)
+                    || s.PhoneNumber.Equals(searchString)
+                    || s.Email.Contains(searchString)
+                    || s.City.Contains(searchString)
+                    || s.District.Contains(searchString)
+                    || s.Ward.Contains(searchString)
+                    || s.Street.Contains(searchString)
+                    ).ToList();
+                }
+                
+            }
+            else
+            {
+                Customers = db.Customers.ToList();
+            }
+            return View(new CustomerManagementViewModel() { Customers = Customers.ToPagedList<Customer>(page.HasValue ? page.Value : 1, 2), searchString = searchString });
         }
         [HttpPost]
         public JsonResult ActivateCustomer(int CustomerId)
@@ -67,10 +100,42 @@ namespace PrivateTutorOnline.Controllers
             
             return Json(new { Status = "OK" });
         }
-        public ActionResult TutorManagementView(int? page)
+        public ActionResult TutorManagementView(string searchString, bool? IsSeachById, int? page)
         {
-            IList<Tutor> Tutors = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects).ToList();
-            return View(Tutors.ToPagedList<Tutor>(page.HasValue ? page.Value : 1, 2));
+            IList<Tutor> Tutors = null;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                if(IsSeachById.Value)
+                {
+                    int searchStringId = -1;
+                    if (int.TryParse(searchString, out searchStringId))
+                        searchStringId = Int32.Parse(searchString);
+                    Tutors = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects).Where(
+                    s => s.Id == searchStringId 
+                    ).ToList();
+                }
+                else
+                {
+                    int searchStringId = -1;
+                    if (int.TryParse(searchString, out searchStringId))
+                        searchStringId = Int32.Parse(searchString);
+                    Tutors = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects).Where(
+                    s =>  s.FullName.Contains(searchString)
+                    || s.PhoneNumber.Equals(searchString)
+                    || s.Email.Contains(searchString)
+                    || s.City.Contains(searchString)
+                    || s.District.Contains(searchString)
+                    || s.Ward.Contains(searchString)
+                    || s.Street.Contains(searchString)
+                    ).ToList();
+                }
+               
+            }
+            else
+            {
+                Tutors = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects).ToList();
+            }
+            return View( new TutorManagementViewModel() { Tutors = Tutors.ToPagedList<Tutor>(page.HasValue ? page.Value : 1, 2), searchString = searchString });
         }
         [HttpPost]
         public JsonResult ActivateTutor(int TutorId)
@@ -116,10 +181,46 @@ namespace PrivateTutorOnline.Controllers
             
             return Json(new { Status = "OK" });
         }
-        public ActionResult ClassManagementView(int? page)
+        public ActionResult ClassManagementView(string searchString, bool? IsSeachById, int? page)
         {
-            IList<RegistrationClass> Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).ToList();
-            return View(Classes.ToPagedList<RegistrationClass>(page.HasValue ? page.Value : 1, 2));
+            IList<RegistrationClass> Classes = null;
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                if(IsSeachById.Value)
+                {
+                    int searchStringId = -1;
+                    if (int.TryParse(searchString, out searchStringId))
+                        searchStringId = Int32.Parse(searchString);
+                    Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Where(
+                    s => s.Id == searchStringId 
+                    ).ToList();
+                }
+                else
+                {
+                    int searchStringId = -1;
+                    if (int.TryParse(searchString, out searchStringId))
+                        searchStringId = Int32.Parse(searchString);
+                    Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Where(
+                    s =>  
+                     s.Customer.FullName.Contains(searchString)
+                    || s.Tutor.FullName.Equals(searchString)
+                    || s.TutoringTime.Contains(searchString)
+                    || s.Grade.Name.Contains(searchString)
+                    || s.Subjects.Any(t => t.Name.Contains(searchString))
+                    || s.City.Contains(searchString)
+                    || s.District.Contains(searchString)
+                    || s.Ward.Contains(searchString)
+                    || s.Street.Contains(searchString)
+                    ).ToList();
+                }
+            }
+            else
+            {
+                Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).ToList();
+            }
+            return View(new ClassManagementViewModel() { RegistrationClasses = Classes.OrderByDescending(s => s.Id).ToPagedList<RegistrationClass>(page.HasValue ? page.Value : 1, 2), searchString = searchString });
+
         }
         public ActionResult DeleteClassRegistration(int id)
         {
@@ -157,7 +258,7 @@ namespace PrivateTutorOnline.Controllers
                     
                 else
                 {
-                    Class.Status = Enums.ClassStatus.Reject;
+                    Class.Status = Enums.ClassStatus.AdminReject;
                     if (Class.Customer != null)
                     {
                         EmailSenderService.SendHtmlFormattedEmail(Class.Customer.Email, "Lớp bị từ chối",
@@ -178,14 +279,63 @@ namespace PrivateTutorOnline.Controllers
             return Json(new { Status = "OK" });
         }
         // GET: Admin/Details/5
-        public ActionResult SubjectManagement(int? page)
+        public ActionResult SubjectManagement(string searchString, bool? IsSeachById, int? page)
         {
-            return View(db.Subjects.ToList().ToPagedList(page.HasValue ? page.Value : 1, 5));
+            IList<Subject> subjects = null;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                if(IsSeachById.Value)
+                {
+                    int searchStringId = -1;
+                    if (int.TryParse(searchString, out searchStringId))
+                        searchStringId = Int32.Parse(searchString);
+                    subjects = db.Subjects.Include(s => s.Tutors).Where(s => s.Id == searchStringId).ToList();
+                }
+                else
+                {
+                    int searchStringId = -1;
+                    if (int.TryParse(searchString, out searchStringId))
+                        searchStringId = Int32.Parse(searchString);
+                    subjects = db.Subjects.Include(s => s.Tutors).Where(
+                    s => s.Name.Contains(searchString) || s.Tutors.Any(t => t.FullName.Contains(searchString))).ToList();
+                }
+            }
+            else
+            {
+                subjects = db.Subjects.Include(s => s.Tutors).ToList();
+            }
+            return View(new SubjectManagementViewModel() { Subjects = subjects.ToPagedList(page.HasValue ? page.Value : 1, 5), searchString = searchString });
         }
         // GET: Admin/Details/5
-        public ActionResult GradeManagement(int? page)
+        public ActionResult GradeManagement(string searchString, bool? IsSeachById, int? page)
         {
-            return View(db.Grades.ToList().ToPagedList(page.HasValue ? page.Value : 1, 5));
+            IList<Grade> grades = null;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                if(IsSeachById.Value)
+                {
+                    int searchStringId = -1;
+                    if (int.TryParse(searchString, out searchStringId))
+                        searchStringId = Int32.Parse(searchString);
+                    grades = db.Grades.Include(s => s.Tutors).Where(s => s.Id == searchStringId).ToList();
+                }
+                else
+                {
+                    int searchStringId = -1;
+                    if (int.TryParse(searchString, out searchStringId))
+                        searchStringId = Int32.Parse(searchString);
+                    grades = db.Grades.Include(s => s.Tutors).Where(
+                    s =>  s.Name.Contains(searchString)
+                    || s.Tutors.Any(t => t.FullName.Contains(searchString))
+                    ).ToList();
+                }
+                
+            }
+            else
+            {
+                grades = db.Grades.Include(s => s.Tutors).ToList();
+            }
+            return View(new GradeManagementViewModel() { Grades = grades.ToPagedList(page.HasValue ? page.Value : 1, 5), searchString = searchString });
         }
         public ActionResult SubjectManagementEditView(int id)
         {

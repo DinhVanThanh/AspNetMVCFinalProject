@@ -9,12 +9,13 @@ namespace PrivateTutorOnline.Models.ViewModels
 {
     public class PostedClassViewModel
     {
+        [Display(Name = "Mã số")]
         public int Id { get; set; }
         [Display(Name = "Lớp")]
         public Grade Grade { get; set; }
         [Display(Name = "Môn học")]
         public IList<Subject> Subjects { get; set; }
-        [Display(Name = "Học phí")]
+        [Display(Name = "Học phí / tháng")]
         public string SalaryPerMonth { get; set; }
         [Display(Name = "Số ngày / tuần")]
         public short? DayPerWeek { get; set; }
@@ -36,6 +37,8 @@ namespace PrivateTutorOnline.Models.ViewModels
         public string Street { get; set; }
         [Display(Name = "Tên gia sư")]
         public Tutor Tutor { get; set; }
-        public string searchString { get; set; }
+        [Display(Name = "Tên phụ huynh")]
+        public Customer Customer { get; set; }
+
     }
 }

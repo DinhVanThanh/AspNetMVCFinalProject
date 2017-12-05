@@ -81,12 +81,7 @@ namespace PrivateTutorOnline.Controllers
                 Grades = db.Grades.ToList()
             });
         }
-        [AllowAnonymous]
-        [ChildActionOnly]
-        public ActionResult SearchTutorView()
-        {
-            return View("SearchTutorView");
-        }
+       
         [AllowAnonymous]
         [HttpGet]
         public ActionResult Search(  string Keyword ,
@@ -108,26 +103,24 @@ namespace PrivateTutorOnline.Controllers
             {
                 if(String.IsNullOrEmpty(SearchData.Keyword))
                 {
-                    TutorList = db.Tutors.Include("Grades").Include("Subjects")
+                    TutorList = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects)
                    .Where(t =>
                        t.Grades.Any(g => g.Id == SearchData.Grade)
                        && t.Subjects.Any(s => s.Id == SearchData.Subject)
                        && t.Gender == SearchData.Gender
                        && t.Degree == SearchData.Degree
-                       && t.Id == Int32.Parse(SearchData.Keyword)
                    )
                    .ToList();
                 }
                 else
                 {
-                    TutorList = db.Tutors.Include("Grades").Include("Subjects")
+                    TutorList = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects)
                    .Where(t =>
-                   (t.Grades.Any(g => g.Id == SearchData.Grade)
+                        t.Grades.Any(g => g.Id == SearchData.Grade)
                        && t.Subjects.Any(s => s.Id == SearchData.Subject)
                        && t.Gender == SearchData.Gender
                        && t.Degree == SearchData.Degree
-                       && t.Id == Int32.Parse(SearchData.Keyword))
-                       || t.Subjects.Any(h => h.Name.Contains(SearchData.Keyword))
+                       && ( t.Id == Int32.Parse(SearchData.Keyword)
                        || t.FullName.Contains(SearchData.Keyword)
                        || t.District.Contains(SearchData.Keyword)
                        || t.City.Contains(SearchData.Keyword)
@@ -135,10 +128,10 @@ namespace PrivateTutorOnline.Controllers
                        || t.Ward.Contains(SearchData.Keyword)
                        || t.MajorSubject.Contains(SearchData.Keyword)
                        || t.GraduationYear.Equals(SearchData.Keyword)
-                       || t.PhoneNumber.Contains(SearchData.Keyword)
+                       || t.PhoneNumber.Equals(SearchData.Keyword)
                        || t.HomeTown.Contains(SearchData.Keyword)
                        || t.University.Contains(SearchData.Keyword)
-                       || t.Grades.Any(h => h.Name.Contains(SearchData.Keyword))
+                       )
                    )
                    .ToList();
                 }
@@ -148,19 +141,18 @@ namespace PrivateTutorOnline.Controllers
             {
                 if (String.IsNullOrEmpty(SearchData.Keyword))
                 {
-                    TutorList = db.Tutors.Include("Grades").Include("Subjects")
+                    TutorList = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects)
                    .Where(t =>
                         t.Grades.Any(g => g.Id == SearchData.Grade)
                    || t.Subjects.Any(s => s.Id == SearchData.Subject)
                    || t.Gender == SearchData.Gender 
                    || t.Degree == SearchData.Degree
-                   || t.Id == Int32.Parse(SearchData.Keyword)
                    )
                    .ToList();
                 }
                 else
                 {
-                    TutorList = db.Tutors.Include("Grades").Include("Subjects")
+                    TutorList = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects)
                    .Where(t =>
                         t.Grades.Any(g => g.Id == SearchData.Grade)
                    || t.Subjects.Any(s => s.Id == SearchData.Subject)
