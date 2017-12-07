@@ -22,7 +22,7 @@ namespace PrivateTutorOnline.Models.BindingModels
         public Gender Gender { get; set; }
         public string IdentityNumber { get; set; }
         public string HomeTown { get; set; } 
-        public DateTime DateOfBirth { get; set; } 
+        public DateTime? DateOfBirth { get; set; } 
         public AcademicDegree Degree { get; set; }
         public string UniversityName { get; set; }
         public string MajorSubject { get; set; }

@@ -348,8 +348,8 @@ namespace PrivateTutorOnline.Controllers
                 {
                     var fileName = Path.GetFileName(Avatar.FileName);
                     // store the file inside ~/App_Data/uploads folder
-                    var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                    Avatar.SaveAs(path);
+                    //var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                    //Avatar.SaveAs(path);
                     tutor.Image = new byte[Avatar.ContentLength];
                     Avatar.InputStream.Read(tutor.Image, 0, Avatar.ContentLength);
                 }
@@ -359,7 +359,10 @@ namespace PrivateTutorOnline.Controllers
                 tutor.Ward = tutorInfo.Ward;
                 tutor.Street = tutorInfo.Street;
                 tutor.Advantage = tutorInfo.Advantage;
-                tutor.DateOfBirth = tutorInfo.DateOfBirth;
+                if(tutorInfo.DateOfBirth.HasValue)
+                {
+                    tutor.DateOfBirth = tutorInfo.DateOfBirth.Value;
+                }
                 tutor.Gender = tutorInfo.Gender;
                 tutor.Degree = tutorInfo.Degree;
                 tutor.Email = tutorInfo.Email;
@@ -369,19 +372,25 @@ namespace PrivateTutorOnline.Controllers
                 tutor.MajorSubject = tutorInfo.MajorSubject;
                 tutor.PhoneNumber = tutorInfo.PhoneNumber;
                 tutor.University = tutorInfo.UniversityName;
+                if(tutorInfo.Subjects.Count > 0)
+                {
+                    tutor.Subjects = new List<Subject>();
+                    foreach (int i in tutorInfo.Subjects)
+                    {
 
-                tutor.Subjects = new List<Subject>();
-                tutor.Grades = new List<Grade>();
-                foreach (int i in tutorInfo.Subjects)
-                {
-                      
                         tutor.Subjects.Add(db.Subjects.SingleOrDefault(s => s.Id == i));
+                    }
                 }
-                foreach (int i in tutorInfo.Grades)
+                if (tutorInfo.Grades.Count > 0)
                 {
-                    
+                    tutor.Grades = new List<Grade>(); 
+                    foreach (int i in tutorInfo.Grades)
+                    {
+
                         tutor.Grades.Add(db.Grades.SingleOrDefault(gr => gr.Id == i));
-                } 
+                    }
+                }
+                    
                 UserManager.SetEmail(User.Identity.GetUserId(), tutor.Email);
                 db.Entry(tutor).State = EntityState.Modified;
                 db.SaveChanges();

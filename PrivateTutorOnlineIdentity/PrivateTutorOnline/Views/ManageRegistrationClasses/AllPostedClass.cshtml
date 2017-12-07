@@ -131,7 +131,7 @@ ViewBag.Title = "Danh sách lớp đang cần gia sư";
                     @Html.DisplayFor(modelItem => item.Street)
                 </td>
                 <td>
-                    @if (item.Status != PrivateTutorOnline.Enums.ClassStatus.WaitingForCustomerApproval && item.Status != PrivateTutorOnline.Enums.ClassStatus.CustomerRejected && item.Status != PrivateTutorOnline.Enums.ClassStatus.ClassClose)
+                    @if (item.Status != PrivateTutorOnline.Enums.ClassStatus.WaitingForCustomerApproval  && item.Status != PrivateTutorOnline.Enums.ClassStatus.ClassClose)
                     {
                         <button data-classId="@item.Id" id="receiveClass-@item.Id" class="btn btn-success receiveClass"> Đăng kí</button>
                     }

@@ -274,7 +274,10 @@ namespace PrivateTutorOnline.Controllers
                     tutor.Ward = tutorInfo.Ward;
                     tutor.Street = tutorInfo.Street;
                     tutor.Advantage = tutorInfo.Advantage;
-                    tutor.DateOfBirth = tutorInfo.DateOfBirth;
+                    if(tutorInfo.DateOfBirth.HasValue)
+                    {
+                        tutor.DateOfBirth = tutorInfo.DateOfBirth.Value;
+                    }
                     tutor.Gender = tutorInfo.Gender;
                     tutor.Degree = tutorInfo.Degree;
                     tutor.Email = tutorInfo.Email;

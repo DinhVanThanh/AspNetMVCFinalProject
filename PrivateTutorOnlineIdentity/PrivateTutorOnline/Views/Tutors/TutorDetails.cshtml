@@ -1,12 +1,12 @@
 ﻿@model PrivateTutorOnline.Models.ViewModels.TutorEditViewModel
-
+@using PrivateTutorOnline.Extensions
 @{
     ViewBag.Title = "Index";
 }
 
  
 <div style="margin-left:50px;">
-    <h4>Sửa thông tin cá nhân</h4>
+    <h4>Thông tin cá nhân</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -112,8 +112,8 @@
             @Html.DisplayNameFor(model => model.Degree)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Degree)
+        <dd> 
+            @Model.Degree.GetDisplayName()
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.MajorSubject)

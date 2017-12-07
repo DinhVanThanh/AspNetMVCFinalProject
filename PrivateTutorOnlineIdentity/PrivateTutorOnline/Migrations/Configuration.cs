@@ -136,7 +136,7 @@
             if (context.Customers.SingleOrDefault(c => c.Email == "customer0@gmail.com") == null)
             {
 
-                context.Customers.AddOrUpdate(
+                context.Customers.Add(
                    new Models.Customer()
                    {
                        FullName = "Đinh Văn Thành",

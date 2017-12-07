@@ -192,7 +192,7 @@ namespace PrivateTutorOnline.Controllers
         public async Task<ActionResult> AllPostedClass(string searchString, bool? IsSeachById, int? page)
         {
             
-            IList<RegistrationClass> registrationClasses = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Where(t => !t.IsClosed).ToList();
+            IList<RegistrationClass> registrationClasses = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Where(t => !t.IsClosed && t.Status != Enums.ClassStatus.AdminReject && t.Status != Enums.ClassStatus.WaitingForAdminApproval).ToList();
             if (!String.IsNullOrEmpty(searchString))
             {
                 if(IsSeachById.Value)
