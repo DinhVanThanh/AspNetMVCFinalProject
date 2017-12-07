@@ -251,6 +251,7 @@
     <Content Include="EmailTemplates\AccountRegisterAdminNotification.html" />
     <Content Include="EmailTemplates\AccountRegisterSuccess.html" />
     <Content Include="EmailTemplates\ActivateAccountSuccess.html" />
+    <Content Include="EmailTemplates\ChooseTutorForTeaching.html" />
     <Content Include="EmailTemplates\ClassRegistrationApprovedNotification.html" />
     <Content Include="EmailTemplates\ClassRegistrationNotification.html" />
     <Content Include="EmailTemplates\ClassRegistrationNotificationToAdmin.html" />
@@ -276,6 +277,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\ChooseTutor.js" />
     <Content Include="Scripts\EnrollmentApproveOrReject.js" />
     <Content Include="Scripts\IsSearchByIdCheckBox.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

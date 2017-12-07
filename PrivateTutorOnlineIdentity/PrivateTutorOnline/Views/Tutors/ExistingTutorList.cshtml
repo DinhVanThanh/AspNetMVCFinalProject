@@ -191,10 +191,14 @@ else
                                         <label class="col-md-5">@Html.DisplayNameFor(a => item.Advantage)</label>
                                         <div class="col-md-7">@item.Advantage</div>
                                     </div>
-                                    <button class="btn btn-success btn-xs" style="font-size:16px;">
-                                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                                        Chọn gia sư
-                                    </button>
+                                    @if (Request.IsAuthenticated && User.IsInRole("Customer"))
+                                    {
+                                        <button data-tutor-id="@item.Id" class="btn btn-success btn-xs btn-choose-tutor" style="font-size:16px;">
+                                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                            Chọn gia sư
+                                        </button>
+                                    }
+                                    
 
                                 </div>
                             </div>
@@ -222,16 +226,17 @@ else
 }
 
 @section Scripts {
-<script>
-    $(document).ready(function () {
-        $('#searchExactly').click(function () {
+    <script>
+        $(document).ready(function () {
+            $('#searchExactly').click(function () {
             
-            if ($(this).prop('checked')) {
-                $(this).attr("value", "true");
-            } else {
-                $(this).attr("value", "false");
-            }
-        });
-    }); 
-</script>
-    }
+                if ($(this).prop('checked')) {
+                    $(this).attr("value", "true");
+                } else {
+                    $(this).attr("value", "false");
+                }
+            });
+        }); 
+    </script>
+    <script src="~/Scripts/ChooseTutor.js"></script>
+}

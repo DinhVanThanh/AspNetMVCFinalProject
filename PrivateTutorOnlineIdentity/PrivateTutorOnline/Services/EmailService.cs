@@ -33,6 +33,35 @@ namespace PrivateTutorOnline.Services
                 smtp.Send(mailMessage);
             }
         }
+
+        public static string PopulateBodyChooseTutor(Tutor tutor, Customer customer, RegistrationClass registrationClass, string templateUrl)
+        {
+            string body = string.Empty;
+            using (StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath(templateUrl)))
+            {
+                body = reader.ReadToEnd();
+            }
+            body = body.Replace("[TutorFullName]", tutor.FullName);
+            body = body.Replace("[CustomerFullName]", customer.FullName);
+            body = body.Replace("[ClassCode]", registrationClass.Id.ToString());
+            body = body.Replace("[GradeName]", tutor.Id.ToString());
+            string SubjectNames = "";
+            foreach (var item in registrationClass.Subjects)
+            {
+
+                SubjectNames += " - " + item.Name;
+            }
+            body = body.Replace("[SubjectNames]", SubjectNames);
+            body = body.Replace("[SalaryPerMonth]", registrationClass.SalaryPerMonth);
+            body = body.Replace("[TutoringTime]", registrationClass.TutoringTime);
+            body = body.Replace("[DayPerWeek]", registrationClass.DayPerWeek.ToString());
+            body = body.Replace("[Street]", registrationClass.Street);
+            body = body.Replace("[Ward]", registrationClass.Ward);
+            body = body.Replace("[District]", registrationClass.District);
+            body = body.Replace("[City]", registrationClass.City);
+            return body;
+            return body;
+        }
         public static string PopulateBodyTutorEnrollClassNotificationToAdmin(Customer customer, string customerUsername, Tutor tutor, string tutorUsername, string ClassCode, string templateUrl)
         {
             string body = string.Empty;

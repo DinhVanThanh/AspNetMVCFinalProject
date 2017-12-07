@@ -49,12 +49,12 @@ namespace PrivateTutorOnline.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "UserName")] 
+        [Display(Name = "Tên tài khoản")] 
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]

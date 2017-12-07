@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity;
 using PrivateTutorOnline.Models.ViewModels;
 using PagedList;
 using PrivateTutorOnline.Enums;
+using PrivateTutorOnline.Services;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -61,6 +62,31 @@ namespace PrivateTutorOnline.Controllers
             {
                 _userManager = value;
             }
+        }
+        [HttpPost]
+        public JsonResult ChooseTutor(int TutorId)
+        {
+            string UserId = User.Identity.GetUserId();
+            string postedClasses = "";
+            Customer customer = db.Customers.SingleOrDefault(s => s.UserId == UserId);
+            Tutor tutor = db.Tutors.SingleOrDefault(s => s.Id == TutorId);
+            IList<RegistrationClass> Classes = db.RegistrationClasses.Include(t => t.Subjects).Include(t => t.Grade).Include(t => t.Customer).Where(t => t.Customer.UserId == UserId && (t.Status == ClassStatus.AdminApproved || t.Status == ClassStatus.CustomerRejected)).ToList();
+           
+            
+            foreach (var item in Classes)
+            { 
+                try
+                {
+                    EmailSenderService.SendHtmlFormattedEmail(tutor.Email, "Đề nghị nhận lớp từ phụ huynh " + customer.FullName, EmailSenderService.PopulateBodyChooseTutor(tutor, customer, item, "~/EmailTemplates/ChooseTutorForTeaching.html"));
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { Status = "Fail" });
+                }
+            }
+
+            
+            return Json(new { Status = "OK"});
         }
         [AllowAnonymous]
          

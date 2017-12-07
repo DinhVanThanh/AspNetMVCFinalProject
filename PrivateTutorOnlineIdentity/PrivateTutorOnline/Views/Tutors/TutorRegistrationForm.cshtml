@@ -178,7 +178,9 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-8">
                         <div class="pull-right">
-                            <button type="button" class="btn btn-default">Hủy</button>
+                            <button type="button" class="btn btn-default">
+                                @Html.ActionLink("Hủy", "ExistingTutorsList", "Tutors")
+                            </button>
                             <button type="submit" class="btn btn-primary">Đăng kí</button>
                         </div>
                     </div>

@@ -52,7 +52,7 @@ namespace PrivateTutorOnline.Controllers
             {
                 Customers = db.Customers.ToList();
             }
-            return View(new CustomerManagementViewModel() { Customers = Customers.ToPagedList<Customer>(page.HasValue ? page.Value : 1, 2), searchString = searchString });
+            return View(new CustomerManagementViewModel() { Customers = Customers.OrderByDescending(s => s.Id).ToPagedList<Customer>(page.HasValue ? page.Value : 1, 2), searchString = searchString });
         }
         [HttpPost]
         public JsonResult ActivateCustomer(int CustomerId)
@@ -135,7 +135,7 @@ namespace PrivateTutorOnline.Controllers
             {
                 Tutors = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects).ToList();
             }
-            return View( new TutorManagementViewModel() { Tutors = Tutors.ToPagedList<Tutor>(page.HasValue ? page.Value : 1, 2), searchString = searchString });
+            return View( new TutorManagementViewModel() { Tutors = Tutors.OrderByDescending(s => s.Id).ToPagedList<Tutor>(page.HasValue ? page.Value : 1, 2), searchString = searchString });
         }
         [HttpPost]
         public JsonResult ActivateTutor(int TutorId)
