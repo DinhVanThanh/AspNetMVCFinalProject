@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using PrivateTutorOnline.Services;
 using PagedList;
+using System.Configuration;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -22,7 +23,7 @@ namespace PrivateTutorOnline.Controllers
         private TutorOnlineDBContext db = new TutorOnlineDBContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private string AdminEmail = "tieuluantotnghiep2017@gmail.com";
+        private string AdminEmail = ConfigurationManager.AppSettings["AdminEmail"];
         public ApplicationRoleManager AppRoleManager
         {
             get
@@ -64,14 +65,34 @@ namespace PrivateTutorOnline.Controllers
             IList<RegistrationClass> postedClass = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Where(s => s.Customer.UserId == UserId && !s.IsClosed).ToList();
             if (!String.IsNullOrEmpty(searchString))
             {
-                if(IsSeachById.Value)
+                if(IsSeachById.HasValue)
                 {
-                    int searchStringId = -1;
-                    if (int.TryParse(searchString, out searchStringId))
-                        searchStringId = Int32.Parse(searchString);
-                    postedClass = postedClass.Where(
-                    s => s.Id == searchStringId
-                    ).ToList();
+                    if (IsSeachById.Value)
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        postedClass = postedClass.Where(
+                        s => s.Id == searchStringId
+                        ).ToList();
+                    }
+                    else
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        postedClass = postedClass.Where(
+                        s => s.Requirement.Contains(searchString)
+                        || s.Subjects.Any(t => t.Name.Contains(searchString))
+                        || s.Grade.Name.Contains(searchString)
+                        || s.City.Contains(searchString)
+                        || s.District.Contains(searchString)
+                        || s.Ward.Contains(searchString)
+                        || s.Street.Contains(searchString)
+                        || s.Requirement.Contains(searchString)
+                        || s.TutoringTime.Contains(searchString)
+                        ).ToList();
+                    }
                 }
                 else
                 {
@@ -79,7 +100,7 @@ namespace PrivateTutorOnline.Controllers
                     if (int.TryParse(searchString, out searchStringId))
                         searchStringId = Int32.Parse(searchString);
                     postedClass = postedClass.Where(
-                    s =>  s.Requirement.Contains(searchString)
+                    s => s.Requirement.Contains(searchString)
                     || s.Subjects.Any(t => t.Name.Contains(searchString))
                     || s.Grade.Name.Contains(searchString)
                     || s.City.Contains(searchString)
@@ -90,7 +111,6 @@ namespace PrivateTutorOnline.Controllers
                     || s.TutoringTime.Contains(searchString)
                     ).ToList();
                 }
-                
             } 
             IList<PostedClassViewModel> postedClassViewModel = new List<PostedClassViewModel>();
             foreach (var item in postedClass)
@@ -134,14 +154,35 @@ namespace PrivateTutorOnline.Controllers
             }
             if (!String.IsNullOrEmpty(searchString))
             {
-                if( IsSeachById.Value)
+                if(IsSeachById.HasValue)
                 {
-                    int searchStringId = -1;
-                    if (int.TryParse(searchString, out searchStringId))
-                        searchStringId = Int32.Parse(searchString);
-                    enrolledClass = enrolledClass.Where(
-                    s => s.Id == searchStringId
-                    ).ToList();
+                    if (IsSeachById.Value)
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        enrolledClass = enrolledClass.Where(
+                        s => s.Id == searchStringId
+                        ).ToList();
+                    }
+                    else
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        enrolledClass = enrolledClass.Where(
+                        s => s.Requirement.Contains(searchString)
+                        || s.Subjects.Any(t => t.Name.Contains(searchString))
+                        || s.Grade.Name.Contains(searchString)
+                        || s.City.Contains(searchString)
+                        || s.District.Contains(searchString)
+                        || s.Ward.Contains(searchString)
+                        || s.Street.Contains(searchString)
+                        || s.Requirement.Contains(searchString)
+                        || s.TutoringTime.Contains(searchString)
+                        || User.IsInRole("Customer") ? s.Tutor.FullName.Contains(searchString) : s.Customer.FullName.Contains(searchString)
+                        ).ToList();
+                    }
                 }
                 else
                 {
@@ -149,7 +190,7 @@ namespace PrivateTutorOnline.Controllers
                     if (int.TryParse(searchString, out searchStringId))
                         searchStringId = Int32.Parse(searchString);
                     enrolledClass = enrolledClass.Where(
-                    s =>  s.Requirement.Contains(searchString)
+                    s => s.Requirement.Contains(searchString)
                     || s.Subjects.Any(t => t.Name.Contains(searchString))
                     || s.Grade.Name.Contains(searchString)
                     || s.City.Contains(searchString)
@@ -161,7 +202,6 @@ namespace PrivateTutorOnline.Controllers
                     || User.IsInRole("Customer") ? s.Tutor.FullName.Contains(searchString) : s.Customer.FullName.Contains(searchString)
                     ).ToList();
                 }
-                
             } 
             IList<PostedClassViewModel> enrolledClassViewModel = new List<PostedClassViewModel>();
             foreach (var item in enrolledClass)
@@ -195,14 +235,34 @@ namespace PrivateTutorOnline.Controllers
             IList<RegistrationClass> registrationClasses = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Where(t => !t.IsClosed && t.Status != Enums.ClassStatus.AdminReject && t.Status != Enums.ClassStatus.WaitingForAdminApproval).ToList();
             if (!String.IsNullOrEmpty(searchString))
             {
-                if(IsSeachById.Value)
+               if(IsSeachById.HasValue)
                 {
-                    int searchStringId = -1;
-                    if (int.TryParse(searchString, out searchStringId))
-                        searchStringId = Int32.Parse(searchString);
-                    registrationClasses = registrationClasses.Where(
-                    s => s.Id == searchStringId
-                    ).ToList();
+                    if (IsSeachById.Value)
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        registrationClasses = registrationClasses.Where(
+                        s => s.Id == searchStringId
+                        ).ToList();
+                    }
+                    else
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        registrationClasses = registrationClasses.Where(
+                        s => s.Requirement.Contains(searchString)
+                        || s.Subjects.Any(t => t.Name.Contains(searchString))
+                        || s.Grade.Name.Contains(searchString)
+                        || s.City.Contains(searchString)
+                        || s.District.Contains(searchString)
+                        || s.Ward.Contains(searchString)
+                        || s.Street.Contains(searchString)
+                        || s.Requirement.Contains(searchString)
+                        || s.TutoringTime.Contains(searchString)
+                        ).ToList();
+                    }
                 }
                 else
                 {
@@ -221,7 +281,6 @@ namespace PrivateTutorOnline.Controllers
                     || s.TutoringTime.Contains(searchString)
                     ).ToList();
                 }
-                
             } 
             List<PostedClassViewModel> allPostedClass = new List<PostedClassViewModel>();
             foreach (var item in registrationClasses)

@@ -1,3 +1,9 @@
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\System.IO.Compression.dll
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\VBCSCompiler.exe
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\ApplicationInsights.config
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\csc.exe
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\csc.exe.config
@@ -6,13 +12,9 @@ C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\csi.exe
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\csi.exe.config
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\csi.rsp
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.CSharp.Core.targets
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\Microsoft.Win32.Primitives.dll
@@ -22,7 +24,6 @@ C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\System.
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\System.Diagnostics.Process.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\System.Diagnostics.StackTrace.dll
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\System.IO.Compression.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\System.IO.FileSystem.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\System.IO.FileSystem.DriveInfo.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\System.IO.FileSystem.Primitives.dll
@@ -45,11 +46,7 @@ C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\System.
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\vbc.exe
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\vbc.exe.config
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\vbc.rsp
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\VBCSCompiler.exe
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\roslyn\VBCSCompiler.exe.config
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\PrivateTutorOnline.dll.config
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\PrivateTutorOnline.dll
-C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\PrivateTutorOnline.pdb
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Antlr3.Runtime.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\EntityFramework.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\EntityFramework.SqlServer.dll
@@ -120,4 +117,7 @@ C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\Microsoft.AI.W
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\obj\Debug\PrivateTutorOnline.csproj.CoreCompileInputs.cache
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\obj\Debug\PrivateTutorOnline.dll
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\obj\Debug\PrivateTutorOnline.pdb
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\PrivateTutorOnline.dll.config
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\PrivateTutorOnline.dll
+C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\bin\PrivateTutorOnline.pdb
 C:\FinalProject\PrivateTutorOnlineIdentity\PrivateTutorOnline\obj\Debug\PrivateTutorOnline.csprojResolveAssemblyReference.cache

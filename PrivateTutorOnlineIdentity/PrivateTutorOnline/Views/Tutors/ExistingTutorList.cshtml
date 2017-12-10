@@ -191,7 +191,7 @@ else
                                         <label class="col-md-5">@Html.DisplayNameFor(a => item.Advantage)</label>
                                         <div class="col-md-7">@item.Advantage</div>
                                     </div>
-                                    @if (Request.IsAuthenticated && User.IsInRole("Customer"))
+                                    @if (Request.IsAuthenticated && User.IsInRole("Customer") && Model.IsStillClassRemained)
                                     {
                                         <button data-tutor-id="@item.Id" class="btn btn-success btn-xs btn-choose-tutor" style="font-size:16px;">
                                             <i class="fa fa-envelope-o" aria-hidden="true"></i>

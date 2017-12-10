@@ -18,7 +18,7 @@ namespace PrivateTutorOnline.Models
         [Display(Name = "Môn học")]
         public IList<Subject> Subjects { get; set; }
         [Display(Name = "Học phí / tháng")]
-        [StringLength(10)]
+        [StringLength(20)]
         public string SalaryPerMonth { get; set; }
         [Display(Name = "Số buổi / tuần")]
         public short? DayPerWeek { get; set; }

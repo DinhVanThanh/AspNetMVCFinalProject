@@ -198,6 +198,22 @@
                     {
                         <option value="Master">Thạc sĩ</option>
                     }
+                    @if (Model.Degree == PrivateTutorOnline.Enums.AcademicDegree.Doctor)
+                    {
+                        <option selected value="Doctor">Tiến sĩ</option>
+                    }
+                    else
+                    {
+                        <option value="Doctor">Tiến sĩ</option>
+                    }
+                    @if (Model.Degree == PrivateTutorOnline.Enums.AcademicDegree.Other)
+                    {
+                        <option selected value="Other">Khác</option>
+                    }
+                    else
+                    {
+                        <option value="Other">Khác</option>
+                    }
                 </select>
             </div>
         </div>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using PrivateTutorOnline.Extensions;
+using System.Net;
 
 namespace PrivateTutorOnline.Services
 {
@@ -18,10 +19,11 @@ namespace PrivateTutorOnline.Services
             {
                 mailMessage.From = new MailAddress(ConfigurationManager.AppSettings["UserName"]);
                 mailMessage.Subject = subject;
+                
                 mailMessage.Body = body;
                 mailMessage.IsBodyHtml = true;
                 mailMessage.To.Add(new MailAddress(recepientEmail));
-                SmtpClient smtp = new SmtpClient();
+                SmtpClient smtp = new SmtpClient(); 
                 smtp.Host = ConfigurationManager.AppSettings["Host"];
                 smtp.EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableSsl"]);
                 System.Net.NetworkCredential NetworkCred = new System.Net.NetworkCredential();

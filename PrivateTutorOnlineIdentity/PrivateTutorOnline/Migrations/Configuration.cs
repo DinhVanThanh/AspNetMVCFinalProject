@@ -46,7 +46,8 @@
             const string AdminUsername = "Admin";
             const string AdminPassword = "123456";
             const string roleName = "Admin";
-            const string AdminEmail = "tieuluantotnghiep2017@gmail.com";
+            //const string AdminEmail = "tieuluantotnghiep2017@gmail.com";
+            const string AdminEmail = "tieuluantotnghiep2017@tutoronline.somee.com";
 
 
             if (AppRoleManager.FindByNameAsync("Admin") != null)
@@ -55,8 +56,8 @@
                 AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Customer"));
             if (AppRoleManager.FindByNameAsync("Tutor") != null)
                 AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Tutor"));
-            if (AppRoleManager.FindByNameAsync("Owner") != null)
-                AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Owner"));
+            //if (AppRoleManager.FindByNameAsync("Owner") != null)
+            //    AppRoleManager.Create(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Owner"));
 
             //Initializer Admin account
             var admin = UserManager.FindByName(AdminUsername);
@@ -90,8 +91,27 @@
                 result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
             if (result.IsCompleted)
                 UserManager.AddToRoleAsync(tutor.Id, "Tutor");
-            //Initializer Customer account
 
+            //Initializer Tutor List account
+            // tutor = new ApplicationUser { UserName = "GiaSu_1", Email = "tutor1@gmail.com" };
+            // result = UserManager.CreateAsync(tutor, AdminPassword);
+            //if (result.IsCompleted)
+            //    result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
+
+            // tutor = new ApplicationUser { UserName = "GiaSu_2", Email = "tutor2@gmail.com" };
+            // result = UserManager.CreateAsync(tutor, AdminPassword);
+            //if (result.IsCompleted)
+            //    result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
+
+            // tutor = new ApplicationUser { UserName = "GiaSu_3", Email = "tutor3@gmail.com" };
+            // result = UserManager.CreateAsync(tutor, AdminPassword);
+            //if (result.IsCompleted)
+            //    result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
+
+            //tutor = new ApplicationUser { UserName = "GiaSu_4", Email = "tieuluantotnghiep2017@gmail.com" };
+            //result = UserManager.CreateAsync(tutor, AdminPassword);
+            //if (result.IsCompleted)
+            //    result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
 
 
 
@@ -146,7 +166,9 @@
                        District = "Quận 5",
                        Ward = "Phường 13",
                        Street = "An Dương Vương",
-                       UserId = customerUser.Id
+                       UserId = customerUser.Id,
+                       IsEnable = true,
+                       IsActivate = false
                    }
                 );
 
@@ -158,7 +180,7 @@
                 context.Tutors.SingleOrDefault(s => s.Email == "Phuong.Nhung@gmail.com") == null
                 )
             {
-
+                 
                 context.Tutors.AddOrUpdate(
                 new Models.Tutor()
                 {
@@ -180,14 +202,14 @@
                     Degree = Enums.AcademicDegree.Teacher,
                     Image = new byte[] { },
                     IsEnable = true,
-                    IsActivate = false
-            },
+                    IsActivate = true
+                },
                 new Models.Tutor()
                 {
                     FullName = "Nguyễn Ngọc Ánh",
                     Gender = Enums.Gender.Female,
                     DateOfBirth = new DateTime(1993, 2, 2),
-                    Email = "Ngoc.Anh@gmail.com",
+                    Email = "tutor1@gmail.com",
                     PhoneNumber = "01526487656",
                     IdentityNumber = "0225644478",
                     City = "TPHCM",
@@ -202,14 +224,14 @@
                     Degree = Enums.AcademicDegree.Master,
                     Image = new byte[] { },
                     IsEnable = true,
-                    IsActivate = false
+                    IsActivate = true
                 },
                 new Models.Tutor()
                 {
                     FullName = "Vương Tuấn Kiệt",
                     Gender = Enums.Gender.Male,
                     DateOfBirth = new DateTime(1995, 11, 11),
-                    Email = "Tuan.Kiet@gmail.com",
+                    Email = "tutor2@gmail.com",
                     PhoneNumber = "01526487656",
                     IdentityNumber = "0225644478",
                     City = "TPHCM",
@@ -224,14 +246,14 @@
                     Degree = Enums.AcademicDegree.Student,
                     Image = new byte[] { },
                     IsEnable = true,
-                    IsActivate = false
+                    IsActivate = true
                 },
                  new Models.Tutor()
                  {
                      FullName = "Đỗ Thị Phương Nhung",
                      Gender = Enums.Gender.Female,
                      DateOfBirth = new DateTime(1996, 5, 13),
-                     Email = "Phuong.Nhung@gmail.com",
+                     Email = "tutor3@gmail.com",
                      PhoneNumber = "01526487656",
                      IdentityNumber = "0225644478",
                      City = "Đà Nẵng",
@@ -246,7 +268,7 @@
                      Degree = Enums.AcademicDegree.Bachelor,
                      Image = new byte[] { },
                      IsEnable = true,
-                     IsActivate = false
+                     IsActivate = true
                  },
                  new Models.Tutor()
                  {
@@ -268,7 +290,7 @@
                      Degree = Enums.AcademicDegree.Bachelor,
                      Image = new byte[] { },
                      IsEnable = true,
-                     IsActivate = false,
+                     IsActivate = true,
                      UserId = tutor.Id
                  }  );
             }

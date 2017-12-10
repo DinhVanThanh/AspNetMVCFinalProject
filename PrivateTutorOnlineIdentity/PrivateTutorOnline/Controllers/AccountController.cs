@@ -12,6 +12,7 @@ using PrivateTutorOnline.Models;
 using System.IO;
 using System.Collections.Generic;
 using PrivateTutorOnline.Services;
+using System.Configuration;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -22,7 +23,7 @@ namespace PrivateTutorOnline.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _AppRoleManager;
         private TutorOnlineDBContext context;
-        private string AdminEmail = "tieuluantotnghiep2017@gmail.com";
+        private string AdminEmail = ConfigurationManager.AppSettings["AdminEmail"];
         public AccountController()
         {
             context = new TutorOnlineDBContext();
@@ -252,69 +253,63 @@ namespace PrivateTutorOnline.Controllers
         [AllowAnonymous] 
         public async Task<ActionResult> RegisterTutor(HttpPostedFileBase Avatar, PrivateTutorOnline.Models.BindingModels.TutorBindingModel tutorInfo)
         {
-            if (Avatar != null && Avatar.ContentLength > 0)
+            
+            var user = new ApplicationUser { UserName = tutorInfo.Username, Email = tutorInfo.Email, PhoneNumber = tutorInfo.PhoneNumber };
+            var result = UserManager.Create(user, tutorInfo.Password);
+            if (result.Succeeded)
             {
-                // extract only the fielname
-                var fileName = Path.GetFileName(Avatar.FileName);
-                // store the file inside ~/App_Data/uploads folder
-                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                Avatar.SaveAs(path);
-
-                var user = new ApplicationUser { UserName = tutorInfo.Username, Email = tutorInfo.Email, PhoneNumber = tutorInfo.PhoneNumber };
-                var result = UserManager.Create(user, tutorInfo.Password);
-                if (result.Succeeded)
+                UserManager.AddToRole(user.Id, "Tutor");
+                //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                Tutor tutor = new Tutor();
+                tutor.UserId = user.Id;
+                tutor.FullName = tutorInfo.FullName;
+                tutor.City = tutorInfo.City;
+                tutor.District = tutorInfo.District;
+                tutor.Ward = tutorInfo.Ward;
+                tutor.Street = tutorInfo.Street;
+                tutor.Advantage = tutorInfo.Advantage;
+                if(tutorInfo.DateOfBirth.HasValue)
                 {
-                    UserManager.AddToRole(user.Id, "Tutor");
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    Tutor tutor = new Tutor();
-                    tutor.UserId = user.Id;
-                    tutor.FullName = tutorInfo.FullName;
-                    tutor.City = tutorInfo.City;
-                    tutor.District = tutorInfo.District;
-                    tutor.Ward = tutorInfo.Ward;
-                    tutor.Street = tutorInfo.Street;
-                    tutor.Advantage = tutorInfo.Advantage;
-                    if(tutorInfo.DateOfBirth.HasValue)
-                    {
-                        tutor.DateOfBirth = tutorInfo.DateOfBirth.Value;
-                    }
-                    tutor.Gender = tutorInfo.Gender;
-                    tutor.Degree = tutorInfo.Degree;
-                    tutor.Email = tutorInfo.Email;
-                    tutor.GraduationYear = tutorInfo.GraduationYear;
-                    tutor.HomeTown = tutorInfo.HomeTown;
-                    tutor.IdentityNumber = tutorInfo.IdentityNumber;
-                    tutor.MajorSubject = tutorInfo.MajorSubject;
-                    tutor.PhoneNumber = tutorInfo.PhoneNumber;
-                    tutor.University = tutorInfo.UniversityName;
+                    tutor.DateOfBirth = tutorInfo.DateOfBirth.Value;
+                }
+                tutor.Gender = tutorInfo.Gender;
+                tutor.Degree = tutorInfo.Degree;
+                tutor.Email = tutorInfo.Email;
+                tutor.GraduationYear = tutorInfo.GraduationYear;
+                tutor.HomeTown = tutorInfo.HomeTown;
+                tutor.IdentityNumber = tutorInfo.IdentityNumber;
+                tutor.MajorSubject = tutorInfo.MajorSubject;
+                tutor.PhoneNumber = tutorInfo.PhoneNumber;
+                tutor.University = tutorInfo.UniversityName;
+                if(Avatar != null && Avatar.ContentLength > 0)
+                {
                     tutor.Image = new byte[Avatar.ContentLength];
                     Avatar.InputStream.Read(tutor.Image, 0, Avatar.ContentLength);
-                    tutor.Subjects = new List<Subject>();
-                    tutor.Grades = new List<Grade>();
-                    foreach (int i in tutorInfo.Subjects)
-                    {
-                        tutor.Subjects.Add(context.Subjects.SingleOrDefault(s => s.Id == i));
-                    }
-                    foreach (int i in tutorInfo.Grades)
-                    {
-                        tutor.Grades.Add(context.Grades.SingleOrDefault(gr => gr.Id == i));
-                    }
-                    tutor.IsActivate = false;
-                    tutor.IsEnable = true;
-                    context.Tutors.Add(tutor);
-                    context.SaveChanges();
-                    //send to tutor
-                    EmailSenderService.SendHtmlFormattedEmail(tutorInfo.Email, "Đăng kí tài khoản", EmailSenderService.PopulateBody(tutorInfo.FullName, tutorInfo.Username,  "~/EmailTemplates/AccountRegisterSuccess.html"));
-                    //send to admin
-                    EmailSenderService.SendHtmlFormattedEmail(AdminEmail, "Gia sư đăng kí tài khoản", EmailSenderService.PopulateBody(tutorInfo.FullName, tutorInfo.Username,  "~/EmailTemplates/AccountRegisterAdminNotification.html"));
-                    ModelState.AddModelError("", "Tài khoản của bạn đã được tạo thành công ! Vui lòng kiểm tra Email ");
-                    return RedirectToAction("Login", "Account");
+                } 
+                tutor.Subjects = new List<Subject>();
+                tutor.Grades = new List<Grade>();
+                foreach (int i in tutorInfo.Subjects)
+                {
+                    tutor.Subjects.Add(context.Subjects.SingleOrDefault(s => s.Id == i));
                 }
-                else
-                    return RedirectToAction("TutorRegistrationForm", "Tutors");
+                foreach (int i in tutorInfo.Grades)
+                {
+                    tutor.Grades.Add(context.Grades.SingleOrDefault(gr => gr.Id == i));
+                }
+                tutor.IsActivate = false;
+                tutor.IsEnable = true;
+                context.Tutors.Add(tutor);
+                context.SaveChanges();
+                //send to tutor
+                EmailSenderService.SendHtmlFormattedEmail(tutorInfo.Email, "Đăng kí tài khoản", EmailSenderService.PopulateBody(tutorInfo.FullName, tutorInfo.Username,  "~/EmailTemplates/AccountRegisterSuccess.html"));
+                //send to admin
+                EmailSenderService.SendHtmlFormattedEmail(AdminEmail, "Gia sư đăng kí tài khoản", EmailSenderService.PopulateBody(tutorInfo.FullName, tutorInfo.Username,  "~/EmailTemplates/AccountRegisterAdminNotification.html"));
+                ModelState.AddModelError("", "Tài khoản của bạn đã được tạo thành công ! Vui lòng kiểm tra Email ");
+                return RedirectToAction("Login", "Account");
             }
             else
                 return RedirectToAction("TutorRegistrationForm", "Tutors");
+           
         }
 
 

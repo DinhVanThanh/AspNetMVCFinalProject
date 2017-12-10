@@ -15,6 +15,7 @@ using PrivateTutorOnline.Models.ViewModels;
 using PagedList;
 using PrivateTutorOnline.Enums;
 using PrivateTutorOnline.Services;
+using System.Configuration;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -24,6 +25,7 @@ namespace PrivateTutorOnline.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager; 
         private TutorOnlineDBContext db = new TutorOnlineDBContext();
+        private string AdminEmail = ConfigurationManager.AppSettings["AdminEmail"];
         public TutorsController()
         {
 
@@ -66,6 +68,7 @@ namespace PrivateTutorOnline.Controllers
         [HttpPost]
         public JsonResult ChooseTutor(int TutorId)
         {
+            
             string UserId = User.Identity.GetUserId();
             string postedClasses = "";
             Customer customer = db.Customers.SingleOrDefault(s => s.UserId == UserId);
@@ -100,11 +103,20 @@ namespace PrivateTutorOnline.Controllers
         [AllowAnonymous]
         public ActionResult ExistingTutorsList(int? page)
         {
+            bool IsStillRemainClass = false;
+            if (User.IsInRole("Customer"))
+            {
+                string UserId = User.Identity.GetUserId();
+                IsStillRemainClass = db.RegistrationClasses.Include(t => t.Customer)
+                    .Where(t => t.Customer.UserId == UserId && ( t.Status == ClassStatus.CustomerRejected || t.Status == ClassStatus.AdminApproved)).Count() > 0 ? true : false;
+            }
+            
             IList<Tutor> TutorList = db.Tutors.Include("Grades").Include("Subjects").Where(s => s.IsActivate && s.IsEnable).OrderByDescending(s => s.Id).ToList();
             return View("ExistingTutorList", new PrivateTutorOnline.Models.ViewModels.ExistingTutorListViewModel() {
                 Tutors = TutorList.ToPagedList(page.HasValue ? page.Value : 1, 2),
                 Subjects = db.Subjects.ToList(),
-                Grades = db.Grades.ToList()
+                Grades = db.Grades.ToList(),
+                IsStillClassRemained = IsStillRemainClass
             });
         }
        
@@ -340,16 +352,12 @@ namespace PrivateTutorOnline.Controllers
             tutor.Subjects.Clear();
             tutor.Grades.Clear();
             db.Entry(tutor).State = EntityState.Modified;
-            db.SaveChanges();
+            db.SaveChanges();  
             tutor = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects).SingleOrDefault(s => s.Id == tutorInfo.Id);
             if (tutor != null)
             {
                 if (Avatar != null)
-                {
-                    var fileName = Path.GetFileName(Avatar.FileName);
-                    // store the file inside ~/App_Data/uploads folder
-                    //var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                    //Avatar.SaveAs(path);
+                { 
                     tutor.Image = new byte[Avatar.ContentLength];
                     Avatar.InputStream.Read(tutor.Image, 0, Avatar.ContentLength);
                 }

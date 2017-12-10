@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using PagedList;
 using PrivateTutorOnline.Services;
 using PrivateTutorOnline.Models.ViewModels;
+using System.Configuration;
 
 namespace PrivateTutorOnline.Controllers
 {
@@ -15,21 +16,39 @@ namespace PrivateTutorOnline.Controllers
     public class AdminController : Controller
     {
         TutorOnlineDBContext db = new TutorOnlineDBContext();
-        private string AdminEmail = "tieuluantotnghiep2017@gmail.com";
+        private string AdminEmail = ConfigurationManager.AppSettings["AdminEmail"];
         // GET: Admin
         public ActionResult CustomerManagementView(string searchString, bool? IsSeachById, int? page)
         {
             IList<Customer> Customers = null;
             if(!String.IsNullOrEmpty(searchString))
             {
-                if(IsSeachById.Value)
+                if(IsSeachById.HasValue)
                 {
-                    int searchStringId = -1;
-                    if (int.TryParse(searchString, out searchStringId))
-                        searchStringId = Int32.Parse(searchString);
-                    Customers = db.Customers.Where(
-                    s => s.Id == searchStringId 
-                    ).ToList();
+                    if (IsSeachById.Value)
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        Customers = db.Customers.Where(
+                        s => s.Id == searchStringId
+                        ).ToList();
+                    }
+                    else
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        Customers = db.Customers.Where(
+                        s => s.FullName.Contains(searchString)
+                        || s.PhoneNumber.Equals(searchString)
+                        || s.Email.Contains(searchString)
+                        || s.City.Contains(searchString)
+                        || s.District.Contains(searchString)
+                        || s.Ward.Contains(searchString)
+                        || s.Street.Contains(searchString)
+                        ).ToList();
+                    }
                 }
                 else
                 {
@@ -37,7 +56,7 @@ namespace PrivateTutorOnline.Controllers
                     if (int.TryParse(searchString, out searchStringId))
                         searchStringId = Int32.Parse(searchString);
                     Customers = db.Customers.Where(
-                    s =>  s.FullName.Contains(searchString)
+                    s => s.FullName.Contains(searchString)
                     || s.PhoneNumber.Equals(searchString)
                     || s.Email.Contains(searchString)
                     || s.City.Contains(searchString)
@@ -46,7 +65,6 @@ namespace PrivateTutorOnline.Controllers
                     || s.Street.Contains(searchString)
                     ).ToList();
                 }
-                
             }
             else
             {
@@ -105,14 +123,32 @@ namespace PrivateTutorOnline.Controllers
             IList<Tutor> Tutors = null;
             if (!String.IsNullOrEmpty(searchString))
             {
-                if(IsSeachById.Value)
+                if(IsSeachById.HasValue)
                 {
-                    int searchStringId = -1;
-                    if (int.TryParse(searchString, out searchStringId))
-                        searchStringId = Int32.Parse(searchString);
-                    Tutors = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects).Where(
-                    s => s.Id == searchStringId 
-                    ).ToList();
+                    if (IsSeachById.Value)
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        Tutors = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects).Where(
+                        s => s.Id == searchStringId
+                        ).ToList();
+                    }
+                    else
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        Tutors = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects).Where(
+                        s => s.FullName.Contains(searchString)
+                        || s.PhoneNumber.Equals(searchString)
+                        || s.Email.Contains(searchString)
+                        || s.City.Contains(searchString)
+                        || s.District.Contains(searchString)
+                        || s.Ward.Contains(searchString)
+                        || s.Street.Contains(searchString)
+                        ).ToList();
+                    }
                 }
                 else
                 {
@@ -120,7 +156,7 @@ namespace PrivateTutorOnline.Controllers
                     if (int.TryParse(searchString, out searchStringId))
                         searchStringId = Int32.Parse(searchString);
                     Tutors = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects).Where(
-                    s =>  s.FullName.Contains(searchString)
+                    s => s.FullName.Contains(searchString)
                     || s.PhoneNumber.Equals(searchString)
                     || s.Email.Contains(searchString)
                     || s.City.Contains(searchString)
@@ -129,7 +165,6 @@ namespace PrivateTutorOnline.Controllers
                     || s.Street.Contains(searchString)
                     ).ToList();
                 }
-               
             }
             else
             {
@@ -187,14 +222,35 @@ namespace PrivateTutorOnline.Controllers
             
             if (!String.IsNullOrEmpty(searchString))
             {
-                if(IsSeachById.Value)
+                if(IsSeachById.HasValue)
                 {
-                    int searchStringId = -1;
-                    if (int.TryParse(searchString, out searchStringId))
-                        searchStringId = Int32.Parse(searchString);
-                    Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Where(
-                    s => s.Id == searchStringId 
-                    ).ToList();
+                    if (IsSeachById.Value)
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Where(
+                        s => s.Id == searchStringId
+                        ).ToList();
+                    }
+                    else
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Where(
+                        s =>
+                         s.Customer.FullName.Contains(searchString)
+                        || s.Tutor.FullName.Equals(searchString)
+                        || s.TutoringTime.Contains(searchString)
+                        || s.Grade.Name.Contains(searchString)
+                        || s.Subjects.Any(t => t.Name.Contains(searchString))
+                        || s.City.Contains(searchString)
+                        || s.District.Contains(searchString)
+                        || s.Ward.Contains(searchString)
+                        || s.Street.Contains(searchString)
+                        ).ToList();
+                    }
                 }
                 else
                 {
@@ -202,7 +258,7 @@ namespace PrivateTutorOnline.Controllers
                     if (int.TryParse(searchString, out searchStringId))
                         searchStringId = Int32.Parse(searchString);
                     Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Where(
-                    s =>  
+                    s =>
                      s.Customer.FullName.Contains(searchString)
                     || s.Tutor.FullName.Equals(searchString)
                     || s.TutoringTime.Contains(searchString)
@@ -284,12 +340,23 @@ namespace PrivateTutorOnline.Controllers
             IList<Subject> subjects = null;
             if (!String.IsNullOrEmpty(searchString))
             {
-                if(IsSeachById.Value)
+                if(IsSeachById.HasValue)
                 {
-                    int searchStringId = -1;
-                    if (int.TryParse(searchString, out searchStringId))
-                        searchStringId = Int32.Parse(searchString);
-                    subjects = db.Subjects.Include(s => s.Tutors).Where(s => s.Id == searchStringId).ToList();
+                    if (IsSeachById.Value)
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        subjects = db.Subjects.Include(s => s.Tutors).Where(s => s.Id == searchStringId).ToList();
+                    }
+                    else
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        subjects = db.Subjects.Include(s => s.Tutors).Where(
+                        s => s.Name.Contains(searchString) || s.Tutors.Any(t => t.FullName.Contains(searchString))).ToList();
+                    }
                 }
                 else
                 {
@@ -312,12 +379,25 @@ namespace PrivateTutorOnline.Controllers
             IList<Grade> grades = null;
             if (!String.IsNullOrEmpty(searchString))
             {
-                if(IsSeachById.Value)
+               if(IsSeachById.HasValue)
                 {
-                    int searchStringId = -1;
-                    if (int.TryParse(searchString, out searchStringId))
-                        searchStringId = Int32.Parse(searchString);
-                    grades = db.Grades.Include(s => s.Tutors).Where(s => s.Id == searchStringId).ToList();
+                    if (IsSeachById.Value)
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        grades = db.Grades.Include(s => s.Tutors).Where(s => s.Id == searchStringId).ToList();
+                    }
+                    else
+                    {
+                        int searchStringId = -1;
+                        if (int.TryParse(searchString, out searchStringId))
+                            searchStringId = Int32.Parse(searchString);
+                        grades = db.Grades.Include(s => s.Tutors).Where(
+                        s => s.Name.Contains(searchString)
+                        || s.Tutors.Any(t => t.FullName.Contains(searchString))
+                        ).ToList();
+                    }
                 }
                 else
                 {
@@ -325,11 +405,10 @@ namespace PrivateTutorOnline.Controllers
                     if (int.TryParse(searchString, out searchStringId))
                         searchStringId = Int32.Parse(searchString);
                     grades = db.Grades.Include(s => s.Tutors).Where(
-                    s =>  s.Name.Contains(searchString)
+                    s => s.Name.Contains(searchString)
                     || s.Tutors.Any(t => t.FullName.Contains(searchString))
                     ).ToList();
                 }
-                
             }
             else
             {
