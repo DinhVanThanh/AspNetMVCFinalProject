@@ -229,7 +229,7 @@ namespace PrivateTutorOnline.Controllers
                         int searchStringId = -1;
                         if (int.TryParse(searchString, out searchStringId))
                             searchStringId = Int32.Parse(searchString);
-                        Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Where(
+                        Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Include(s => s.Grade).Where(
                         s => s.Id == searchStringId
                         ).ToList();
                     }
@@ -238,7 +238,7 @@ namespace PrivateTutorOnline.Controllers
                         int searchStringId = -1;
                         if (int.TryParse(searchString, out searchStringId))
                             searchStringId = Int32.Parse(searchString);
-                        Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Where(
+                        Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Include(s => s.Grade).Where(
                         s =>
                          s.Customer.FullName.Contains(searchString)
                         || s.Tutor.FullName.Equals(searchString)
@@ -257,7 +257,7 @@ namespace PrivateTutorOnline.Controllers
                     int searchStringId = -1;
                     if (int.TryParse(searchString, out searchStringId))
                         searchStringId = Int32.Parse(searchString);
-                    Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Where(
+                    Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Include(s => s.Grade).Where(
                     s =>
                      s.Customer.FullName.Contains(searchString)
                     || s.Tutor.FullName.Equals(searchString)
@@ -273,7 +273,7 @@ namespace PrivateTutorOnline.Controllers
             }
             else
             {
-                Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).ToList();
+                Classes = db.RegistrationClasses.Include(s => s.Tutor).Include(s => s.Customer).Include(s => s.Subjects).Include(s => s.Grade).ToList();
             }
             return View(new ClassManagementViewModel() { RegistrationClasses = Classes.OrderByDescending(s => s.Id).ToPagedList<RegistrationClass>(page.HasValue ? page.Value : 1, 2), searchString = searchString });
 

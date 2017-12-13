@@ -9,12 +9,7 @@
             success: function (response) {
                 console.log(response);
                 $('#row-status-' + Id).html('<span style="color:red">Duyệt</span>');
-                button.css('display', 'none');
-                $('.btn-not-approve').each(function () {
-                    if ($(this).attr('data-class-id') === Id) {
-                        $(this).css('display', 'none');
-                    }
-                })
+                $('#approve-reject-class-' + Id).html('<span style="color:red">Đã xem xét</span>'); 
                 
                 $.toaster({ 
                     message : 'Duyệt thành công',  
@@ -42,14 +37,7 @@
             success: function (response) {
                 console.log(response);
                 $('#row-status-' + Id).html('<span style="color:red">Không duyệt</span>');
-                $('.btn-approve').each(function () {
-                    if ($(this).attr('data-class-id') === Id) {
-                        $(this).css('display', 'none');
-                    }
-                })
-                 
-                 
-                button.css('display', 'none');
+                $('#approve-reject-class-' + Id).html('<span style="color:red">Đã xem xét</span>'); 
 
                 $.toaster({
                     message: 'Từ chối thành công',

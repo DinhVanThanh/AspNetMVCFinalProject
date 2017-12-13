@@ -116,7 +116,9 @@ namespace PrivateTutorOnline.Controllers
                 Tutors = TutorList.ToPagedList(page.HasValue ? page.Value : 1, 2),
                 Subjects = db.Subjects.ToList(),
                 Grades = db.Grades.ToList(),
-                IsStillClassRemained = IsStillRemainClass
+                IsStillClassRemained = IsStillRemainClass,
+                IsSearchBySubjects = false,
+                IsSearchByGrades = false
             });
         }
        
@@ -152,13 +154,16 @@ namespace PrivateTutorOnline.Controllers
                 }
                 else
                 {
+                    int TutorId = -1;
+                    if (int.TryParse(SearchData.Keyword, out TutorId))
+                        TutorId = Int32.Parse(SearchData.Keyword);
                     TutorList = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects)
                    .Where(t =>
                         t.Grades.Any(g => g.Id == SearchData.Grade)
                        && t.Subjects.Any(s => s.Id == SearchData.Subject)
                        && t.Gender == SearchData.Gender
                        && t.Degree == SearchData.Degree
-                       && ( t.Id == Int32.Parse(SearchData.Keyword)
+                       && ( t.Id == TutorId
                        || t.FullName.Contains(SearchData.Keyword)
                        || t.District.Contains(SearchData.Keyword)
                        || t.City.Contains(SearchData.Keyword)
@@ -190,6 +195,9 @@ namespace PrivateTutorOnline.Controllers
                 }
                 else
                 {
+                    int TutorId = -1;
+                    if (int.TryParse(SearchData.Keyword, out TutorId))
+                        TutorId = Int32.Parse(SearchData.Keyword);
                     TutorList = db.Tutors.Include(s => s.Grades).Include(s => s.Subjects)
                    .Where(t =>
                         t.Grades.Any(g => g.Id == SearchData.Grade)
@@ -208,7 +216,7 @@ namespace PrivateTutorOnline.Controllers
                    || t.HomeTown.Contains(SearchData.Keyword)
                    || t.University.Contains(SearchData.Keyword)
                    || t.Degree == SearchData.Degree
-                   || t.Id == Int32.Parse(SearchData.Keyword)
+                   || t.Id == TutorId
 
                    )
                    .ToList();
@@ -220,7 +228,9 @@ namespace PrivateTutorOnline.Controllers
                 Tutors = TutorList.ToPagedList(page.HasValue ? page.Value : 1, 2),
                 Subjects = db.Subjects.ToList(),
                 Grades = db.Grades.ToList(), 
-                searchResult = SearchData
+                searchResult = SearchData,
+                IsSearchBySubjects = false,
+                IsSearchByGrades = false
             });
         }
         [AllowAnonymous]
@@ -234,7 +244,10 @@ namespace PrivateTutorOnline.Controllers
             {
                 Tutors = TutorList.ToPagedList(page.HasValue ? page.Value : 1, 2),
                 Subjects = db.Subjects.ToList(),
-                Grades = db.Grades.ToList()
+                Grades = db.Grades.ToList(),
+                IsSearchBySubjects = true,
+                IsSearchByGrades = false,
+                SubjectId = SubjectId
             });
         }
         [AllowAnonymous]
@@ -248,7 +261,10 @@ namespace PrivateTutorOnline.Controllers
             {
                 Tutors = TutorList.ToPagedList(page.HasValue ? page.Value : 1, 2),
                 Subjects = db.Subjects.ToList(),
-                Grades = db.Grades.ToList()
+                Grades = db.Grades.ToList(),
+                IsSearchBySubjects = false,
+                IsSearchByGrades = true,
+                GradeId = GradeId
             });
         }
         [ChildActionOnly]

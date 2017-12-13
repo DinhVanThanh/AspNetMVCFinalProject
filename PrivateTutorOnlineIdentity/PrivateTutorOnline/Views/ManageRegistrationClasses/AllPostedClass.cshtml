@@ -130,12 +130,15 @@ ViewBag.Title = "Danh sách lớp đang cần gia sư";
                 <td>
                     @Html.DisplayFor(modelItem => item.Street)
                 </td>
-                <td>
+                <td id="register-class-@item.Id">
                     @if (item.Status != PrivateTutorOnline.Enums.ClassStatus.WaitingForCustomerApproval  && item.Status != PrivateTutorOnline.Enums.ClassStatus.ClassClose)
                     {
                         <button data-classId="@item.Id" id="receiveClass-@item.Id" class="btn btn-success receiveClass"> Đăng kí</button>
                     }
-
+                    else
+                    {
+                        <span style="color:red">Đã đăng kí nhận lớp</span>
+                    }
                 </td>
             </tr>
         }

@@ -210,19 +210,62 @@ else
     </div>
 }
 
-@if(Model.searchResult != null)
+@if (Model.searchResult != null)
 {
-    @Html.PagedListPager(Model.Tutors, page => Url.Action("Search", "Tutors",  new {
-    Keyword = Model.searchResult.Keyword,
-    Gender = Model.searchResult.Gender,
-    Grade = Model.searchResult.Grade,
-    Subject = Model.searchResult.Subject,
-    Degree = Model.searchResult.Degree,
-    IsAccurate = Model.searchResult.IsAccurate, page }))
+    if (Model.IsSearchBySubjects)
+    {
+        @Html.PagedListPager(Model.Tutors, page => Url.Action("SearchBySubject", "Tutors", new
+   {
+       SubjectId = Model.SubjectId,
+       page
+   }))
+    }
+    else if (Model.IsSearchByGrades)
+    {
+        @Html.PagedListPager(Model.Tutors, page => Url.Action("SearchByGrade", "Tutors", new
+   {
+       GradeId = Model.GradeId,
+       page
+   }))
+    }
+    else
+    {
+        @Html.PagedListPager(Model.Tutors, page => Url.Action("Search", "Tutors", new
+        {
+            Keyword = Model.searchResult.Keyword,
+            Gender = Model.searchResult.Gender,
+            Grade = Model.searchResult.Grade,
+            Subject = Model.searchResult.Subject,
+            Degree = Model.searchResult.Degree,
+            IsAccurate = Model.searchResult.IsAccurate,
+            page
+        }))
+    }
+
 }
 else
 {
-    @Html.PagedListPager(Model.Tutors, page => Url.Action("ExistingTutorsList", "Tutors", new { page }))
+    if (Model.IsSearchBySubjects)
+    {
+        @Html.PagedListPager(Model.Tutors, page => Url.Action("SearchBySubject", "Tutors", new
+        {
+            SubjectId = Model.SubjectId,
+            page
+        }))
+    }
+    else if (Model.IsSearchByGrades)
+    {
+        @Html.PagedListPager(Model.Tutors, page => Url.Action("SearchByGrade", "Tutors", new
+        {
+            GradeId = Model.GradeId,
+            page
+        }))
+    }
+    else
+    {
+        @Html.PagedListPager(Model.Tutors, page => Url.Action("ExistingTutorsList", "Tutors", new { page }))
+    }
+
 }
 
 @section Scripts {

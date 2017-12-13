@@ -62,7 +62,7 @@ namespace PrivateTutorOnline.Controllers
         public async Task<ActionResult> PostedClass(string searchString, bool? IsSeachById, int? page)
         {
             string UserId = User.Identity.GetUserId();
-            IList<RegistrationClass> postedClass = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Where(s => s.Customer.UserId == UserId && !s.IsClosed).ToList();
+            IList<RegistrationClass> postedClass = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Include(t => t.Tutor).Include(t => t.Customer).Where(s => s.Customer.UserId == UserId && !s.IsClosed).ToList();
             if (!String.IsNullOrEmpty(searchString))
             {
                 if(IsSeachById.HasValue)
@@ -78,38 +78,124 @@ namespace PrivateTutorOnline.Controllers
                     }
                     else
                     {
+                        IList<RegistrationClass> selectedClasses = new List<RegistrationClass>();
                         int searchStringId = -1;
                         if (int.TryParse(searchString, out searchStringId))
                             searchStringId = Int32.Parse(searchString);
-                        postedClass = postedClass.Where(
-                        s => s.Requirement.Contains(searchString)
-                        || s.Subjects.Any(t => t.Name.Contains(searchString))
-                        || s.Grade.Name.Contains(searchString)
-                        || s.City.Contains(searchString)
-                        || s.District.Contains(searchString)
-                        || s.Ward.Contains(searchString)
-                        || s.Street.Contains(searchString)
-                        || s.Requirement.Contains(searchString)
-                        || s.TutoringTime.Contains(searchString)
-                        ).ToList();
+
+                        foreach (var item in postedClass.Where(s => s.Requirement != null ? s.Requirement.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in postedClass.Where(s => s.City != null ? s.City.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in postedClass.Where(s => s.District != null ? s.District.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in postedClass.Where(s => s.Ward != null ? s.Ward.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in postedClass.Where(s => s.Street != null ? s.Street.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in postedClass.Where(s => s.TutoringTime != null ? s.TutoringTime.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in postedClass.Where(s => s.Grade != null ? s.Grade.Name.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in postedClass.Where(s => s.Subjects != null ? s.Subjects.Any(t => t.Name.Contains(searchString)) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in postedClass.Where(s => s.Customer != null ? s.Customer.FullName.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in postedClass.Where(s => s.Tutor != null ? s.Tutor.FullName.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        postedClass = selectedClasses;
+
                     }
                 }
                 else
                 {
+                    IList<RegistrationClass> selectedClasses = new List<RegistrationClass>();
                     int searchStringId = -1;
                     if (int.TryParse(searchString, out searchStringId))
                         searchStringId = Int32.Parse(searchString);
-                    postedClass = postedClass.Where(
-                    s => s.Requirement.Contains(searchString)
-                    || s.Subjects.Any(t => t.Name.Contains(searchString))
-                    || s.Grade.Name.Contains(searchString)
-                    || s.City.Contains(searchString)
-                    || s.District.Contains(searchString)
-                    || s.Ward.Contains(searchString)
-                    || s.Street.Contains(searchString)
-                    || s.Requirement.Contains(searchString)
-                    || s.TutoringTime.Contains(searchString)
-                    ).ToList();
+
+                    foreach (var item in postedClass.Where(s => s.Requirement != null ? s.Requirement.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in postedClass.Where(s => s.City != null ? s.City.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in postedClass.Where(s => s.District != null ? s.District.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in postedClass.Where(s => s.Ward != null ? s.Ward.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in postedClass.Where(s => s.Street != null ? s.Street.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in postedClass.Where(s => s.TutoringTime != null ? s.TutoringTime.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in postedClass.Where(s => s.Grade != null ? s.Grade.Name.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in postedClass.Where(s => s.Subjects != null ? s.Subjects.Any(t => t.Name.Contains(searchString)) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in postedClass.Where(s => s.Customer != null ? s.Customer.FullName.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in postedClass.Where(s => s.Tutor != null ? s.Tutor.FullName.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    postedClass = selectedClasses;
+
                 }
             } 
             IList<PostedClassViewModel> postedClassViewModel = new List<PostedClassViewModel>();
@@ -142,11 +228,11 @@ namespace PrivateTutorOnline.Controllers
             IList<RegistrationClass> enrolledClass;
             if (User.IsInRole("Tutor"))
             { 
-                 enrolledClass = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Include(t => t.Customer).Where(s => s.Tutor.UserId == UserId && s.IsClosed).ToList();
+                 enrolledClass = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Include(t => t.Tutor).Include(t => t.Customer).Where(s => s.Tutor.UserId == UserId && s.IsClosed).ToList();
             }
             else if(User.IsInRole("Customer"))
             {
-                 enrolledClass = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Include(t => t.Tutor).Where(s => s.Customer.UserId == UserId && s.IsClosed).ToList();
+                 enrolledClass = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Include(t => t.Tutor).Include(t => t.Customer).Where(s => s.Customer.UserId == UserId && s.IsClosed).ToList();
             }
             else
             {
@@ -154,7 +240,8 @@ namespace PrivateTutorOnline.Controllers
             }
             if (!String.IsNullOrEmpty(searchString))
             {
-                if(IsSeachById.HasValue)
+                bool IsCustomer = User.IsInRole("Customer") ? true : false;
+                if (IsSeachById.HasValue)
                 {
                     if (IsSeachById.Value)
                     {
@@ -167,40 +254,124 @@ namespace PrivateTutorOnline.Controllers
                     }
                     else
                     {
+                        IList<RegistrationClass> selectedClasses = new List<RegistrationClass>();
                         int searchStringId = -1;
                         if (int.TryParse(searchString, out searchStringId))
                             searchStringId = Int32.Parse(searchString);
-                        enrolledClass = enrolledClass.Where(
-                        s => s.Requirement.Contains(searchString)
-                        || s.Subjects.Any(t => t.Name.Contains(searchString))
-                        || s.Grade.Name.Contains(searchString)
-                        || s.City.Contains(searchString)
-                        || s.District.Contains(searchString)
-                        || s.Ward.Contains(searchString)
-                        || s.Street.Contains(searchString)
-                        || s.Requirement.Contains(searchString)
-                        || s.TutoringTime.Contains(searchString)
-                        || User.IsInRole("Customer") ? s.Tutor.FullName.Contains(searchString) : s.Customer.FullName.Contains(searchString)
-                        ).ToList();
+
+                        foreach (var item in enrolledClass.Where(s => s.Requirement != null ? s.Requirement.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in enrolledClass.Where(s => s.City != null ? s.City.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in enrolledClass.Where(s => s.District != null ? s.District.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in enrolledClass.Where(s => s.Ward != null ? s.Ward.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in enrolledClass.Where(s => s.Street != null ? s.Street.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in enrolledClass.Where(s => s.TutoringTime != null ? s.TutoringTime.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in enrolledClass.Where(s => s.Grade != null ? s.Grade.Name.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in enrolledClass.Where(s => s.Subjects != null ? s.Subjects.Any(t => t.Name.Contains(searchString)) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in enrolledClass.Where(s => s.Customer != null ? s.Customer.FullName.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in enrolledClass.Where(s => s.Tutor != null ? s.Tutor.FullName.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        enrolledClass = selectedClasses;
+
                     }
                 }
                 else
                 {
+                    IList<RegistrationClass> selectedClasses = new List<RegistrationClass>();
                     int searchStringId = -1;
                     if (int.TryParse(searchString, out searchStringId))
                         searchStringId = Int32.Parse(searchString);
-                    enrolledClass = enrolledClass.Where(
-                    s => s.Requirement.Contains(searchString)
-                    || s.Subjects.Any(t => t.Name.Contains(searchString))
-                    || s.Grade.Name.Contains(searchString)
-                    || s.City.Contains(searchString)
-                    || s.District.Contains(searchString)
-                    || s.Ward.Contains(searchString)
-                    || s.Street.Contains(searchString)
-                    || s.Requirement.Contains(searchString)
-                    || s.TutoringTime.Contains(searchString)
-                    || User.IsInRole("Customer") ? s.Tutor.FullName.Contains(searchString) : s.Customer.FullName.Contains(searchString)
-                    ).ToList();
+
+                    foreach(var item in enrolledClass.Where( s => s.Requirement != null ? s.Requirement.Contains(searchString) : false ).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in enrolledClass.Where(s => s.City != null ? s.City.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in enrolledClass.Where(s => s.District != null ? s.District.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in enrolledClass.Where(s => s.Ward != null ? s.Ward.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in enrolledClass.Where(s => s.Street != null ? s.Street.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in enrolledClass.Where(s => s.TutoringTime != null ? s.TutoringTime.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in enrolledClass.Where(s => s.Grade != null ? s.Grade.Name.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in enrolledClass.Where(s => s.Subjects != null ? s.Subjects.Any(t => t.Name.Contains(searchString)) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in enrolledClass.Where(s => s.Customer != null ? s.Customer.FullName.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in enrolledClass.Where(s => s.Tutor != null ? s.Tutor.FullName.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    enrolledClass = selectedClasses;
+                     
                 }
             } 
             IList<PostedClassViewModel> enrolledClassViewModel = new List<PostedClassViewModel>();
@@ -232,7 +403,7 @@ namespace PrivateTutorOnline.Controllers
         public async Task<ActionResult> AllPostedClass(string searchString, bool? IsSeachById, int? page)
         {
             
-            IList<RegistrationClass> registrationClasses = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Where(t => !t.IsClosed && t.Status != Enums.ClassStatus.AdminReject && t.Status != Enums.ClassStatus.WaitingForAdminApproval).ToList();
+            IList<RegistrationClass> registrationClasses = db.RegistrationClasses.Include(t => t.Grade).Include(t => t.Subjects).Include(t => t.Tutor).Include(t => t.Customer).Where(t => !t.IsClosed && t.Status != Enums.ClassStatus.AdminReject && t.Status != Enums.ClassStatus.WaitingForAdminApproval).ToList();
             if (!String.IsNullOrEmpty(searchString))
             {
                if(IsSeachById.HasValue)
@@ -248,38 +419,124 @@ namespace PrivateTutorOnline.Controllers
                     }
                     else
                     {
+                        IList<RegistrationClass> selectedClasses = new List<RegistrationClass>();
                         int searchStringId = -1;
                         if (int.TryParse(searchString, out searchStringId))
                             searchStringId = Int32.Parse(searchString);
-                        registrationClasses = registrationClasses.Where(
-                        s => s.Requirement.Contains(searchString)
-                        || s.Subjects.Any(t => t.Name.Contains(searchString))
-                        || s.Grade.Name.Contains(searchString)
-                        || s.City.Contains(searchString)
-                        || s.District.Contains(searchString)
-                        || s.Ward.Contains(searchString)
-                        || s.Street.Contains(searchString)
-                        || s.Requirement.Contains(searchString)
-                        || s.TutoringTime.Contains(searchString)
-                        ).ToList();
+
+                        foreach (var item in registrationClasses.Where(s => s.Requirement != null ? s.Requirement.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in registrationClasses.Where(s => s.City != null ? s.City.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in registrationClasses.Where(s => s.District != null ? s.District.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in registrationClasses.Where(s => s.Ward != null ? s.Ward.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in registrationClasses.Where(s => s.Street != null ? s.Street.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in registrationClasses.Where(s => s.TutoringTime != null ? s.TutoringTime.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in registrationClasses.Where(s => s.Grade != null ? s.Grade.Name.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in registrationClasses.Where(s => s.Subjects != null ? s.Subjects.Any(t => t.Name.Contains(searchString)) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in registrationClasses.Where(s => s.Customer != null ? s.Customer.FullName.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        foreach (var item in registrationClasses.Where(s => s.Tutor != null ? s.Tutor.FullName.Contains(searchString) : false).ToList())
+                        {
+                            selectedClasses.Add(item);
+                        }
+
+                        registrationClasses = selectedClasses;
+
                     }
                 }
                 else
                 {
+                    IList<RegistrationClass> selectedClasses = new List<RegistrationClass>();
                     int searchStringId = -1;
                     if (int.TryParse(searchString, out searchStringId))
                         searchStringId = Int32.Parse(searchString);
-                    registrationClasses = registrationClasses.Where(
-                    s => s.Requirement.Contains(searchString)
-                    || s.Subjects.Any(t => t.Name.Contains(searchString))
-                    || s.Grade.Name.Contains(searchString)
-                    || s.City.Contains(searchString)
-                    || s.District.Contains(searchString)
-                    || s.Ward.Contains(searchString)
-                    || s.Street.Contains(searchString)
-                    || s.Requirement.Contains(searchString)
-                    || s.TutoringTime.Contains(searchString)
-                    ).ToList();
+
+                    foreach (var item in registrationClasses.Where(s => s.Requirement != null ? s.Requirement.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in registrationClasses.Where(s => s.City != null ? s.City.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in registrationClasses.Where(s => s.District != null ? s.District.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in registrationClasses.Where(s => s.Ward != null ? s.Ward.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in registrationClasses.Where(s => s.Street != null ? s.Street.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in registrationClasses.Where(s => s.TutoringTime != null ? s.TutoringTime.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in registrationClasses.Where(s => s.Grade != null ? s.Grade.Name.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in registrationClasses.Where(s => s.Subjects != null ? s.Subjects.Any(t => t.Name.Contains(searchString)) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in registrationClasses.Where(s => s.Customer != null ? s.Customer.FullName.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    foreach (var item in registrationClasses.Where(s => s.Tutor != null ? s.Tutor.FullName.Contains(searchString) : false).ToList())
+                    {
+                        selectedClasses.Add(item);
+                    }
+
+                    registrationClasses = selectedClasses;
+
                 }
             } 
             List<PostedClassViewModel> allPostedClass = new List<PostedClassViewModel>();
@@ -395,87 +652,7 @@ namespace PrivateTutorOnline.Controllers
             }
             return View(registrationClass);
         }
-
-        // GET: ManageRegistrationClasses/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ManageRegistrationClasses/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,SalaryPerMonth,DayPerWeek,TutoringTime,Requirement,ReceivedDate,Status,City,District,Ward,Street,IsActive")] RegistrationClass registrationClass)
-        {
-            if (ModelState.IsValid)
-            {
-                db.RegistrationClasses.Add(registrationClass);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            return View(registrationClass);
-        }
-
-        // GET: ManageRegistrationClasses/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            RegistrationClass registrationClass = await db.RegistrationClasses.FindAsync(id);
-            if (registrationClass == null)
-            {
-                return HttpNotFound();
-            }
-            return View(registrationClass);
-        }
-
-        // POST: ManageRegistrationClasses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,SalaryPerMonth,DayPerWeek,TutoringTime,Requirement,ReceivedDate,Status,City,District,Ward,Street,IsActive")] RegistrationClass registrationClass)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(registrationClass).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(registrationClass);
-        }
-
-        // GET: ManageRegistrationClasses/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            RegistrationClass registrationClass = await db.RegistrationClasses.FindAsync(id);
-            if (registrationClass == null)
-            {
-                return HttpNotFound();
-            }
-            return View(registrationClass);
-        }
-
-        // POST: ManageRegistrationClasses/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            RegistrationClass registrationClass = await db.RegistrationClasses.FindAsync(id);
-            db.RegistrationClasses.Remove(registrationClass);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
+              
         protected override void Dispose(bool disposing)
         {
             if (disposing)

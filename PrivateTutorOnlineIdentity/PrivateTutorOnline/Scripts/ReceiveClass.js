@@ -17,7 +17,8 @@
                 console.log(response);
                 $('.recieved-date-' + Id).text(datetime);
                 $('#row-status-' + Id).html('<span style="color:red">Chờ duyệt nhận lớp từ phụ huynh</span>');
-                button.css('display', 'none');
+                $('#register-class-' + Id).html('<span style="color:red">Đã đăng kí nhận lớp</span>');
+                 
                 $.toaster({
                     message: 'Đăng kí nhập lớp thành công', 
                     priority: 'success'

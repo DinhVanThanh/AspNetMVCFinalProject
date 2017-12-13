@@ -162,7 +162,7 @@
                 <span>@item.Tutor.FullName</span>
             }
         </td> 
-        <td>
+        <td id="approve-reject-class-@item.Id">
             @if(item.Status == PrivateTutorOnline.Enums.ClassStatus.WaitingForAdminApproval)
             {
                 <button data-class-id="@item.Id" class="btn btn-info btn-approve">Duyệt</button>
@@ -170,7 +170,7 @@
             }
             else
             {
-                <span style="color:blue;">Đã duyệt</span>
+                <span style="color:blue;">Đã xem xét</span>
             }
         </td>
         <td>

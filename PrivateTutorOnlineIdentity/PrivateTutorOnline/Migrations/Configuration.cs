@@ -50,14 +50,13 @@
             const string AdminEmail = "tieuluantotnghiep2017@tutoronline.somee.com";
 
 
-            if (AppRoleManager.FindByNameAsync("Admin") != null)
+             if (AppRoleManager.FindByNameAsync("Admin") != null)
                 AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Admin"));
             if (AppRoleManager.FindByNameAsync("Customer") != null)
                 AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Customer"));
             if (AppRoleManager.FindByNameAsync("Tutor") != null)
                 AppRoleManager.CreateAsync(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Tutor"));
-            //if (AppRoleManager.FindByNameAsync("Owner") != null)
-            //    AppRoleManager.Create(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole("Owner"));
+            
 
             //Initializer Admin account
             var admin = UserManager.FindByName(AdminUsername);
@@ -77,41 +76,49 @@
 
 
             //Initializer Customer account
-            ApplicationUser customerUser = new ApplicationUser() { UserName = "PhuHuynh_0", Email = "customer0@gmail.com" };
-            var CustomerCreationResult = UserManager.CreateAsync(customerUser, AdminPassword);
-            if (CustomerCreationResult.IsCompleted)
-                CustomerCreationResult = UserManager.SetLockoutEnabledAsync(customerUser.Id, false);
-            if (CustomerCreationResult.IsCompleted)
-                UserManager.AddToRoleAsync(customerUser.Id, "Customer");
+            //ApplicationUser customerUser = new ApplicationUser() { UserName = "PhuHuynh_0", Email = "customer0@gmail.com" };
+            //var CustomerCreationResult = UserManager.CreateAsync(customerUser, AdminPassword);
+            //if (CustomerCreationResult.IsCompleted)
+            //    CustomerCreationResult = UserManager.SetLockoutEnabledAsync(customerUser.Id, false);
+            //if (CustomerCreationResult.IsCompleted)
+            //    UserManager.AddToRoleAsync(customerUser.Id, "Customer");
 
             //Initializer Tutor account
-            var tutor = new ApplicationUser { UserName = "GiaSu_0", Email = "tutor0@gmail.com" };
-            var result = UserManager.CreateAsync(tutor, AdminPassword);
-            if (result.IsCompleted)
-                result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
-            if (result.IsCompleted)
-                UserManager.AddToRoleAsync(tutor.Id, "Tutor");
+            //var tutor = new ApplicationUser { UserName = "GiaSu_0", Email = "tutor0@gmail.com" };
+            //var result = UserManager.CreateAsync(tutor, AdminPassword);
+            //if (result.IsCompleted)
+            //    result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
+            //if (result.IsCompleted)
+            //    UserManager.AddToRoleAsync(tutor.Id, "Tutor");
 
-            //Initializer Tutor List account
+            ////Initializer Tutor List account
             // tutor = new ApplicationUser { UserName = "GiaSu_1", Email = "tutor1@gmail.com" };
-            // result = UserManager.CreateAsync(tutor, AdminPassword);
+            //result = UserManager.CreateAsync(tutor, AdminPassword);
             //if (result.IsCompleted)
             //    result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
+            //if (result.IsCompleted)
+            //    UserManager.AddToRoleAsync(tutor.Id, "Tutor");
 
-            // tutor = new ApplicationUser { UserName = "GiaSu_2", Email = "tutor2@gmail.com" };
-            // result = UserManager.CreateAsync(tutor, AdminPassword);
+            //tutor = new ApplicationUser { UserName = "GiaSu_2", Email = "tutor2@gmail.com" };
+            //result = UserManager.CreateAsync(tutor, AdminPassword);
             //if (result.IsCompleted)
             //    result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
+            //if (result.IsCompleted)
+            //    UserManager.AddToRoleAsync(tutor.Id, "Tutor");
 
-            // tutor = new ApplicationUser { UserName = "GiaSu_3", Email = "tutor3@gmail.com" };
-            // result = UserManager.CreateAsync(tutor, AdminPassword);
+            //tutor = new ApplicationUser { UserName = "GiaSu_3", Email = "tutor3@gmail.com" };
+            //result = UserManager.CreateAsync(tutor, AdminPassword);
             //if (result.IsCompleted)
             //    result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
+            //if (result.IsCompleted)
+            //    UserManager.AddToRoleAsync(tutor.Id, "Tutor");
 
             //tutor = new ApplicationUser { UserName = "GiaSu_4", Email = "tieuluantotnghiep2017@gmail.com" };
             //result = UserManager.CreateAsync(tutor, AdminPassword);
             //if (result.IsCompleted)
             //    result = UserManager.SetLockoutEnabledAsync(tutor.Id, false);
+            //if (result.IsCompleted)
+            //    UserManager.AddToRoleAsync(tutor.Id, "Tutor");
 
 
 
@@ -156,21 +163,21 @@
             if (context.Customers.SingleOrDefault(c => c.Email == "customer0@gmail.com") == null)
             {
 
-                context.Customers.Add(
-                   new Models.Customer()
-                   {
-                       FullName = "Đinh Văn Thành",
-                       PhoneNumber = "01213546546",
-                       Email = "customer0@gmail.com",
-                       City = "TPHCM",
-                       District = "Quận 5",
-                       Ward = "Phường 13",
-                       Street = "An Dương Vương",
-                       UserId = customerUser.Id,
-                       IsEnable = true,
-                       IsActivate = false
-                   }
-                );
+                //context.Customers.Add(
+                //   new Models.Customer()
+                //   {
+                //       FullName = "Đinh Văn Thành",
+                //       PhoneNumber = "01213546546",
+                //       Email = "customer0@gmail.com",
+                //       City = "TPHCM",
+                //       District = "Quận 5",
+                //       Ward = "Phường 13",
+                //       Street = "An Dương Vương",
+                //       UserId = customerUser.Id,
+                //       IsEnable = true,
+                //       IsActivate = false
+                //   }
+                //);
 
             }
 
@@ -181,118 +188,118 @@
                 )
             {
                  
-                context.Tutors.AddOrUpdate(
-                new Models.Tutor()
-                {
-                    FullName = "Hoàng Tuấn Anh",
-                    Gender = Enums.Gender.Male,
-                    DateOfBirth = new DateTime(1994, 11, 2),
-                    Email = "tieuluantotnghiep2017@gmail.com",
-                    PhoneNumber = "01526487656",
-                    IdentityNumber = "0225644478",
-                    City = "TPHCM",
-                    District = "Bình Tân",
-                    Ward = "Phú Thạnh",
-                    Street = "Nguyễn Sơn",
-                    HomeTown = "Tỉnh Hà Nam",
-                    University = "ĐH Sư Phạm TPHCM",
-                    MajorSubject = "Sư Phạm Toán Học",
-                    GraduationYear = "2016",
-                    Advantage = "Đã từng đi dạy",
-                    Degree = Enums.AcademicDegree.Teacher,
-                    Image = new byte[] { },
-                    IsEnable = true,
-                    IsActivate = true
-                },
-                new Models.Tutor()
-                {
-                    FullName = "Nguyễn Ngọc Ánh",
-                    Gender = Enums.Gender.Female,
-                    DateOfBirth = new DateTime(1993, 2, 2),
-                    Email = "tutor1@gmail.com",
-                    PhoneNumber = "01526487656",
-                    IdentityNumber = "0225644478",
-                    City = "TPHCM",
-                    District = "Quận 5",
-                    Ward = "13",
-                    Street = "An Dương Vương",
-                    HomeTown = "TP Hải Phòng",
-                    University = "ĐH Ngoại Thương TPHCM",
-                    MajorSubject = "Quản trị kinh doanh",
-                    GraduationYear = "2015",
-                    Advantage = "Đã từng đi dạy",
-                    Degree = Enums.AcademicDegree.Master,
-                    Image = new byte[] { },
-                    IsEnable = true,
-                    IsActivate = true
-                },
-                new Models.Tutor()
-                {
-                    FullName = "Vương Tuấn Kiệt",
-                    Gender = Enums.Gender.Male,
-                    DateOfBirth = new DateTime(1995, 11, 11),
-                    Email = "tutor2@gmail.com",
-                    PhoneNumber = "01526487656",
-                    IdentityNumber = "0225644478",
-                    City = "TPHCM",
-                    District = "Quận 1",
-                    Ward = "Hai Bà Trưng",
-                    Street = "Nguyễn Kiệm",
-                    HomeTown = "Tỉnh Đồng Tháp",
-                    University = "Cao Đẳng Kinh Tế Đối Ngoại",
-                    MajorSubject = "Kế toán",
-                    GraduationYear = "2017",
-                    Advantage = "Đã từng đi dạy",
-                    Degree = Enums.AcademicDegree.Student,
-                    Image = new byte[] { },
-                    IsEnable = true,
-                    IsActivate = true
-                },
-                 new Models.Tutor()
-                 {
-                     FullName = "Đỗ Thị Phương Nhung",
-                     Gender = Enums.Gender.Female,
-                     DateOfBirth = new DateTime(1996, 5, 13),
-                     Email = "tutor3@gmail.com",
-                     PhoneNumber = "01526487656",
-                     IdentityNumber = "0225644478",
-                     City = "Đà Nẵng",
-                     District = "Cát Bà",
-                     Ward = "Phú Xuân",
-                     Street = "Nguyễn Sơn",
-                     HomeTown = "Thủ đô Hà Nội",
-                     University = "Đại Học Sài Gòn",
-                     MajorSubject = "Sư Phạm Tiếng Anh",
-                     GraduationYear = "2017",
-                     Advantage = "Đã từng đi dạy",
-                     Degree = Enums.AcademicDegree.Bachelor,
-                     Image = new byte[] { },
-                     IsEnable = true,
-                     IsActivate = true
-                 },
-                 new Models.Tutor()
-                 {
-                     FullName = "Huỳnh Tấn Dũng",
-                     Gender = Enums.Gender.Male,
-                     DateOfBirth = new DateTime(1994, 5, 11),
-                     Email = "tutor0@gmail.com",
-                     PhoneNumber = "01526487656",
-                     IdentityNumber = "0225644478",
-                     City = "Đà Nẵng",
-                     District = "Cát Bà",
-                     Ward = "Phú Xuân",
-                     Street = "Nguyễn Sơn",
-                     HomeTown = "Thủ đô Hà Nội",
-                     University = "Đại Học Sài Gòn",
-                     MajorSubject = "Sư Phạm Tiếng Anh",
-                     GraduationYear = "2017",
-                     Advantage = "Đã từng đi dạy",
-                     Degree = Enums.AcademicDegree.Bachelor,
-                     Image = new byte[] { },
-                     IsEnable = true,
-                     IsActivate = true,
-                     UserId = tutor.Id
-                 }  );
+                //context.Tutors.AddOrUpdate(
+                //new Models.Tutor()
+                //{
+                //    FullName = "Hoàng Tuấn Anh",
+                //    Gender = Enums.Gender.Male,
+                //    DateOfBirth = new DateTime(1994, 11, 2),
+                //    Email = "tieuluantotnghiep2017@gmail.com",
+                //    PhoneNumber = "01526487656",
+                //    IdentityNumber = "0225644478",
+                //    City = "TPHCM",
+                //    District = "Bình Tân",
+                //    Ward = "Phú Thạnh",
+                //    Street = "Nguyễn Sơn",
+                //    HomeTown = "Tỉnh Hà Nam",
+                //    University = "ĐH Sư Phạm TPHCM",
+                //    MajorSubject = "Sư Phạm Toán Học",
+                //    GraduationYear = "2016",
+                //    Advantage = "Đã từng đi dạy",
+                //    Degree = Enums.AcademicDegree.Teacher,
+                //    Image = new byte[] { },
+                //    IsEnable = true,
+                //    IsActivate = true
+                //},
+                //new Models.Tutor()
+                //{
+                //    FullName = "Nguyễn Ngọc Ánh",
+                //    Gender = Enums.Gender.Female,
+                //    DateOfBirth = new DateTime(1993, 2, 2),
+                //    Email = "tutor1@gmail.com",
+                //    PhoneNumber = "01526487656",
+                //    IdentityNumber = "0225644478",
+                //    City = "TPHCM",
+                //    District = "Quận 5",
+                //    Ward = "13",
+                //    Street = "An Dương Vương",
+                //    HomeTown = "TP Hải Phòng",
+                //    University = "ĐH Ngoại Thương TPHCM",
+                //    MajorSubject = "Quản trị kinh doanh",
+                //    GraduationYear = "2015",
+                //    Advantage = "Đã từng đi dạy",
+                //    Degree = Enums.AcademicDegree.Master,
+                //    Image = new byte[] { },
+                //    IsEnable = true,
+                //    IsActivate = true
+                //},
+                //new Models.Tutor()
+                //{
+                //    FullName = "Vương Tuấn Kiệt",
+                //    Gender = Enums.Gender.Male,
+                //    DateOfBirth = new DateTime(1995, 11, 11),
+                //    Email = "tutor2@gmail.com",
+                //    PhoneNumber = "01526487656",
+                //    IdentityNumber = "0225644478",
+                //    City = "TPHCM",
+                //    District = "Quận 1",
+                //    Ward = "Hai Bà Trưng",
+                //    Street = "Nguyễn Kiệm",
+                //    HomeTown = "Tỉnh Đồng Tháp",
+                //    University = "Cao Đẳng Kinh Tế Đối Ngoại",
+                //    MajorSubject = "Kế toán",
+                //    GraduationYear = "2017",
+                //    Advantage = "Đã từng đi dạy",
+                //    Degree = Enums.AcademicDegree.Student,
+                //    Image = new byte[] { },
+                //    IsEnable = true,
+                //    IsActivate = true
+                //},
+                // new Models.Tutor()
+                // {
+                //     FullName = "Đỗ Thị Phương Nhung",
+                //     Gender = Enums.Gender.Female,
+                //     DateOfBirth = new DateTime(1996, 5, 13),
+                //     Email = "tutor3@gmail.com",
+                //     PhoneNumber = "01526487656",
+                //     IdentityNumber = "0225644478",
+                //     City = "Đà Nẵng",
+                //     District = "Cát Bà",
+                //     Ward = "Phú Xuân",
+                //     Street = "Nguyễn Sơn",
+                //     HomeTown = "Thủ đô Hà Nội",
+                //     University = "Đại Học Sài Gòn",
+                //     MajorSubject = "Sư Phạm Tiếng Anh",
+                //     GraduationYear = "2017",
+                //     Advantage = "Đã từng đi dạy",
+                //     Degree = Enums.AcademicDegree.Bachelor,
+                //     Image = new byte[] { },
+                //     IsEnable = true,
+                //     IsActivate = true
+                // },
+                // new Models.Tutor()
+                // {
+                //     FullName = "Huỳnh Tấn Dũng",
+                //     Gender = Enums.Gender.Male,
+                //     DateOfBirth = new DateTime(1994, 5, 11),
+                //     Email = "tutor0@gmail.com",
+                //     PhoneNumber = "01526487656",
+                //     IdentityNumber = "0225644478",
+                //     City = "Đà Nẵng",
+                //     District = "Cát Bà",
+                //     Ward = "Phú Xuân",
+                //     Street = "Nguyễn Sơn",
+                //     HomeTown = "Thủ đô Hà Nội",
+                //     University = "Đại Học Sài Gòn",
+                //     MajorSubject = "Sư Phạm Tiếng Anh",
+                //     GraduationYear = "2017",
+                //     Advantage = "Đã từng đi dạy",
+                //     Degree = Enums.AcademicDegree.Bachelor,
+                //     Image = new byte[] { },
+                //     IsEnable = true,
+                //     IsActivate = true,
+                //     UserId = tutor.Id
+                // }  );
             }
                
             
